@@ -25,11 +25,11 @@
       x += speedX;
       y += speedY;
 
-      if (x <= 0 || x + size >= p.width) {
+      if (x <= 0 || x + 2 * size >= p.width) {
         speedX = -speedX;
       }
 
-      if (y <= 0 || y + size >= p.height) {
+      if (y <= 0 || y + 2 * size >= p.height) {
         speedY = -speedY;
       }
 
