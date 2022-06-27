@@ -1,6 +1,6 @@
 function setup() {
 	createCanvas(windowWidth, windowHeight);
-	// put setup code here
+	console.log(ShortestWord(Automaton));
 }
 
 function draw() {
