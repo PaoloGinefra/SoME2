@@ -1,4 +1,5 @@
 ---
+layout: ../layouts/Layout.astro
 setup: |
   import Gingillo from '../components/Gingillo.astro'
   import CosoInterattivo from '../components/CosoInterattivo.astro'
