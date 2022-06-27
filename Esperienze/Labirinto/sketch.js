@@ -1,5 +1,5 @@
 function setup() {
-	console.log(ShortestWord(Automaton));
+	World.setup();
 	createCanvas(cols * cellSize, rows * cellSize);
 	generateMaze();
 }
@@ -11,7 +11,6 @@ function draw() {
 		result();
 	}
 }
-
 
 
 
