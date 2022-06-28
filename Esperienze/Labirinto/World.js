@@ -23,26 +23,24 @@ class World{
         World.mouseVec = createVector(mouseX, mouseY);
     }
 
-    //Scalar World 2 Screen convertion coefficient
-    static w2s(){
+    //Scalar World 2 Screen convertion
+    static w2s(worldP = undefined){
+        if(worldP === undefined){
+            var screenP = worldP.sub(World.cameraPos).mult(World.w2s()).add(World.sCenter);
+            screenP.y *= -1; screenP.y += height;
+            return screenP;
+        }
         return width / World.xViewSpanW
     }
 
-    static w2sVec(worldP){
-        var screenP = worldP.sub(World.cameraPos).mult(World.w2s()).add(World.sCenter);
-        screenP.y *= -1; screenP.y += height;
-        return screenP;
-    }
-
-    //Scalar Screen 2 World convertion coefficient
-    static s2w(){
+    //Scalar Screen 2 World convertion
+    static s2w(screenP = undefined){
+        if(screenP === undefined){
+            screenP.y -= height; screenP.y *= -1;
+            var worldP = screenP.sub(World.sCenter).mult(World.s2w()).add(World.cameraPos);
+            return worldP;
+        }
         return 1 / World.w2s();
-    }
-
-    static s2wVec(screenP){
-        screenP.y -= height; screenP.y *= -1;
-        var worldP = screenP.sub(World.sCenter).mult(World.s2w()).add(World.cameraPos);
-        return worldP;
     }
 
 }
