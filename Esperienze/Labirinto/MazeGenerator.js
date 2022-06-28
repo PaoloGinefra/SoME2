@@ -40,7 +40,7 @@ function result() {
     for (let j = 0; j < rows; j++) {
         for (let i = 0; i < cols; i++) {
             grid[i][j].show();
-            if (isState(grid[i][j]) && i !== cols/2 && j !== 0)
+            if (isState(grid[i][j]) && (i !== cols/2 || j !== 0))
                 states.push(grid[i][j]);
         }
     }
