@@ -1,8 +1,10 @@
+const Top = 0, Right = 1, Bottom = 2, Left = 3; 
+
 const cellSize = 50;
 var grid = [];
 const stack = [], states = [];
 var current;
-const cols = 12, rows = 12;
+const cols = 11, rows = 11;
 
 function generateMaze() {
     for (let i = 0; i < rows; i++) {
@@ -12,6 +14,7 @@ function generateMaze() {
         }
     }
     current = grid[0][0];
+    states[0] = grid[floor(cols/2)][0];
     do {
         current.visited = true;
         var next = current.checkNeighbors();
@@ -30,13 +33,14 @@ function generateMaze() {
             current = stack.pop();
         }
     } while (stack.length !== 0);
+
 }
 
 function result() {
     for (let j = 0; j < rows; j++) {
         for (let i = 0; i < cols; i++) {
             grid[i][j].show();
-            if (isState(grid[i][j]))
+            if (isState(grid[i][j]) && i !== cols/2 && j !== 0)
                 states.push(grid[i][j]);
         }
     }
@@ -48,18 +52,18 @@ function result() {
 function removeWalls(a, b) {
     var x = a.i - b.i, y = a.j - b.j;
     if (x === 1) {
-        a.walls[3] = false;
-        b.walls[1] = false;
+        a.walls[Left] = false;
+        b.walls[Right] = false;
     } else if (x === -1) {
-        a.walls[1] = false;
-        b.walls[3] = false;
+        a.walls[Right] = false;
+        b.walls[Left] = false;
     }
     if (y === 1) {
-        a.walls[0] = false;
-        b.walls[2] = false;
+        a.walls[Top] = false;
+        b.walls[Bottom] = false;
     } else if (y === -1) {
-        a.walls[2] = false;
-        b.walls[0] = false;
+        a.walls[Bottom] = false;
+        b.walls[Top] = false;
     }
 }
 

@@ -8,13 +8,13 @@ function Cell(i, j) {
     this.getNeighbors = function (selectedDirection = undefined) {
         let neighbors = [];
         if (grid[this.i][this.j - 1])
-            neighbors[0] = grid[this.i][this.j - 1]; // top
+            neighbors[Top] = grid[this.i][this.j - 1];
         if (grid[this.i + 1] && grid[this.i + 1][this.j])
-            neighbors[1] = grid[this.i + 1][this.j]; // right
+            neighbors[Right] = grid[this.i + 1][this.j];
         if (grid[this.i][this.j + 1])
-            neighbors[2] = grid[this.i][this.j + 1]; // bottom
+            neighbors[Bottom] = grid[this.i][this.j + 1];
         if (grid[this.i - 1] && grid[this.i - 1][this.j])
-            neighbors[3] = grid[this.i - 1][this.j]; // left
+            neighbors[Left] = grid[this.i - 1][this.j];
 
         if (selectedDirection === undefined)
             return neighbors;
@@ -50,16 +50,16 @@ function Cell(i, j) {
         var x = this.i * cellSize;
         var y = this.j * cellSize;
         stroke(255);
-        if (this.walls[0]) {
+        if (this.walls[Top]) {
             line(x, y, x + cellSize, y);
         }
-        if (this.walls[1]) {
+        if (this.walls[Right]) {
             line(x + cellSize, y, x + cellSize, y + cellSize);
         }
-        if (this.walls[2]) {
+        if (this.walls[Bottom]) {
             line(x + cellSize, y + cellSize, x, y + cellSize);
         }
-        if (this.walls[3]) {
+        if (this.walls[Left]) {
             line(x, y + cellSize, x, y);
         }
 
