@@ -4,33 +4,44 @@ function Cell(i, j) {
     this.walls = [true, true, true, true];
     this.visited = false;
 
-    this.checkNeighbors = function () {
-        var neighbors = [];
-        var top, right, bottom, left;
-        if (grid[this.i][this.j + 1])
-            top = grid[this.i][this.j + 1];
-        if (grid[this.i + 1] && grid[this.i + 1][this.j])
-            right = grid[this.i + 1][this.j];
-        if (grid[this.i][this.j - 1])
-            bottom = grid[this.i][this.j - 1];
-        if (grid[this.i - 1] && grid[this.i - 1][this.j])
-            left = grid[this.i - 1][this.j];
 
-        [top, right, bottom, left].forEach(dir => {
+    this.getNeighbors = function (selectedDirection = undefined) {
+        let neighbors = [];
+        if (grid[this.i][this.j - 1])
+            neighbors[0] = grid[this.i][this.j - 1]; // top
+        if (grid[this.i + 1] && grid[this.i + 1][this.j])
+            neighbors[1] = grid[this.i + 1][this.j]; // right
+        if (grid[this.i][this.j + 1])
+            neighbors[2] = grid[this.i][this.j + 1]; // bottom
+        if (grid[this.i - 1] && grid[this.i - 1][this.j])
+            neighbors[3] = grid[this.i - 1][this.j]; // left
+
+        if (selectedDirection === undefined)
+            return neighbors;
+        else
+            return neighbors[selectedDirection];
+    }
+
+    this.checkNeighbors = function () {
+        const neighbors = [];
+        this.getNeighbors().forEach(dir => {
             if (dir && !dir.visited) {
                 neighbors.push(dir);
             }
         });
 
-        if (neighbors.length > 0) {
+        if (neighbors.length > 0)
             return neighbors[floor(random(0, neighbors.length))];
-        } else {
+        else
             return undefined;
-        }
     }
 
-    this.highLight = function () {
+    this.highLight = function (n = undefined) {
         noStroke();
+        fill(255, 255, 255, 255);
+        if (n !== undefined) {
+            text(n, this.i * cellSize + cellSize / 2, this.j * cellSize + cellSize / 2);
+        }
         fill(100, 100, 255, 100);
         rect(this.i * cellSize, this.j * cellSize, cellSize, cellSize);
     }

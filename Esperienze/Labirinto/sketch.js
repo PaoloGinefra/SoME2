@@ -1,7 +1,10 @@
 function setup() {
 	World.setup();
 	createCanvas(cols * cellSize, rows * cellSize);
+	textSize(32);
+	textAlign(CENTER, CENTER);
 	generateMaze();
+
 }
 
 function draw() {

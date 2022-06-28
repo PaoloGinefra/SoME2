@@ -6,12 +6,12 @@ const cols = 12, rows = 12;
 
 function generateMaze() {
     for (let i = 0; i < rows; i++) {
-		grid[i] = [];
-		for (let j = 0; j < cols; j++) {
-			grid[i][j] = new Cell(i, j);
-		}
-	}
-	current = grid[0][0];
+        grid[i] = [];
+        for (let j = 0; j < cols; j++) {
+            grid[i][j] = new Cell(i, j);
+        }
+    }
+    current = grid[0][0];
     do {
         current.visited = true;
         var next = current.checkNeighbors();
@@ -36,12 +36,13 @@ function result() {
     for (let j = 0; j < rows; j++) {
         for (let i = 0; i < cols; i++) {
             grid[i][j].show();
-            if (isState(grid[i][j])) {
-                grid[i][j].highLight();
+            if (isState(grid[i][j]))
                 states.push(grid[i][j]);
-            }
         }
     }
+    for (let i = 0; i < states.length; i++)
+        states[i].highLight(i);
+    generateAutomaton();
 }
 
 function removeWalls(a, b) {
