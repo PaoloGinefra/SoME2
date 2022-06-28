@@ -7,7 +7,7 @@
     with [computeAnimation] then [animationStep] needs to be called every
     frame in order to make the animation progress
   ========================================================================*/
-  
+
 class Automabot{
     //Linear interpolation function
     static Linear(t){
