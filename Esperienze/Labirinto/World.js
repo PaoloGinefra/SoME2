@@ -14,7 +14,7 @@ class World{
     //Zoom
     //=========================================
     static zoom = 1; //parameter controlling Camera zoom
-    static targetZoom = 1; //target zoom for interpolation
+    static targetZoom = 2; //target zoom for interpolation
     static zoomDamp = 7; //How snappy are the controlls, the higher the snappier
     static zoomMouseSpeed = 0.001; //How responisve to mouse wheel is the zoom, the higher the faster
     //=========================================
@@ -42,7 +42,7 @@ class World{
     //Scalar World 2 Screen convertion
     static w2s(worldP = undefined){
         if(worldP !== undefined){
-            var screenP = worldP.sub(World.cameraPos).mult(World.w2s()).add(World.sCenter);
+            var screenP = worldP.copy().sub(World.cameraPos).mult(World.w2s()).add(World.sCenter);
             screenP.y *= -1; screenP.y += height;
             return screenP;
         }
@@ -53,7 +53,7 @@ class World{
     static s2w(screenP = undefined){
         if(screenP !== undefined){
             screenP.y -= height; screenP.y *= -1;
-            var worldP = screenP.sub(World.sCenter).mult(World.s2w()).add(World.cameraPos);
+            var worldP = screenP.copy().sub(World.sCenter).mult(World.s2w()).add(World.cameraPos);
             return worldP;
         }
         return 1 / World.w2s();
