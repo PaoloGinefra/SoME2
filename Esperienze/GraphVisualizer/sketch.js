@@ -20,13 +20,14 @@ function setup() {
 
 	gv = new GraphVisualizer(Automaton)
 	gv.buildNodes();
-	gv.orderGraph();
 
 }
 
 function draw() {
 	background(255);
 	World.draw();
+	gv.orderGraph();
+
 	gv.drawNodes();
 	//frameRate(1);
 }

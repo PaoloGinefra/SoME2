@@ -36,6 +36,7 @@ class GraphVisualizer{
         let p = World.w2s(p5.Vector.add(pos, dif));
         strokeWeight(myStroke * World.w2s());
         stroke(color)
+        fill(0, 0);
         ellipse(p.x, p.y, this.size * World.w2s(), this.size * World.w2s());
     }
 
@@ -56,10 +57,12 @@ class GraphVisualizer{
             });
 
             stroke('black');
+            fill(255);
             strokeWeight(0.01 * World.w2s());
 
             ellipse(p.x, p.y, this.size * World.w2s())
 
+            fill(0)
             textAlign(CENTER, CENTER);
             textSize(this.size * 0.6 * World.w2s());
             text(i.toString(), p.x, p.y);
