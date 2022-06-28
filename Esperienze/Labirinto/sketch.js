@@ -7,11 +7,24 @@ function setup() {
 
 }
 
+const Directions = ['N', 'E', 'S', 'W']
+
+function WordInterpreter(word){
+	let interpretedWord = ""
+	for(let i = 0; i < word.length; i++){
+		interpretedWord += Directions[Number(word.charAt(i))]
+	}
+	return interpretedWord
+}
+
 function draw() {
 	if (stack.length === 0) {
 		background(60);
 		noLoop();
-		result();
+		const Automaton = result();
+		let shortestWord = ShortestWord(Automaton);
+		console.log(shortestWord)
+		console.log(WordInterpreter(shortestWord[0]))
 	}
 }
 

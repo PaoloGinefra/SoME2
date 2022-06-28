@@ -46,7 +46,7 @@ function result() {
     }
     for (let i = 0; i < states.length; i++)
         states[i].highLight(i);
-    generateAutomaton();
+    return generateAutomaton();
 }
 
 function removeWalls(a, b) {

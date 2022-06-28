@@ -12,7 +12,7 @@ function generateAutomaton() {
 
         }
     }
-    printMatrix(automaton);
+    return automaton;
 }
 
 function checkPath(cell, initialState, exitDirection) {

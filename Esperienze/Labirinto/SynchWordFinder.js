@@ -1,4 +1,4 @@
-const Automaton =  [
+/*const Automaton =  [
     [7, 11],
     [5, 3],
     [1, 3],
@@ -11,7 +11,7 @@ const Automaton =  [
     [5, 4],
     [9, 8],
     [10, 8],
-]
+]*/
 
 function arrayEquals(a, b) {
     return Array.isArray(a) &&
@@ -25,16 +25,16 @@ function Delta(Automaton, state, move){
 }
 
 function DeltaPrime(Automaton, states, move){
-    var outSet = new Set();
+    let outSet = new Set();
     states.forEach(state => {
         outSet.add(Delta(Automaton, state, move))
     });
-    var outArray = Array.from(outSet);
+    let outArray = Array.from(outSet);
     return outArray.sort((a, b) => a - b);
 }
 
 function Neighbors(Automaton, States, k){
-    var neighbors = [];
+    let neighbors = [];
     for(var i = 0; i < k; i++){
         neighbors.push(DeltaPrime(Automaton, States, i));
     }
@@ -42,11 +42,11 @@ function Neighbors(Automaton, States, k){
 }
 
 function scoreArgMin(Open, scores){
-    var argMin = Open[0];
-    var minScore = scores[argMin];
+    let argMin = Open[0];
+    let minScore = scores[argMin];
     const arr = Open.slice(1)
     arr.forEach(el => {
-        var score = scores[el];
+        let score = scores[el];
         if(score < minScore){
             minScore = score;
             argMin = el;
@@ -75,19 +75,19 @@ function ShortestWord(Automaton){
     const nStates = Automaton.length
     const initialState = Array.from(Array(nStates).keys());
 
-    var steps = 0;
+    let steps = 0;
 
-    var Open = [initialState];
-    var Closed = [];
+    let Open = [initialState];
+    let Closed = [];
 
-    var GScores = {}; GScores[initialState] = 0;
-    var HScores = {}; HScores[initialState] = H_Dis(initialState);
-    var FScores = {}; FScores[initialState] = HScores[initialState];
+    let GScores = {}; GScores[initialState] = 0;
+    let HScores = {}; HScores[initialState] = H_Dis(initialState);
+    let FScores = {}; FScores[initialState] = HScores[initialState];
 
-    var cameFrom = {}
+    let cameFrom = {}
     
     while(Open.length != 0){
-        var current = scoreArgMin(Open, FScores);
+        let current = scoreArgMin(Open, FScores);
 
         if(current.length === 1)
             return [BuildPath(cameFrom, current), current[0], steps];
@@ -99,17 +99,17 @@ function ShortestWord(Automaton){
 
         Neighs.forEach((n, i) => {
             if (!Closed.some(el => arrayEquals(el, n))){
-                var tentativeScore = GScores[current] + G_dis(current, n);
+                let tentativeScore = GScores[current] + G_dis(current, n);
 
                 if (!Open.some(el => arrayEquals(el, n))){
                     Open.push(n);
                     var betterTentative = true;
                 }
                 else if(tentativeScore < GScores[n]){
-                    var betterTentative = true;
+                    betterTentative = true;
                 }
                 else {
-                    var betterTentative = false;
+                    betterTentative = false;
                 }
 
                 if(betterTentative){
