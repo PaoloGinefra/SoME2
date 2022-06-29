@@ -1,5 +1,9 @@
 import "p5";
-import { Bodies, Engine, Vertices, World } from "matter-js";
+import { Bodies, Common, Engine, Vertices, World } from "matter-js";
+import polyDecomp from "poly-decomp";
+
+// enable polygon decomposition, see: https://brm.io/matter-js/docs/classes/Common.html#method_setDecomp
+Common.setDecomp(polyDecomp);
 
 // enable intellisense autocompletion for p5 globals
 /// <reference path="@types/p5/global.d.ts" />
@@ -33,7 +37,18 @@ class PhysicsBody {
       noStroke();
     }
 
-    this.drawVertices(this.body.vertices);
+    this.drawBody();
+  }
+
+  drawBody() {
+    if (this.body.parts && this.body.parts.length > 1) {
+      // skip index 0
+      for (let p = 1; p < this.body.parts.length; p++) {
+        this.drawVertices(this.body.parts[p].vertices);
+      }
+    } else {
+      this.drawVertices(this.body.vertices);
+    }
   }
 
   drawVertices(vertices) {
@@ -71,7 +86,8 @@ class Polygon extends PhysicsBody {
       this.attributes.x,
       this.attributes.y,
       this.attributes.vertexSet,
-      this.options
+      this.options,
+      true
     );
   }
 }
@@ -80,24 +96,32 @@ let engine = Engine.create();
 let world = engine.world;
 
 let poly;
+let box;
 let ground;
 
 window.setup = function () {
   createCanvas(700, 500);
 
-  // FIXME: it does not look anything like an arrow
   let arrowVertices = Vertices.fromPath(
     "40 0 40 20 100 20 100 80 40 80 40 100 0 50"
   );
 
-  // let chevronVertices = Vertices.fromPath(
-  //   "100 0 75 50 100 100 25 100 0 50 25 0"
-  // );
+  let chevronVertices = Vertices.fromPath(
+    "100 0 75 50 100 100 25 100 0 50 25 0"
+  );
 
   poly = new Polygon(world, {
     x: 200,
     y: 200,
-    vertexSet: arrowVertices,
+    // vertexSet: arrowVertices,
+    vertexSet: chevronVertices,
+    color: "white",
+  });
+  box = new Box(world, {
+    x: 270,
+    y: 50,
+    w: 160,
+    h: 80,
     color: "white",
   });
   ground = new Box(
@@ -114,5 +138,6 @@ window.draw = function () {
   background("#333");
 
   poly.draw();
+  box.draw();
   ground.draw();
 };
