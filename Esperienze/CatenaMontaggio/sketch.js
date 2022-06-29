@@ -102,21 +102,43 @@ let ground;
 window.setup = function () {
   createCanvas(700, 500);
 
-  let arrowVertices = Vertices.fromPath(
-    "40 0 40 20 100 20 100 80 40 80 40 100 0 50"
-  );
+  let nubWidth = 50;
+  let nubHeight = 50;
+  let mainWidth = 150;
+  let mainHeight = 200;
 
-  let chevronVertices = Vertices.fromPath(
-    "100 0 75 50 100 100 25 100 0 50 25 0"
-  );
+  let y1 = nubHeight;
+  let y2 = mainHeight + nubHeight;
+  let x1 = mainWidth / 2 - nubWidth / 2;
+  let x2 = mainWidth / 2 + nubWidth / 2;
+  let x3 = mainWidth;
+
+  let points = [
+    [0, y1],
+    [0, y2],
+    [x3, y2],
+    [x3, y1],
+    [x2, y1],
+    [x2, 0],
+    [x1, 0],
+    [x1, y1],
+  ];
+
+  let path = points.flatMap((p) => p).join(" ");
+  let orientableShapeVertices = Vertices.fromPath(path);
+
+  // path that i wrote manually
+  // let orientableShapeVertices = Vertices.fromPath(
+  //   `0 50 0 ${yMax} 150 ${yMax} 150 50 100 50 100 0 50 0 50 50`
+  // );
 
   poly = new Polygon(world, {
     x: 200,
     y: 200,
-    // vertexSet: arrowVertices,
-    vertexSet: chevronVertices,
+    vertexSet: orientableShapeVertices,
     color: "white",
   });
+
   box = new Box(world, {
     x: 270,
     y: 50,
