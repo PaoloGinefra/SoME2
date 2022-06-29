@@ -8,6 +8,11 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/p5": "^1.4.2",
     "vite": "^2.9.9"
+  },
+  "dependencies": {
+    "matter-js": "^0.18.0",
+    "p5": "^1.4.1"
   }
 }
