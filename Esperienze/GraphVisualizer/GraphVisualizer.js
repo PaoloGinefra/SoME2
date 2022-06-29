@@ -4,7 +4,7 @@
   ========================================================================*/
 
 class GraphVisualizer{
-    constructor(graph, size = 0.3, tLength = 0.05, sigma = 0.1, cRep = 0.2, cSpr = 0.1, epsilon = 0.01){
+    constructor(graph, size = 0.3, tLength = 0.02, sigma = 0.1, cRep = 0.2, cSpr = 0.1, epsilon = 0.01, gridLen= 2){
         this.graph = graph;
         this.size = size; //The Node size in wu
         this.tLength = tLength; //The target Leangth of the links in wu
@@ -12,6 +12,7 @@ class GraphVisualizer{
         this.cSpr = cSpr; // The spring constant
         this.sigma = sigma; //A constant damping factor in applying the forces
         this.epsilon = epsilon; //The biggest force concidered zero
+        this.gridLen = gridLen; //The length of the initial disposition grid
 
         //The colors of the links by alphabet
         this.colors = [color(255, 204, 0), color(65)]
@@ -26,40 +27,58 @@ class GraphVisualizer{
         this.n = this.graph.length
         this.Nodes = []
         for(let i = 0; i < this.n; i++){
-            this.Nodes.push(createVector(i % 10, floor(i / 10)));
+            this.Nodes.push(createVector(i % this.gridLen, floor(i / this.gridLen)));
         }
     }
 
     //A function to draw a link to oneself
     drawSelfArc(pos, color = 'black', myStroke = 0.01){
-        let dif = p5.Vector.sub(pos, this.massCenter).normalize().mult(this.size / 2);
-        let p = World.w2s(p5.Vector.add(pos, dif));
+        let dif = p5.Vector.sub(pos, this.massCenter).setMag(this.size / 2);
+        let center = p5.Vector.add(pos, dif)
+        let p = World.w2s(center);
         strokeWeight(myStroke * World.w2s());
         stroke(color)
         fill(0, 0);
         ellipse(p.x, p.y, this.size * World.w2s(), this.size * World.w2s());
+
+        let intersectionOffset = p5.Vector.div(dif, -2).rotate(-PI / 3).setMag(this.size / 2 + 0.01);
+        let intersection = p5.Vector.add(center, intersectionOffset);
+        drawArrow(intersection, p5.Vector.mult(intersectionOffset, -1).rotate(-PI/1.8).setMag(0.001), color);
+        intersection = World.w2s(intersection);
     }
 
     //This draw nodes [I know, mindblowing]
     drawNodes(){
         this.Nodes.forEach((node, i) => {
             let p = World.w2s(node);
+
+            //Draw links
             this.graph[i].forEach((nei, j) => {
                 if(i != nei){
-                    let diff = p5.Vector.sub(this.Nodes[nei], node);
-                    let len = diff.mag() - this.size / 2
-                    diff.normalize().mult(len * 0.99);
-                    drawArrow(node, diff, this.colors[j])
+                    let neighbour = this.Nodes[nei];
+
+                    let diff = p5.Vector.sub(neighbour, node);
+                    let len = diff.mag() - this.size / 2;
+                    
+                    let localNode = node.copy();
+                    if(this.graph[nei].includes(i)){
+                        len -= this.size/2;
+                        len /= 2;
+                        localNode = p5.Vector.lerp(node, this.Nodes[nei], 0.5);
+                    }
+
+                    diff.setMag(len - 0.015);
+                    drawArrow(localNode, diff, this.colors[j])
                 }
                 else{
                     this.drawSelfArc(node, this.colors[j]);
                 }
             });
 
+            //Draw Node
             stroke('black');
             fill(255);
             strokeWeight(0.01 * World.w2s());
-
             ellipse(p.x, p.y, this.size * World.w2s())
 
             fill(0)
@@ -140,4 +159,4 @@ function drawArrow(base, vec, myColor = 'black', myStroke = 0.01, arrowSize = 0.
     translate(vec.mag() - arrowSize, 0);
     triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
     pop();
-  }
+  } 
