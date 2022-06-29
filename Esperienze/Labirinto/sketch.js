@@ -10,6 +10,8 @@ let Nodes = [];
 let automabot;
 */
 
+let graphVis;
+let automabot;
 
 function setup() {
 	World.width = cols * cellSize;
@@ -27,6 +29,14 @@ function setup() {
 		let shortestWord = ShortestWord(Automaton);
 		console.log(shortestWord)
 		console.log(WordInterpreter(shortestWord[0]))
+		graphVis = new GraphVisualizer(Automaton);
+		graphVis.colors = ['red', 'blue', 'green', 'purple']
+		graphVis.tLength = 0.001;
+		graphVis.buildNodes();
+		graphVis.orderGraph();
+
+		automabot = new Automabot(Automaton, graphVis.Nodes, 0.2, 0.1, Automabot.Sin);
+		automabot.computeAnimation(0, shortestWord[0]);
 	}
 
 	//Aautomabot Exemple Setup
@@ -37,9 +47,12 @@ function setup() {
 	automabot = new Automabot(Automaton, Nodes, 0.2, 0.1, Automabot.Sin)
 
 	automabot.computeAnimation(0, "10010")*/
+
+
 }
 
-const Directions = ['N', 'E', 'S', 'W']
+//const Directions = ['N', 'E', 'S', 'W']
+const Directions = ['R', 'B', 'G', 'P']
 
 function WordInterpreter(word){
 	let interpretedWord = ""
@@ -50,7 +63,10 @@ function WordInterpreter(word){
 }
 
 function draw() {
+	background(255);
 	World.draw()
+	graphVis.drawNodes()
+	automabot.draw()
 	
 	//Aautomabot Exemple Draw
 	/*background(0)
