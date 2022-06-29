@@ -4,10 +4,10 @@
     the worldPosition of every node.
 
     First of all your automabot needs to compute the animation in the setup
-    with [computeAnimation] then [animationStep] needs to be called every
+    with [computeAnimation] then [draw] needs to be called every
     frame in order to make the animation progress
   ========================================================================*/
-  
+
 class Automabot{
     //Linear interpolation function
     static Linear(t){
@@ -27,12 +27,13 @@ class Automabot{
         this.stopThresh = stopThresh; // the distance bewlow which two points are considered equal
         this.size = size; //the size of the bot
         this.t = 0; // time
+        this.finished = true;
     }
 
     //Computes a Queue containing keyframes of the bot's position
     computeAnimation(state, word){
         this.t = 0
-        this.posQueue = [{pos: Nodes[state]}]
+        this.posQueue = [{pos: this.Nodes[state]}]
 
         //Computes the positions executing the given word
         for(let i = 0; i < word.length; i++){
@@ -74,19 +75,24 @@ class Automabot{
                 this.t = 0;
                 this.posIndex ++;
             }
+            this.finished = false;
+        }
+        else{
+            this.finished = true;
         }
 
         this.t += deltaTime / 1000
     }
     
-    drawSprite(position, size){
-        let wPos = World.w2s(position)
-        ellipse(wPos.x, wPos.y, size * World.w2s())
+    drawSprite(){
+        fill(0)
+        let wPos = World.w2s(this.position)
+        ellipse(wPos.x, wPos.y, this.size * World.w2s())
     }
 
     //this function MUST be called once per frame
     draw(){
         this.animationStep();
-        this.drawSprite(this.position, this.size);
+        this.drawSprite();
     }
 }
