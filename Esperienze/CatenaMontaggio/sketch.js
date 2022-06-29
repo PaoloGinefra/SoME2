@@ -163,7 +163,8 @@ window.draw = function () {
   // NOTE: deltaTime is a p5 global variable
   Engine.update(engine, deltaTime);
   items.forEach((item) => {
-    Body.applyForce(item.body, item.body.position, Vector.create(0.3, 0));
+    item.body.position.y = 165;
+    Body.applyForce(item.body, item.body.position, Vector.create(0.1, 0));
   });
 
   // TODO: destroy items out of screen
@@ -184,7 +185,7 @@ window.draw = function () {
 
         color: "white",
       },
-      { frictionAir: 0.6 }
+      { frictionAir: 0.2 }
     );
 
     items.push(newItem);
