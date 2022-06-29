@@ -1,5 +1,5 @@
 import "p5";
-import { Bodies, Body, Common, Engine, Vertices, World } from "matter-js";
+import { Bodies, Body, Common, Engine, World, Vector } from "matter-js";
 import polyDecomp from "poly-decomp";
 
 // enable polygon decomposition, see: https://brm.io/matter-js/docs/classes/Common.html#method_setDecomp
@@ -102,48 +102,103 @@ class OrientableItem extends PhysicsBody {
   }
 }
 
-let engine = Engine.create();
-let world = engine.world;
+const engine = Engine.create();
+const world = engine.world;
 
-let item;
-let box;
-let ground;
+// disable gravity
+engine.gravity.x = 0;
+engine.gravity.y = 0;
+
+const items = [];
+
+let upperWall;
+let lowerWall;
+
+let redirector;
 
 window.setup = function () {
-  createCanvas(700, 500);
+  createCanvas(900, 400);
 
-  item = new OrientableItem(world, {
-    x: 100,
-    y: 100,
-    mainWidth: 150,
-    mainHeight: 200,
-    nubWidth: 50,
-    nubHeight: 50,
-
-    color: "white",
-  });
-
-  box = new Box(world, {
-    x: 270,
-    y: 50,
-    w: 160,
-    h: 80,
-    color: "white",
-  });
-  ground = new Box(
+  upperWall = new Box(
     world,
-    { x: 400, y: 500, w: 810, h: 15, color: "grey" },
-    { isStatic: true, angle: PI / 36 }
+    {
+      x: width / 2,
+      y: 0,
+      w: width,
+      h: 20,
+      color: "white",
+    },
+    { isStatic: true }
+  );
+  lowerWall = new Box(
+    world,
+    {
+      x: width / 2,
+      y: height,
+      w: width,
+      h: 20,
+      color: "white",
+    },
+    { isStatic: true }
+  );
+
+  redirector = new Box(
+    world,
+    {
+      x: width / 2,
+      y: 0,
+      w: 20,
+      h: 140,
+      color: "red",
+    },
+    { isStatic: true }
   );
 };
 
+let time = 0;
+
 window.draw = function () {
+  // physics
+
   // NOTE: deltaTime is a p5 global variable
   Engine.update(engine, deltaTime);
+  items.forEach((item) => {
+    Body.applyForce(item.body, item.body.position, Vector.create(0.3, 0));
+  });
 
+  // TODO: destroy items out of screen
+  // TODO: use more robust siystem for time
+
+  if (time == 0) {
+    time = 0;
+
+    let newItem = new OrientableItem(
+      world,
+      {
+        x: 200,
+        y: 175,
+        mainWidth: 150,
+        mainHeight: 200,
+        nubWidth: 50,
+        nubHeight: 50,
+
+        color: "white",
+      },
+      { frictionAir: 0.6 }
+    );
+
+    items.push(newItem);
+  }
+
+  time++;
+  if (time > 3 * 60) {
+    time = 0;
+  }
+
+  // drawing
   background("#333");
-
-  item.draw();
-  box.draw();
-  ground.draw();
+  upperWall.draw();
+  lowerWall.draw();
+  redirector.draw();
+  items.forEach((item) => item.draw());
 };
