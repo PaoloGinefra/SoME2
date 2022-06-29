@@ -1,5 +1,5 @@
 import "p5";
-import { Bodies, Common, Engine, Vertices, World } from "matter-js";
+import { Bodies, Body, Common, Engine, Vertices, World } from "matter-js";
 import polyDecomp from "poly-decomp";
 
 // enable polygon decomposition, see: https://brm.io/matter-js/docs/classes/Common.html#method_setDecomp
@@ -76,66 +76,50 @@ class Box extends PhysicsBody {
   }
 }
 
-class Polygon extends PhysicsBody {
+// NOTE: when instantiting this class the x and y coords are in the center of the main rectangle
+class OrientableItem extends PhysicsBody {
   constructor(world, attributes, options) {
     super(world, attributes, options);
   }
 
   createBody() {
-    this.body = Bodies.fromVertices(
-      this.attributes.x,
-      this.attributes.y,
-      this.attributes.vertexSet,
-      this.options,
-      true
+    const { x, y, mainWidth, mainHeight, nubWidth, nubHeight } =
+      this.attributes;
+
+    // NOTE: matterjs positions rectangles from the center
+    const main = Bodies.rectangle(x, y, mainWidth, mainHeight);
+    const nub = Bodies.rectangle(
+      x,
+      y - mainHeight / 2 - nubHeight / 2,
+      nubWidth,
+      nubHeight
     );
+
+    this.body = Body.create({
+      parts: [main, nub],
+      ...this.options,
+    });
   }
 }
 
 let engine = Engine.create();
 let world = engine.world;
 
-let poly;
+let item;
 let box;
 let ground;
 
 window.setup = function () {
   createCanvas(700, 500);
 
-  let nubWidth = 50;
-  let nubHeight = 50;
-  let mainWidth = 150;
-  let mainHeight = 200;
+  item = new OrientableItem(world, {
+    x: 100,
+    y: 100,
+    mainWidth: 150,
+    mainHeight: 200,
+    nubWidth: 50,
+    nubHeight: 50,
 
-  let y1 = nubHeight;
-  let y2 = mainHeight + nubHeight;
-  let x1 = mainWidth / 2 - nubWidth / 2;
-  let x2 = mainWidth / 2 + nubWidth / 2;
-  let x3 = mainWidth;
-
-  let points = [
-    [0, y1],
-    [0, y2],
-    [x3, y2],
-    [x3, y1],
-    [x2, y1],
-    [x2, 0],
-    [x1, 0],
-    [x1, y1],
-  ];
-
-  let path = points.flatMap((p) => p).join(" ");
-  let orientableShapeVertices = Vertices.fromPath(path);
-
-  // path that i wrote manually
-  // let orientableShapeVertices = Vertices.fromPath(
-  //   `0 50 0 ${yMax} 150 ${yMax} 150 50 100 50 100 0 50 0 50 50`
-  // );
-
-  poly = new Polygon(world, {
-    x: 200,
-    y: 200,
-    vertexSet: orientableShapeVertices,
     color: "white",
   });
 
@@ -159,7 +143,7 @@ window.draw = function () {
 
   background("#333");
 
-  poly.draw();
+  item.draw();
   box.draw();
   ground.draw();
 };
