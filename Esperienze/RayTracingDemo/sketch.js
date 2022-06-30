@@ -5,11 +5,13 @@ function setup() {
 	World.height = windowHeight;
 	World.setup();
 
-	rayCaster = new RayCaster(createVector(0, 1), 200);
 	env = new Env();
 	env.walls.push(new Wall(createVector(-1, 0), createVector(1, 0)));
-	env.walls.push(new Wall(createVector(-1, 0.5), createVector(1, -0.5)));
-	rayCaster.cast(env.getWalls());
+	env.walls.push(new Wall(createVector(-1, -1), createVector(1, -1)));
+	env.walls.push(new Wall(createVector(-1, 1.5), createVector(1, 0.5)));
+
+	rayCaster = new RayCaster(createVector(0, 1), env);
+	rayCaster.cast(env);
 }
 
 function draw() {
