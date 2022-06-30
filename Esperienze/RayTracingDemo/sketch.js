@@ -17,7 +17,7 @@ function setup() {
 		}
 	}
 
-	im = new ImageWaller(size = 3);
+	im = new ImageWaller(size = 5);
 
 	env = new Env();
 
@@ -25,7 +25,7 @@ function setup() {
 	env.walls = env.walls.concat(im.walls);
 
 	rayCaster = new RayCaster(createVector(0, 1), env);
-	rayCaster.cast(env);
+	rayCaster.cast();
 
 	button = createButton('Toogle Lights');
 	button.position(0, 0);
