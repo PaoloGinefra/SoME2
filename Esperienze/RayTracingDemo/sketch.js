@@ -5,7 +5,7 @@ function setup() {
 	World.height = windowHeight;
 	World.setup();
 
-	rayCaster = new RayCaster(createVector(0, 1), 200);
+	rayCaster = new RayCaster(createVector(0, 1), 1000);
 	env = new Env();
 	env.walls.push(new Wall(createVector(-1, 0), createVector(1, 0)));
 	env.walls.push(new Wall(createVector(-1, 0.5), createVector(1, -0.5)));
