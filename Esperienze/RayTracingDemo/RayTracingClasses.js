@@ -200,10 +200,11 @@ class Env{
     /**
      * The Enviroment of the sim. It contains the bouderies as of walls at the edge of the canvas and all the walls in the scene
      */
-    constructor(){
+    constructor(wallColor = 'white'){
         this.walls = [];
         this.setupBound();
         this.updateBound();
+        this.wallColor = wallColor;
     }
 
     /**
@@ -252,7 +253,7 @@ class Env{
      * Draws the env
      */
     draw(){
-        this.Bounds.forEach(wall => wall.draw())
-        this.walls.forEach(wall => wall.draw())
+        this.Bounds.forEach(wall => {wall.color = this.wallColor; wall.draw();})
+        this.walls.forEach(wall => {wall.color = this.wallColor; wall.draw();})
     }
 }
