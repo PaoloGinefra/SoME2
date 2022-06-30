@@ -185,7 +185,7 @@ window.draw = function () {
 
         color: "white",
       },
-      { frictionAir: 0.2 }
+      { frictionAir: 0.05 }
     );
 
     items.push(newItem);
