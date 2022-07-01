@@ -24,7 +24,10 @@ class Wall{
 
         fill(this.color);
         let center = p5.Vector.lerp(wP1, wP2, 0.5);
-        ellipse(center.x, center.y, World.w2s(0.05));
+        rectMode(CENTER);
+        //square(wP1.x, wP1.y, World.w2s(0.03));
+        //square(wP2.x, wP2.y, World.w2s(0.03));
+        ellipse(center.x, center.y, World.w2s(0.02));
     }
 }
 
@@ -80,6 +83,28 @@ class Ray{
         return null;
     }
 
+    //Comoputes the closest collision point to teh origin givven th wall Hash
+    castWalls(wallHash, hashRes){
+        let minDist = Infinity;
+        let ClosestCP = null;
+
+        this.angle = (this.angle + 360) % 360;
+
+        let cell = wallHash[floor(this.angle / hashRes)]
+
+        cell.forEach(wall => {
+            let collisionPoint = this.cast(wall);
+            if(collisionPoint != null){
+                let dist = p5.Vector.dist(this.origin, collisionPoint);
+                if(dist < minDist){
+                    minDist = dist;
+                    ClosestCP = collisionPoint;
+                }
+            }
+        });
+        return ClosestCP;
+    }
+
     /**
      * Update the ray angle and compute the new dir vector
      * @param {float} angle 
@@ -93,25 +118,28 @@ class Ray{
 class RayCaster{
     /**
      * The main RayCaster class. A RayCaster rappresents the "light source", it's the source of all the need rays.
-     * The main two methods are cast and draw
+     * The main two methods are cast and draw.
      * @param {*} origin The position of the  RayCaster
      * @param {*} Env The Enviroment the RayCaster is in
      * @param {*} alphaEsilon The angle between the helper ray and the main ray in deg
+     * @param {*} hashRes The resolution of the radial hash in deg
      * @param {*} bodyColor The color of the RayCaster
      * @param {*} shadowColor The color of the shadow
      * @param {*} alpha The transparency of the  shadow [0, 255]
      */
-    constructor(origin, Env, alphaEsilon = 0.00001, bodyColor = color(255), shadowColor = color(255), alpha = 120){
+    constructor(origin, Env, alphaEsilon = 0.00001, hashRes = 1, bodyColor = color(255), shadowColor = color(255), alpha = 120){
         this.origin = origin;
         this.alphaEsilon = alphaEsilon;
         this.Env = Env;
         this.bodyColor = bodyColor;
         this.shadowColor = shadowColor;
         this.alpha = alpha;
+        this.hashRes = hashRes;
+        this.hashLen = floor(360 / hashRes); 
 
         this.rays = [];
 
-        for(let i = 0; i < Env.getWalls().length * 6; i++){
+        for(let i = 0; i < Env.getWalls().length * 4; i++){
             //[Ray, angle]
             this.rays.push([new Ray(this.origin, i), 0]);
         }
@@ -122,37 +150,68 @@ class RayCaster{
     }
 
     /**
+     * Builds the radial hash for the walls
+     */
+    buildWallHash(){
+        let walls = this.Env.getWalls();
+
+        this.wallHash = []
+        for(let i = 0; i < this.hashLen; i++){
+            this.wallHash.push([]);
+        }
+
+        walls.forEach((wall, i) => {
+            let dir1 = p5.Vector.sub(walls[i].p1, this.origin).normalize();
+            let alpha1 = (degrees(dir1.heading()) + 360) % 360;
+
+            let dir2 = p5.Vector.sub(walls[i].p2, this.origin).normalize();
+            let alpha2 = (degrees(dir2.heading()) + 360) % 360;
+            
+            let start = floor(alpha1 / this.hashRes);
+            let finish = floor(alpha2 / this.hashRes);
+
+            let diff = alpha2 - alpha1;
+
+            if(diff > 180 || diff > -180 && diff < 0){
+                [start, finish] = [finish, start];
+            }
+
+            for(let j = start; j != (finish + 1) % this.hashLen; j = (j+1) % this.hashLen){
+                this.wallHash[j].push(wall);
+            }
+        })
+
+    }
+
+    /**
      * This functions updets this.rays and this.collisions. The rays are redirected to the wall's extremities
      * and the collision points are computed just for then selecting the closest one tho the origin per ray.
      */
     cast(){
         let walls = this.Env.getWalls();
 
+        this.buildWallHash()
+
         //Updates The Rays Directions
         for(let i = 0; i < walls.length; i++){
             let dir1 = p5.Vector.sub(walls[i].p1, this.origin).normalize();
             let alpha1 = degrees(dir1.heading());
 
-            this.rays[6*i + 0][0].updateAngle(alpha1 - this.alphaEsilon);
-            this.rays[6*i + 0][1] = alpha1 - this.alphaEsilon;
-
-            this.rays[6*i + 1][0].dir.set(dir1);
-            this.rays[6*i + 1][1] = alpha1;
-
-            this.rays[6*i + 2][0].updateAngle(alpha1 + this.alphaEsilon);
-            this.rays[6*i + 2][1] = alpha1 + this.alphaEsilon;
-
             let dir2 = p5.Vector.sub(walls[i].p2, this.origin).normalize();
             let alpha2 = degrees(dir2.heading());
 
-            this.rays[6*i + 3][0].updateAngle(alpha2 - this.alphaEsilon);
-            this.rays[6*i + 3][1] = alpha2 - this.alphaEsilon;
+            this.rays[4*i + 0][0].updateAngle(alpha1 - this.alphaEsilon);
+            this.rays[4*i + 0][1] = alpha1 - this.alphaEsilon;
 
-            this.rays[6*i + 4][0].dir.set(dir2);
-            this.rays[6*i + 4][1] = alpha2;
+            this.rays[4*i + 1][0].updateAngle(alpha1 + this.alphaEsilon);
+            this.rays[4*i + 1][1] = alpha1 + this.alphaEsilon;
 
-            this.rays[6*i + 5][0].updateAngle(alpha2 + this.alphaEsilon);
-            this.rays[6*i + 5][1] = alpha2 + this.alphaEsilon;
+            this.rays[4*i + 2][0].updateAngle(alpha2 - this.alphaEsilon);
+            this.rays[4*i + 2][1] = alpha2 - this.alphaEsilon;
+
+            this.rays[4*i + 3][0].updateAngle(alpha2 + this.alphaEsilon);
+            this.rays[4*i + 3][1] = alpha2 + this.alphaEsilon;
+
         }
 
         //Sorts the ray per angle
@@ -160,21 +219,10 @@ class RayCaster{
 
         //Computes the closest sollision points
         this.collisions = [];
-        this.rays.forEach(ray => {
-            let minDist = Infinity;
-            let ClosestCP = null;
-            walls.forEach(wall => {
-                let collisionPoint = ray[0].cast(wall);
-                if(collisionPoint != null){
-                    let dist = p5.Vector.dist(this.origin, collisionPoint);
-                    if(dist < minDist){
-                        minDist = dist;
-                        ClosestCP = collisionPoint;
-                    }
-                }
-            });
-            this.collisions.push(ClosestCP);
-        });
+
+        this.rays.forEach(ray=>{
+            this.collisions.push(ray[0].castWalls(this.wallHash, this.hashRes));
+        })
     }
 
     /**

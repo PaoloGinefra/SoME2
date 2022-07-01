@@ -15,7 +15,7 @@ function setup() {
 		}
 	}
 
-	im = new ImageWaller(size = 5);
+	im = new ImageWaller(size = 3);
 
 	env = new Env();
 
@@ -38,7 +38,7 @@ function draw() {
 	env.wallColor = lights ? 'white' : color(0, 0);
 
 	env.updateBound();
-	im.drawMatrix(matrix);
+	//im.drawMatrix(matrix);
 	env.draw();
 	let p = World.s2w(World.mouseVec);
 	rayCaster.updateOrigin(p);
