@@ -6,7 +6,7 @@ let lights = false;
 function setup() {
 	World.setup(windowWidth, windowHeight);
 
-	let MatrixSize = 30
+	let MatrixSize = 20
 
 	for(let i = 0; i < MatrixSize; i++){
 		matrix[i] = [];
@@ -38,6 +38,7 @@ function draw() {
 	env.wallColor = lights ? 'white' : color(0, 0);
 
 	env.updateBound();
+	im.drawMatrix(matrix);
 	env.draw();
 	let p = World.s2w(World.mouseVec);
 	rayCaster.updateOrigin(p);

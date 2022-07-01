@@ -22,21 +22,6 @@ class ImageWaller{
     }
 
     /**
-     * Recursive function to find walls bigger than one cell
-     * @returns the index of the last cell of the wall
-     */
-    rightCheck(matrix, dir, i, j, col, row, wallCheck){
-        let di = Number(dir == 'up')
-        let dj = Number(!di);
-        wallCheck[i][j][Number(dir != 'up')] = true
-        if(this.isWall(i, j, i + di, j + dj, col, row, matrix, wallCheck) ||
-          !this.isWall(i + di, j + dj, i + 1, j + 1, col, row, matrix, wallCheck)){
-            return dir == 'up' ? i : j;
-        }
-        return this.rightCheck(matrix, dir, i + di, j + dj, col, row, wallCheck);
-    }
-
-    /**
      * Checks whether a wall sould be drawn between (i, j) an (k, l)
      */
     isWall(i, j, k, l, matrix){
@@ -50,8 +35,7 @@ class ImageWaller{
         );
     }
 
-    checkNeighbour(i, j, k, l, wi, wj, wk, wl, matrix, wallMatrix){
-        let index = Number(i == j);
+    checkNeighbour(index, i, j, k, l, wi, wj, wk, wl, matrix, wallMatrix){
         let wall;
 
         if(this.isIn(k, l) &&
@@ -89,11 +73,11 @@ class ImageWaller{
                 let up = this.isWall(i, j, i + 1, j, matrix);
 
                 if(up){
-                    this.checkNeighbour(i, j, i, j - 1, i, j, i, j + 1, matrix, wallMatrix); 
+                    this.checkNeighbour(0, i, j, i, j - 1, i, j, i, j + 1, matrix, wallMatrix); 
                 }
 
                 if(right){
-                    this.checkNeighbour(i, j, i - 1, j, i - 1, j + 1, i, j + 1, matrix, wallMatrix); 
+                    this.checkNeighbour(1, i, j, i - 1, j, i - 1, j + 1, i, j + 1, matrix, wallMatrix); 
                 }
 
                 if(!this.isIn(i - 1, j)){
@@ -138,6 +122,7 @@ class ImageWaller{
     drawMatrix(matrix){
         this.cellSize = this.size / matrix.length;
         let wGS = World.w2s(this.cellSize);
+        rectMode(CORNER);
         for(let i = 0; i < matrix.length; i++){
             for(let j = 0; j < matrix[i].length; j++){
                 let pos = World.w2s(createVector(j*this.cellSize - this.size/2, i*this.cellSize - this.size/2));
