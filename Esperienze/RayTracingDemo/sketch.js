@@ -35,9 +35,10 @@ function draw() {
 	background(0);
 	World.draw();
 
-	env.wallColor = lights ? 'white' : 'black';
+	env.wallColor = lights ? 'white' : color(0, 0);
 
 	env.updateBound();
+	im.drawMatrix(matrix);
 	env.draw();
 	let p = World.s2w(World.mouseVec);
 	rayCaster.updateOrigin(p);

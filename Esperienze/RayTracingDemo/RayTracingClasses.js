@@ -21,6 +21,10 @@ class Wall{
         stroke(this.color);
         strokeWeight(World.w2s(this.strokeWeight));
         line(wP1.x, wP1.y, wP2.x, wP2.y);
+
+        fill(this.color);
+        let center = p5.Vector.lerp(wP1, wP2, 0.5);
+        ellipse(center.x, center.y, World.w2s(0.05));
     }
 }
 
