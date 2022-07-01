@@ -6,7 +6,7 @@ let lights = false;
 function setup() {
 	World.setup(windowWidth, windowHeight);
 
-	let MatrixSize = 10
+	let MatrixSize = 30
 
 	for(let i = 0; i < MatrixSize; i++){
 		matrix[i] = [];

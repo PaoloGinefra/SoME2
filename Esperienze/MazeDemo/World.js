@@ -84,7 +84,7 @@ class World{
         }
 
         else if(screenP == undefined)
-            throw "World.w2s needs a parameter";
+            throw "World.s2w needs a parameter";
     }
 }
 
@@ -132,6 +132,7 @@ class Interpolator{
      * @returns y(t + dt)
      */
     step(x, xPrev, dt){
+        dt = min(dt, 0.8 * sqrt(4 * this.k2 +sq(this.k1))-this.k1)
         let xDer = (x - xPrev) / dt;
         this.y += dt*this.yDer;
         this.yDer += dt*(x + this.k3*xDer - this.y - this.k1*this.yDer)/this.k2;
