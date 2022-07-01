@@ -47,10 +47,10 @@
         let dif = p5.Vector.sub(pos, this.massCenter).setMag(this.size / 2).rotate(id * 2);
         let center = p5.Vector.add(pos, dif)
         let p = World.w2s(center);
-        strokeWeight(myStroke * World.w2s());
+        strokeWeight(World.w2s(myStroke));
         stroke(color)
         fill(0, 0);
-        ellipse(p.x, p.y, this.size * World.w2s(), this.size * World.w2s());
+        ellipse(p.x, p.y, World.w2s(this.size), World.w2s(this.size ));
 
         let intersectionOffset = p5.Vector.div(dif, -2).rotate(-PI / 3).setMag(this.size / 2 + 0.01);
         let intersection = p5.Vector.add(center, intersectionOffset);
@@ -90,12 +90,12 @@
             //Draw Node
             stroke('black');
             fill(255);
-            strokeWeight(0.01 * World.w2s());
-            ellipse(p.x, p.y, this.size * World.w2s())
+            strokeWeight(World.w2s(0.01));
+            ellipse(p.x, p.y, World.w2s(this.size))
 
             fill(0)
             textAlign(CENTER, CENTER);
-            textSize(this.size * 0.6 * World.w2s());
+            textSize(World.w2s(this.size * 0.6));
             text(i.toString(), p.x, p.y);
         })
     }
@@ -164,16 +164,16 @@
 //Simple arrow drawing function
 function drawArrow(base, vec, myColor = 'black', myStroke = 0.01, arrowSize = 0.05) {
     base = World.w2s(base);
-    vec.mult(World.w2s());
+    vec.mult(World.w2sk);
     vec.y *= -1;
     push();
     stroke(myColor);
-    strokeWeight(myStroke * World.w2s());
+    strokeWeight(World.w2s(myStroke));
     fill(myColor);
     translate(base.x, base.y);
     line(0, 0, vec.x, vec.y);
     rotate(vec.heading());
-    arrowSize *= World.w2s();
+    arrowSize *= World.w2sk;
     translate(vec.mag() - arrowSize, 0);
     triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
     pop();

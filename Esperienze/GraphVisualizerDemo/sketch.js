@@ -14,9 +14,7 @@ const Automaton = [
 ]
 
 function setup() {
-	World.width = windowWidth;
-	World.height = windowHeight;
-	World.setup();
+	World.setup(windowWidth, windowHeight);
 
 	gv = new GraphVisualizer(Automaton)
 	gv.setup()

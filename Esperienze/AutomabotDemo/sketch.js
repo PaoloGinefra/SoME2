@@ -21,9 +21,7 @@ let startingStateInput, wordInput, labelStart, labelWord, button;
 let go = false;
 
 function setup() {
-	World.width = windowWidth;
-	World.height = windowHeight;
-	World.setup();
+	World.setup(windowWidth, windowHeight);
 
 	gv = new GraphVisualizer(Automaton);
 	gv.setup();

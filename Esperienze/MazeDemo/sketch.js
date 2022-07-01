@@ -1,7 +1,5 @@
 function setup() {
-	World.width = cols * cellSize;
-	World.height = rows * cellSize;
-	World.setup();
+	World.setup(cols * cellSize, rows * cellSize);
 	textSize(32);
 	textAlign(CENTER, CENTER);
 	generateMaze();

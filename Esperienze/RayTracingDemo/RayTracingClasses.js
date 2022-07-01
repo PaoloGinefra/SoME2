@@ -19,7 +19,7 @@ class Wall{
         let wP2 = World.w2s(this.p2);
 
         stroke(this.color);
-        strokeWeight(this.strokeWeight * World.w2s());
+        strokeWeight(World.w2s(this.strokeWeight));
         line(wP1.x, wP1.y, wP2.x, wP2.y);
     }
 }
@@ -180,7 +180,7 @@ class RayCaster{
         strokeWeight(0);
         fill(this.bodyColor);
         let o = World.w2s(this.origin);
-        ellipse(o.x, o.y, 0.06 * World.w2s());
+        ellipse(o.x, o.y, World.w2s(0.06));
 
         noStroke();
         this.shadowColor.setAlpha(this.alpha)
@@ -223,8 +223,8 @@ class Env{
      * Updates the bouderies accounting for the World changes
      */
     updateBound(){
-        let widthW = World.s2w() * (World.width / 2 + 100);
-        let heightW = World.s2w() * (World.height / 2 + 100);
+        let widthW = World.s2w((World.width / 2 + 100));
+        let heightW = World.s2w((World.height / 2 + 100));
         let dir = createVector(widthW, heightW);
         let UR = p5.Vector.add(World.cameraPos, dir);
         let LL = p5.Vector.sub(World.cameraPos, dir);

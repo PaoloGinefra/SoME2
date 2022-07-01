@@ -181,7 +181,7 @@ class ImageWaller{
      */
     drawMatrix(matrix){
         this.cellSize = this.size / matrix.length;
-        let wGS = this.cellSize * World.w2s();
+        let wGS = World.w2s(this.cellSize);
         for(let i = 0; i < matrix.length; i++){
             for(let j = 0; j < matrix[i].length; j++){
                 let pos = World.w2s(createVector(j*this.cellSize - this.size/2, i*this.cellSize - this.size/2));

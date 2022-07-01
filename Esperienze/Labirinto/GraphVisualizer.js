@@ -1,18 +1,29 @@
-/*========================================================================
-    This Graph visualizer uses an Eades Spring Embedder to beautifully
-    visualize a given graph
-  ========================================================================*/
-
 class GraphVisualizer{
-    constructor(graph, size = 0.3, tLength = 0.02, sigma = 0.1, cRep = 0.2, cSpr = 0.1, epsilon = 0.01, gridLen= 2){
+    /** This Graph visualizer uses an Eades Spring Embedder to beautifully
+    visualize a given graph. All you need to do is feeding the graph to
+    the obj, tweek the parameters and call the setup function.
+    Finally to draw the graph simply call the drawGraph function. Enjoy :)
+
+    * @param graph The graph to visualize
+    * @param size The size of the nodes in wu
+    * @param colors An array containing the colors for each link in alphabetical order
+    * @param tLength The target length of the links in wu
+    * @param cRep The repulsion constant. default 0.2
+    * @param cSpring The spring constant. default 0.1
+    * @param sigma A damping factor for the forces apllied, it's a scalar multiplied by the forces. default 0.1
+    * @param epsilon The biggest Force considered to be irrelevant
+    * @param gridLen The length of the initial disposition grid
+    */
+
+    constructor(graph = undefined, size = 0.3, tLength = 0.02, sigma = 0.1, cRep = 0.2, cSpr = 0.1, epsilon = 0.01, gridLen= 2){
         this.graph = graph;
-        this.size = size; //The Node size in wu
-        this.tLength = tLength; //The target Leangth of the links in wu
-        this.cRep = cRep; //The repulsion constant
-        this.cSpr = cSpr; // The spring constant
-        this.sigma = sigma; //A constant damping factor in applying the forces
-        this.epsilon = epsilon; //The biggest force concidered zero
-        this.gridLen = gridLen; //The length of the initial disposition grid
+        this.size = size;
+        this.tLength = tLength;
+        this.cRep = cRep;
+        this.cSpr = cSpr;
+        this.sigma = sigma;
+        this.epsilon = epsilon;
+        this.gridLen = gridLen;
 
         //The colors of the links by alphabet
         this.colors = [color(255, 204, 0), color(65)]
@@ -36,10 +47,10 @@ class GraphVisualizer{
         let dif = p5.Vector.sub(pos, this.massCenter).setMag(this.size / 2).rotate(id * 2);
         let center = p5.Vector.add(pos, dif)
         let p = World.w2s(center);
-        strokeWeight(myStroke * World.w2s());
+        strokeWeight(World.w2s(myStroke));
         stroke(color)
         fill(0, 0);
-        ellipse(p.x, p.y, this.size * World.w2s(), this.size * World.w2s());
+        ellipse(p.x, p.y, World.w2s(this.size), World.w2s(this.size ));
 
         let intersectionOffset = p5.Vector.div(dif, -2).rotate(-PI / 3).setMag(this.size / 2 + 0.01);
         let intersection = p5.Vector.add(center, intersectionOffset);
@@ -48,7 +59,7 @@ class GraphVisualizer{
     }
 
     //This draw nodes [I know, mindblowing]
-    drawNodes(){
+    drawGraph(){
         this.Nodes.forEach((node, i) => {
             let p = World.w2s(node);
             let id = 0;
@@ -79,12 +90,12 @@ class GraphVisualizer{
             //Draw Node
             stroke('black');
             fill(255);
-            strokeWeight(0.01 * World.w2s());
-            ellipse(p.x, p.y, this.size * World.w2s())
+            strokeWeight(World.w2s(0.01));
+            ellipse(p.x, p.y, World.w2s(this.size))
 
             fill(0)
             textAlign(CENTER, CENTER);
-            textSize(this.size * 0.6 * World.w2s());
+            textSize(World.w2s(this.size * 0.6));
             text(i.toString(), p.x, p.y);
         })
     }
@@ -142,21 +153,27 @@ class GraphVisualizer{
             });
         }
     }
+
+    //This functions setu the visualization
+    setup(){
+        this.buildNodes();
+        this.orderGraph();
+    }
 }
 
 //Simple arrow drawing function
 function drawArrow(base, vec, myColor = 'black', myStroke = 0.01, arrowSize = 0.05) {
     base = World.w2s(base);
-    vec.mult(World.w2s());
+    vec.mult(World.w2sk);
     vec.y *= -1;
     push();
     stroke(myColor);
-    strokeWeight(myStroke * World.w2s());
+    strokeWeight(World.w2s(myStroke));
     fill(myColor);
     translate(base.x, base.y);
     line(0, 0, vec.x, vec.y);
     rotate(vec.heading());
-    arrowSize *= World.w2s();
+    arrowSize *= World.w2sk;
     translate(vec.mag() - arrowSize, 0);
     triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
     pop();

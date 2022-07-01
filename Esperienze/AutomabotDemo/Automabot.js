@@ -87,7 +87,7 @@ class Automabot{
     drawSprite(){
         fill(0)
         let wPos = World.w2s(this.position)
-        ellipse(wPos.x, wPos.y, this.size * World.w2s())
+        ellipse(wPos.x, wPos.y, World.w2s(this.size))
     }
 
     //this function MUST be called once per frame

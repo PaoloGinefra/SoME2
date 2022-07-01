@@ -4,9 +4,7 @@ let matrix = [];
 let lights = false;
 
 function setup() {
-	World.width = windowWidth;
-	World.height = windowHeight;
-	World.setup();
+	World.setup(windowWidth, windowHeight);
 
 	let MatrixSize = 10
 
