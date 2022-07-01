@@ -14,8 +14,8 @@ class World{
     //Zoom
     //=========================================
     static zoom = 1; //parameter controlling Camera zoom
-    static targetZoom = 1; //target zoom for interpolation
-    static targetZoomPrev = 1; //target zoom for interpolation
+    static targetZoom = 2; //target zoom for interpolation
+    static targetZoomPrev = 2; //target zoom for interpolation
     static zoomMouseSpeed = 0.001; //How responisve to mouse wheel is the zoom, the higher the faster
     //=========================================
 
@@ -84,7 +84,7 @@ class World{
         }
 
         else if(screenP == undefined)
-            throw "World.w2s needs a parameter";
+            throw "World.s2w needs a parameter";
     }
 }
 
