@@ -8,7 +8,6 @@ let divHeight = 30;
 
 function setup() {
 	World.setup(windowWidth, windowHeight);
-	imageWaller = new ImageWaller(2);
 	mazeGenerator = new NonPerfectMazeGenerator(10, 10, 2);
 	mazeGenerator.generateMaze();
 
@@ -54,5 +53,5 @@ function draw() {
 	mazeGenerator.ph = phSlider.value()/100;
 	mazeGenerator.pc = pcSlider.value()/100;
 	mazeGenerator.generateMaze();
-	imageWaller.drawMatrix(mazeGenerator.image)
+	mazeGenerator.draw(2)
 }

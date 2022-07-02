@@ -308,4 +308,19 @@ class NonPerfectMazeGenerator{
             this.checkEdge(edge, k, l, the, tve);
         }
     }
+
+    draw(size = 1, Colors = ['black', 'white']){
+        noStroke();
+        let matrix = this.image
+        let cellSize = size / matrix.length;
+        let wGS = World.w2s(cellSize);
+        rectMode(CORNER);
+        for(let i = 0; i < matrix.length; i++){
+            for(let j = 0; j < matrix[i].length; j++){
+                let pos = World.w2s(createVector(j*cellSize - size/2, i*cellSize - (size - 0.25)/2));
+                fill(Colors[matrix[i][j]]);
+                square(pos.x, pos.y, wGS);
+            }
+        }
+    }
 }
