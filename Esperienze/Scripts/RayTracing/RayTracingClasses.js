@@ -123,17 +123,20 @@ class RayCaster{
      * @param {*} Env The Enviroment the RayCaster is in
      * @param {*} alphaEsilon The angle between the helper ray and the main ray in deg
      * @param {*} hashRes The resolution of the radial hash in deg
+     * @param {*} viewRadius The radius of the light gradient
      * @param {*} bodyColor The color of the RayCaster
+     * @param {*} lightColor The color of the light gradient
      * @param {*} shadowColor The color of the shadow
      * @param {*} alpha The transparency of the  shadow [0, 255]
      */
-    constructor(origin, Env, alphaEsilon = 0.00001, hashRes = 1, bodyColor = color(255), shadowColor = color(255), alpha = 120){
+    constructor(origin, Env, alphaEsilon = 0.00001, hashRes = 1, viewRadius = 2, bodyColor = color(255), lightColor = color(255, 120), shadowColor = color(255)){
         this.origin = origin;
         this.alphaEsilon = alphaEsilon;
         this.Env = Env;
+        this.viewRadius = viewRadius;
+        this.lightColor = lightColor;
         this.bodyColor = bodyColor;
         this.shadowColor = shadowColor;
-        this.alpha = alpha;
         this.hashRes = hashRes;
         this.hashLen = floor(360 / hashRes); 
 
@@ -230,21 +233,25 @@ class RayCaster{
      */
     draw(){
         strokeWeight(0);
-        fill(this.bodyColor);
         let o = World.w2s(this.origin);
-        ellipse(o.x, o.y, World.w2s(0.06));
 
-        noStroke();
-        this.shadowColor.setAlpha(this.alpha)
-        fill(this.shadowColor);
+        //Draws the light gradient masked
+        var gradient = drawingContext.createRadialGradient(o.x, o.y, 0, o.x, o.y, World.w2s(this.viewRadius));
+        gradient.addColorStop(0, this.lightColor);
+        gradient.addColorStop(1, color(0,0));
+        drawingContext.fillStyle = gradient;
         beginShape();
-        for(let i = 0; i < this.rays.length; i++){
+        for(let i = this.rays.length - 1; i >= 0; i--){
             if(this.collisions[i] != null){
                 let c1 = World.w2s(this.collisions[i]);
                 vertex(c1.x, c1.y);
             }
         }
-        endShape();
+        endShape(CLOSE);
+
+        //Draws the body
+        fill(this.bodyColor);
+        ellipse(o.x, o.y, World.w2s(0.06));
     }
 }
 

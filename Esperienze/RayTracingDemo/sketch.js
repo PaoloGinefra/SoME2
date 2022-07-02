@@ -1,4 +1,4 @@
-let rayCaster, env, im;
+let rayCaster, env, im, mazeGenerator;
 let button;
 let matrix = [];
 let lights = false;
@@ -6,16 +6,12 @@ let lights = false;
 function setup() {
 	World.setup(windowWidth, windowHeight);
 
-	let MatrixSize = 20
+	let mazeGenerator = new NonPerfectMazeGenerator(10, 10, 0.7);
+	mazeGenerator.generateMaze();
+	mazeGenerator.updateImage();
+	let matrix = mazeGenerator.image
 
-	for(let i = 0; i < MatrixSize; i++){
-		matrix[i] = [];
-		for(let j = 0; j < MatrixSize; j++){
-			matrix[i][j] = round(Math.random());
-		}
-	}
-
-	im = new ImageWaller(size = 3);
+	im = new ImageWaller(size = 5);
 
 	env = new Env();
 
@@ -36,9 +32,10 @@ function draw() {
 	World.draw();
 
 	env.wallColor = lights ? 'white' : color(0, 0);
+	rayCaster.shadowColor = lights ? color(0, 120) : color(0)
 
 	env.updateBound();
-	//im.drawMatrix(matrix);
+	im.drawMatrix(matrix);
 	env.draw();
 	let p = World.s2w(World.mouseVec);
 	rayCaster.updateOrigin(p);
