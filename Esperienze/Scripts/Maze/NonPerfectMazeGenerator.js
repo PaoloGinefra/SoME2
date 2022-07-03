@@ -510,12 +510,9 @@ class NonPerfectMazeGenerator{
             this.Automaton.push(this.stateNeighbours(state, stateId, this.States, this.isState))
         });
 
-        console.log('Automaton', this.Automaton)
         this.MapAutomaton = [];
         this.mapStates.forEach((state, stateId) => {
             this.MapAutomaton.push(this.stateNeighbours(state, stateId, this.mapStates, this.isMapState))
         });
-
-        console.log(this.MapAutomaton)
     }
 }
