@@ -30,22 +30,35 @@ class Automabot{
         this.finished = true;
     }
 
+    /**
+     * In the follow mode the bot automatically goes thru gates (states with just one exit which doesn't lead back)
+     * or goes back in dead ends
+     */
+
     //Computes a Queue containing keyframes of the bot's position
-    computeAnimation(state, word){
+    computeAnimation(state, word, follow = false){
         this.t = 0
         this.posQueue = [{pos: this.Nodes[state]}]
 
         //Computes the positions executing the given word
         for(let i = 0; i < word.length; i++){
-            let newState = this.Automaton[state][word[i]];
+            let isGate = false;
+            let char = word[i];
 
-            //When the bot is in the same state the stall animation is added
-            if(state == newState)
-                this.stallAnimation(this.Nodes[state], this.posQueue);
-            else
-                this.posQueue.push({pos: this.Nodes[newState]});
+            do{
+                let newState = this.Automaton[state][char];
 
-            state = newState
+                //When the bot is in the same state the stall animation is added
+                if(state == newState)
+                    this.stallAnimation(this.Nodes[state], this.posQueue);
+                else
+                    this.posQueue.push({pos: this.Nodes[newState]});
+
+                if(follow)
+                    [isGate, char] = this.isGateState(newState, state);
+
+                state = newState;
+            }while(isGate);
         }
 
         //computes the time needed to transition between keyframes assuming a constant speed
@@ -56,6 +69,15 @@ class Automabot{
         this.posIndex = 1
         this.position = this.posQueue[0].pos;
     }
+
+    isGateState(state, prevState){
+        let neighbours = this.Automaton[state].filter(n => n !== prevState && n != state);
+        let len = neighbours.length;
+        let index = this.Automaton[state].findIndex(n => (!len || n !== prevState) && n != state)
+        return [len <= 1, index];
+    }
+
+    
     
     stallAnimation(position, queue){
         queue.push({pos : p5.Vector.add(position, createVector(0, 0.1))});
