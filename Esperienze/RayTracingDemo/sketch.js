@@ -6,7 +6,7 @@ let lights = false;
 function setup() {
 	World.setup(windowWidth, windowHeight);
 
-	let mazeGenerator = new NonPerfectMazeGenerator(10, 10, 0.7);
+	let mazeGenerator = new NonPerfectMazeGenerator(10, 10, 0, 0.7);
 	mazeGenerator.generateMaze();
 	mazeGenerator.updateImage();
 	let matrix = mazeGenerator.image
