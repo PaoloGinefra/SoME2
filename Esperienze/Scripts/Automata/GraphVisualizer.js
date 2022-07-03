@@ -5,7 +5,9 @@
     Finally to draw the graph simply call the drawGraph function. Enjoy :)
 
     * @param graph The graph to visualize
-    * @param size The size of the nodes in wu
+    * @param center a p5vector containing the center of the graph in wu
+    * @param size The size of the rappresentation in wu
+    * @param nodeSize The size of the nodes in wu
     * @param colors An array containing the colors for each link in alphabetical order
     * @param tLength The target length of the links in wu
     * @param cRep The repulsion constant. default 0.2
@@ -15,20 +17,21 @@
     * @param gridLen The length of the initial disposition grid
     */
 
-    constructor(graph = undefined, center, size = 0.3, tLength = 0.02, sigma = 0.1, cRep = 0.2, cSpr = 0.1, epsilon = 0.01, gridLen= 2){
+    constructor(graph = undefined, center, colors = [color(255, 204, 0), color(65)], size = 1, nodeSize = 0.3, tLength = 0.02, sigma = 0.1, cRep = 0.2, cSpr = 0.1, epsilon = 0.01, gridLen= 2){
         this.graph = graph;
-        this.size = size;
+        this.nodeSize = nodeSize;
         this.tLength = tLength;
         this.cRep = cRep;
         this.cSpr = cSpr;
         this.sigma = sigma;
         this.epsilon = epsilon;
         this.gridLen = gridLen;
+        this.size = 1;
 
         this.center = typeof center == 'undefined' ? createVector(0, 0) : center;
 
         //The colors of the links by alphabet
-        this.colors = [color(255, 204, 0), color(65)]
+        this.colors = colors
 
         this.done = false;
         this.t = 0;
@@ -46,15 +49,15 @@
 
     //A function to draw a link to oneself
     drawSelfArc(pos, id = 0, color = 'black', myStroke = 0.01){
-        let dif = p5.Vector.sub(pos, this.massCenter).setMag(this.size / 2).rotate(id * 2);
+        let dif = p5.Vector.sub(pos, this.massCenter).setMag(this.nodeSize* this.scale / 2).rotate(id * 2);
         let center = p5.Vector.add(pos, dif)
         let p = World.w2s(center);
         strokeWeight(World.w2s(myStroke));
         stroke(color)
         fill(0, 0);
-        ellipse(p.x, p.y, World.w2s(this.size), World.w2s(this.size ));
+        ellipse(p.x, p.y, World.w2s(this.nodeSize* this.scale), World.w2s(this.nodeSize* this.scale ));
 
-        let intersectionOffset = p5.Vector.div(dif, -2).rotate(-PI / 3).setMag(this.size / 2 + 0.01);
+        let intersectionOffset = p5.Vector.div(dif, -2).rotate(-PI / 3).setMag(this.nodeSize* this.scale / 2 + 0.01);
         let intersection = p5.Vector.add(center, intersectionOffset);
         drawArrow(intersection, p5.Vector.mult(intersectionOffset, -1).rotate(-PI/1.8).setMag(0.001), color);
         intersection = World.w2s(intersection);
@@ -72,11 +75,11 @@
                     let neighbour = this.Nodes[nei];
 
                     let diff = p5.Vector.sub(neighbour, node);
-                    let len = diff.mag() - this.size / 2;
+                    let len = diff.mag() - this.nodeSize* this.scale / 2;
                     
                     let localNode = node.copy();
                     if(this.graph[nei].includes(i)){
-                        len -= this.size/2;
+                        len -= this.nodeSize* this.scale/2;
                         len /= 2;
                         localNode = p5.Vector.lerp(node, this.Nodes[nei], 0.5);
                     }
@@ -94,11 +97,11 @@
             stroke('black');
             fill(255);
             strokeWeight(World.w2s(0.01));
-            ellipse(p.x, p.y, World.w2s(this.size))
+            ellipse(p.x, p.y, World.w2s(this.nodeSize * this.scale))
 
             fill(0)
             textAlign(CENTER, CENTER);
-            textSize(World.w2s(this.size * 0.6));
+            textSize(World.w2s(this.nodeSize * 0.6 * this.scale));
             text(i.toString(), p.x, p.y);
         })
         World.offset = createVector(0, 0);
@@ -156,10 +159,33 @@
                 this.Nodes[i].sub(this.massCenter)
             });
         }
+
+        //Rescale the graph to fit the size
+        let maxP = createVector(-Infinity, -Infinity);
+        let minP = createVector(Infinity, Infinity);
+
+        this.Nodes.forEach(node => {
+            maxP.x = max(maxP.x, node.x);
+            maxP.y = max(maxP.y, node.y);
+
+            minP.x = min(minP.x, node.x);
+            minP.y = min(minP.y, node.y);
+        });
+
+        let scale = p5.Vector.sub(maxP, minP).div(2 * this.size);
+        this.Nodes.forEach(node => {
+            node.x /= scale.x;
+            node.y /= scale.y;
+        });
+
+        //The scale is also used for the node size, so it's necesary only if smaller than one
+        this.scale = this.scale < 1 ? this.scale : 1;
     }
 
     //This functions setu the visualization
     setup(){
+        this.done = false;
+        this.t = 0;
         this.buildNodes();
         this.orderGraph();
     }

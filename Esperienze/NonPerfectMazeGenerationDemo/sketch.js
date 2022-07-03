@@ -1,7 +1,8 @@
-let imageWaller, mazeGenerator;
+let imageWaller, mazeGenerator, graphVisualizer;
 
 let phSlider, pcSlider, mSlider, seedSlider;
 let phLabel, pcLabel, mLabel, seedLabel;
+let displayGraphCheckbox;
 
 let divLen = 80;
 let divHeight = 30;
@@ -42,6 +43,18 @@ function setup() {
 	seedSlider = createSlider(1, 20, 1);
 	seedSlider.position(divLen, 3*divHeight);
 	seedSlider.style('width', '200px');
+
+	displayGraphCheckbox = createCheckbox('Display graph', false);
+	displayGraphCheckbox.position(0, 4*divHeight)
+
+	graphVisualizer = new GraphVisualizer();
+	graphVisualizer.center = createVector(0, -2.5);
+	graphVisualizer.gridLen = 4;
+	graphVisualizer.tLength = 0.0001;
+	graphVisualizer.colors = ['red', 'blue', 'green', 'purple']
+	graphVisualizer.cRep = 0.05
+	graphVisualizer.size = 1
+
 }
 
 function draw() {
@@ -54,5 +67,12 @@ function draw() {
 	mazeGenerator.pc = pcSlider.value()/100;
 	mazeGenerator.generateMaze();
 	mazeGenerator.buildAutomata();
-	mazeGenerator.draw(2)
+	mazeGenerator.draw(2);
+
+	if(displayGraphCheckbox.checked()){
+		graphVisualizer.graph = mazeGenerator.Automaton
+		graphVisualizer.gridLen = sqrt(mazeGenerator.Automaton.length)
+		graphVisualizer.setup();
+		graphVisualizer.drawGraph();
+	}
 }
