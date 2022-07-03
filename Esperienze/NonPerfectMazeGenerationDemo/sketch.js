@@ -31,7 +31,7 @@ function setup() {
 	mLabel.position(0, 2*divHeight);
 	mLabel.size(divLen, divHeight)
 
-	mSlider = createSlider(1, 50, 10);
+	mSlider = createSlider(1, 50, 5);
 	mSlider.position(divLen, 2*divHeight);
 	mSlider.style('width', '200px');
 
@@ -53,5 +53,6 @@ function draw() {
 	mazeGenerator.ph = phSlider.value()/100;
 	mazeGenerator.pc = pcSlider.value()/100;
 	mazeGenerator.generateMaze();
+	mazeGenerator.buildAutomata();
 	mazeGenerator.draw(2)
 }

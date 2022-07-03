@@ -58,6 +58,13 @@ class NonPerfectMazeGenerator{
     }
 
     /**
+     * @returns the image index of a graph cell at (i, j)
+     */
+    g2i(i, j){
+        return [2*i + 1, 2*j + 1];
+    }
+
+    /**
      * Updates this.image using this.graph
      */
     updateImage(){
@@ -242,8 +249,9 @@ class NonPerfectMazeGenerator{
     checkEdge(edge, k, l, the, tve){
         //Checks if the edge is orizontal and if there are horizontal edges left to draw
         if(edge.index % 2 && this.ch < the){
-            //Builds the edge
+            //Builds the edge both ways
             this.graph[edge.i][edge.j][edge.index] = 0;
+            this.graph[k][l][(edge.index + 2) % 4] = 0;
 
             //Updates the sets
             this.union(edge.i, edge.j, k, l);
@@ -256,8 +264,9 @@ class NonPerfectMazeGenerator{
 
         //Checks if the edge is vertical and if there are vertical edges left to draw
         if(!(edge.index % 2) && this.cv < tve){
-            //Builds the edge
+            //Builds the edge both ways
             this.graph[edge.i][edge.j][edge.index] = 0;
+            this.graph[k][l][(edge.index + 2) % 4] = 0;
 
             //Updates the sets
             this.union(edge.i, edge.j, k, l);
@@ -309,18 +318,204 @@ class NonPerfectMazeGenerator{
         }
     }
 
-    draw(size = 1, Colors = ['black', 'white']){
+    /**
+     * Draws the maze
+     * @param {*} size the width/Height of the maze in wu
+     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
+     */
+    draw(size = 1, Colors = ['black', 'white', 'purple', 'orange']){
         noStroke();
         let matrix = this.image
         let cellSize = size / matrix.length;
         let wGS = World.w2s(cellSize);
+        let stateId = 0;
+        let stateMap = 0;
         rectMode(CORNER);
         for(let i = 0; i < matrix.length; i++){
             for(let j = 0; j < matrix[i].length; j++){
-                let pos = World.w2s(createVector(j*cellSize - size/2, i*cellSize - (size - 0.25)/2));
+                let pos = World.w2s(createVector(j*cellSize - size/2, (i + 1)*cellSize - (size)/2));
                 fill(Colors[matrix[i][j]]);
                 square(pos.x, pos.y, wGS);
+                if(matrix[i][j] > 1){
+                    let height = World.w2s(cellSize/2);
+                    fill(255);
+                    textSize(height);
+                    textAlign(CENTER, TOP);
+                    
+                    if(matrix[i][j] == 2){
+                        text(stateId.toString(), pos.x + height, pos.y + height);
+                        stateId ++;
+                    }
+                    text(stateMap.toString(), pos.x + height, pos.y);
+                    stateMap ++;
+                }
             }
         }
+    }
+
+    /**
+     * @returns whether the node in position (i, j) is a State
+     */
+    isState(i, j, graph = this.graph){
+        let n = NonPerfectMazeGenerator.count(graph[i][j], 0);
+        return n >= 3;
+    }
+
+    /**
+     * @returns whether the node in position (i, j) is a MapState
+     */
+    isMapState(i, j, graph = this.graph){
+        let n = NonPerfectMazeGenerator.count(graph[i][j], 0);
+        return n >= 3 || !NonPerfectMazeGenerator.isStraight(i, j, graph) || n == 1
+    }
+
+    /**
+     * @returns the # of times value is in array
+     */
+    static count(array, value){
+        let count = 0;
+        array.forEach(e => {
+            count += e === value;
+        });
+        return count;
+    }
+
+    /**
+     * @returns Whether a cell has just two gates wich are also alligned
+     */
+    static isStraight(i, j, graph = this.graph){
+        let node = graph[i][j]
+        let n = NonPerfectMazeGenerator.count(node, 0);
+        return (n == 2 && node[0] == node[2]) || n == 1;
+    }
+
+    /**
+     * @param {*} state The cell position
+     * @param {*} dir The direction index [N, E, S, W] 
+     * @returns The neighbour of a cell given the direction
+     */
+    getNeighbour(state, dir){
+        let [i, j] = state;
+        let [dirI, dirJ] = NonPerfectMazeGenerator.imageDir[dir];
+        let neiState = [i + dirI, j + dirJ]
+        return [neiState, this.graph[i + dirI][j + dirJ]];
+    }
+
+    /**
+     * Goes thru the maze starting from state twards dir, return the first valid state encountered.
+     * If a dead end is found it returns the starting state itself
+     * @param {*} state The starting state position [i, j]
+     * @param {*} stateId The index of the starting state in the states list
+     * @param {*} dir The dir index 
+     * @param {*} States The States list
+     * @param {*} isState A function (i, j, graph) => isAValidState
+     * @returns The found state position?s index
+     */
+    getNeiState(state, stateId, dir, States, isState){
+        //Gets the neighbour
+        let [neiState, neiNode] = this.getNeighbour(state, dir);
+        let [neiI, neiJ] = neiState;
+
+        //immediately found a state
+        if(isState(neiI, neiJ, this.graph)){
+            return States.findIndex(s => s[0] == neiI && s[1] == neiJ);
+        }
+        else{
+            //The number of directions without walls
+            let n = NonPerfectMazeGenerator.count(neiNode, 0);
+
+            //DeadEnd
+            if(n == 1){
+                return stateId;
+            }
+            //Road
+            //Keeps going thru the maze until a valid state is found
+            let outDirIndex = neiNode.findIndex((w, index) => !w && index != (dir + 2)%4);
+            let [nextState, nextNode] = this.getNeighbour(neiState, outDirIndex);
+            let [nextI, nextJ] = nextState;
+
+            while(!isState(nextI, nextJ, this.graph)){
+                let n = NonPerfectMazeGenerator.count(nextNode, 0);
+                if(n == 1)
+                    return stateId;
+                
+                [neiState, neiNode] = [nextState.slice(), nextNode.slice()] 
+                outDirIndex = neiNode.findIndex((w, index) => !w && index != (outDirIndex+2)%4)
+                let temp = this.getNeighbour(neiState, outDirIndex);
+                nextState = temp[0]; nextNode = temp[1];
+                [nextI, nextJ] = nextState;
+            }
+
+            return States.findIndex(s => s[0] == nextI && s[1] == nextJ);
+        }
+    }
+
+    /**
+     * Returns the first connected states to the starting states in the four directions.
+     * If a dead end is found the starting state is returned
+     * @param {*} state The starting state's coordinates [i, j]
+     * @param {*} stateId The index of the starting state in the states list
+     * @param {*} States The list of all the states
+     * @param {*} isState A function (i, j, graph) => isAValidState
+     * @returns A list with the indicies of the found states
+     */
+    stateNeighbours(state, stateId, States, isState){
+        let [i, j] = state;
+        let node = this.graph[i][j];
+        let neighbours = [];
+
+        node.forEach((isWall, d) => {
+            if(!isWall){
+                neighbours.push(this.getNeiState(state, stateId, d, States, isState));
+            }
+            else{
+                neighbours.push(stateId)
+            }
+        });
+
+        return neighbours;
+    }
+
+    /**
+     * Builds the Automata
+     * this.Automaton => the automaton between the proper states
+     * this.MapAutomaton => the automaton between the map state
+     * A proper state is a cell with less then 2 walls
+     * A mapState is either a proper state or a corner as of a cell with just two adjacent walls
+     */
+    buildAutomata(){
+        //Compute a list of states, where a state is a node with 3 or more exits
+        //A state is [i, j] as of the graph index of the node
+        this.States = []
+        this.mapStates = []
+        for(let i = 0; i < this.m; i++){
+            for(let j = 0; j < this.n; j++){
+                if(this.isState(i, j, this.graph)){
+                    this.States.push([i, j]);
+                    this.mapStates.push([i, j])
+                    let [k, l] = this.g2i(i, j);
+                    this.image[k][l] = 2;
+                }
+                else if(this.isMapState(i, j, this.graph)){
+                    this.mapStates.push([i, j]);
+                    let [k, l] = this.g2i(i, j);
+                    this.image[k][l] = 3;
+                }
+            }
+        }
+
+        //For each state find the neighbours and but them in the automaton
+        this.Automaton = []
+        this.States.forEach((state, stateId) => {
+            this.Automaton.push(this.stateNeighbours(state, stateId, this.States, this.isState))
+        });
+
+        console.log('Automaton', this.Automaton)
+        this.MapAutomaton = [];
+        this.mapStates.forEach((state, stateId) => {
+            this.MapAutomaton.push(this.stateNeighbours(state, stateId, this.mapStates, this.isMapState))
+        });
+
+        console.log(this.MapAutomaton)
     }
 }
