@@ -15,7 +15,7 @@
     * @param gridLen The length of the initial disposition grid
     */
 
-    constructor(graph = undefined, size = 0.3, tLength = 0.02, sigma = 0.1, cRep = 0.2, cSpr = 0.1, epsilon = 0.01, gridLen= 2){
+    constructor(graph = undefined, center, size = 0.3, tLength = 0.02, sigma = 0.1, cRep = 0.2, cSpr = 0.1, epsilon = 0.01, gridLen= 2){
         this.graph = graph;
         this.size = size;
         this.tLength = tLength;
@@ -24,6 +24,8 @@
         this.sigma = sigma;
         this.epsilon = epsilon;
         this.gridLen = gridLen;
+
+        this.center = typeof center == 'undefined' ? createVector(0, 0) : center;
 
         //The colors of the links by alphabet
         this.colors = [color(255, 204, 0), color(65)]
@@ -60,6 +62,7 @@
 
     //This draw nodes [I know, mindblowing]
     drawGraph(){
+        World.offset = this.center;
         this.Nodes.forEach((node, i) => {
             let p = World.w2s(node);
             let id = 0;
@@ -98,6 +101,7 @@
             textSize(World.w2s(this.size * 0.6));
             text(i.toString(), p.x, p.y);
         })
+        World.offset = createVector(0, 0);
     }
 
     //Compute the repulsive force between two nodes

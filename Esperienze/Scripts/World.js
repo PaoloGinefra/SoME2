@@ -29,6 +29,8 @@ class World{
 
     static interpolator;
 
+    static offset;
+
     //This function MUST be called in the sketch setup
     static setup(width, height){
         createCanvas(width, height);
@@ -36,6 +38,7 @@ class World{
         World.height = height;
         World.oW = createVector(0, 0);
         World.cameraPos = createVector(0, 0);
+        World.offset = createVector(0, 0);
         World.sCenter = createVector(width/2, height/2);
 
         World.interpolator = new Interpolator(0.9, 1, 1, World.targetZoom, 0);
@@ -62,6 +65,7 @@ class World{
             return worldP * World.w2sk;
 
         else if(typeof worldP == "object"){
+            worldP = p5.Vector.add(worldP, World.offset);
             let screenP = worldP.copy().sub(World.cameraPos).mult(World.w2sk).add(World.sCenter);
             screenP.y *= -1; screenP.y += World.height;
             return screenP;
