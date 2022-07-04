@@ -30,6 +30,7 @@ function setup() {
 		graphVis = new GraphVisualizer(Automaton);
 		graphVis.colors = ['red', 'blue', 'green', 'purple']
 		graphVis.tLength = 0.001;
+		graphVis.size = 2
 		graphVis.buildNodes();
 		graphVis.orderGraph();
 
