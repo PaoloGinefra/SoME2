@@ -14,46 +14,62 @@ const Automaton = [
 ]
 
 let gv;
-let automabot;
+let automabot, mazeGenerator;
 
-let startingStateInput, wordInput, labelStart, labelWord, button, followModeCheck;
+let startingStateInput, wordInput, labelStart, labelWord, button, followModeCheck, scenarioSelect;
 
 let go = false;
 
 function setup() {
 	World.setup(windowWidth, windowHeight);
 
+	mazeGenerator = new NonPerfectMazeGenerator();
+	mazeGenerator.size = 2;
+	mazeGenerator.seed = 1;
+	mazeGenerator.m = 10;
+	mazeGenerator.n = mazeGenerator.m;
+	mazeGenerator.ph = 0.5;
+	mazeGenerator.pc = 0.1;
+	mazeGenerator.generateMaze();
+	mazeGenerator.buildAutomata();
+
 	gv = new GraphVisualizer(Automaton);
 	gv.size = 2
 	gv.gridLen = 4
 	gv.setup();
 
-	automabot = new Automabot(Automaton, gv.Nodes)
-
+	automabot = new Automabot(Automaton, gv.Nodes);
 
 	labelStart = createDiv('Starting State: ');
-	labelStart.position(0, 10);
+	labelStart.position(0, 25);
+
+	scenarioSelect = createSelect();
+	scenarioSelect.option("Graph");
+	scenarioSelect.option("Maze");
+	scenarioSelect.position(0, 0);
+	scenarioSelect.changed(handleScenario)
 
 	startingStateInput = createSelect();
 
-	for(let i = 0; i < Automaton.length; i++){
+	let len = max(Automaton.length, mazeGenerator.Automaton.length)
+	for(let i = 0; i < len; i++){
 		startingStateInput.option(i.toString());
 	}
 
 	startingStateInput.changed(handleSelect)
-	startingStateInput.position(100, labelStart.height / 2);
+	startingStateInput.position(100, labelStart.height*1.5);
 
 	labelWord = createDiv('Word: ');
-	labelWord.position(0, 50);
+	labelWord.position(0, 60);
 
 	wordInput = createInput('01010');
-	wordInput.position(40, 50);
+	wordInput.position(40, 60);
 
 	followModeCheck = createCheckbox("Follow mode", false)
-	followModeCheck.position(0, 90)
+	followModeCheck.position(0, 100)
 
 	button = createButton('Go')
-	button.position(0, 130)
+	button.position(0, 140)
 	button.mousePressed(handleButton)
 
 	automabot.computeAnimation(Number(startingStateInput.value()), wordInput.value());
@@ -62,8 +78,12 @@ function setup() {
 function draw() {
 	background(255)
 	World.draw()
-	gv.drawGraph()
-
+	if(scenarioSelect.value() == 'Maze'){
+		mazeGenerator.draw();
+	}
+	else{
+		gv.drawGraph()
+	}
 	automabot.drawSprite()
 	if(go)
 		automabot.animationStep()
@@ -77,7 +97,14 @@ function draw() {
 function handleButton(){
 	if(!go){
 		button.html('Stop')
-		automabot.computeAnimation(Number(startingStateInput.value()), wordInput.value(), followModeCheck.checked());
+		let word = wordInput.value();
+		let state = Number(startingStateInput.value());
+
+		if(scenarioSelect.value() == 'Maze'){
+			state = mazeGenerator.state2mapState[state];
+		}
+
+		automabot.computeAnimation(state, word, followModeCheck.checked());
 		go = true;
 	}
 	else{
@@ -87,6 +114,27 @@ function handleButton(){
 }
 
 function handleSelect(){
+	let state = Number(startingStateInput.value());
+
+	if(scenarioSelect.value() == 'Maze'){
+		state = mazeGenerator.state2mapState[state];
+	}
 	go = false;
-	automabot.computeAnimation(Number(startingStateInput.value()), wordInput.value());
+	automabot.computeAnimation(state, wordInput.value());
+}
+
+function handleScenario(){
+	let state = Number(startingStateInput.value());
+
+	if(scenarioSelect.value() == 'Graph'){
+		automabot.Automaton = Automaton;
+		automabot.Nodes = gv.Nodes;
+	}
+	else{
+		automabot.Automaton = mazeGenerator.MapAutomaton;
+		automabot.Nodes = mazeGenerator.mapNodes;
+		state = mazeGenerator.state2mapState[state];
+	}
+
+	automabot.computeAnimation(state, wordInput.value().charAt(0), followModeCheck.checked());
 }

@@ -11,14 +11,16 @@ class NonPerfectMazeGenerator{
      * @param {*} seed the seed of the maze
      * @param {*} ph the percentage of horizontal walls, 0 -> all horizontal 1 -> all vertical
      * @param {*} pc the percentage of cycles, 0 -> no Cycles 1 -> all the cycles
+     * @param {*} size the size of the maze in wu
      */
-    constructor(m, n, seed = 0, ph = 0.5, pc = 0.1){
+    constructor(m, n, seed = 0, ph = 0.5, pc = 0.1, size = 1){
         this.m = m;
         this.n = n;
         this.ph = ph;
         this.pc = pc;
         this.seed = seed;
         this.rng = new RNG(seed);
+        this.size = size
 
         /**
          * The graph is the graph rappresentation of the maze, containing whether
@@ -319,21 +321,29 @@ class NonPerfectMazeGenerator{
     }
 
     /**
-     * Draws the maze
-     * @param {*} size the width/Height of the maze in wu
-     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
+     * @returns the world position of the cell at (i, j)
      */
-    draw(size = 1, Colors = ['black', 'white', 'purple', 'orange']){
+    getCellwp(i, j){
+        let matrix = this.image;
+        let cellSize = this.size / matrix.length;
+        return createVector((j + 0.5)*cellSize - this.size/2, (i + 0.5)*cellSize - this.size/2);
+    }
+
+    /**
+     * Draws the maze
+z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
+     */
+    draw(Colors = ['black', 'white', 'purple', 'orange']){
         noStroke();
         let matrix = this.image
-        let cellSize = size / matrix.length;
+        let cellSize = this.size / matrix.length;
         let wGS = World.w2s(cellSize);
         let stateId = 0;
         let stateMap = 0;
-        rectMode(CORNER);
+        rectMode(CENTER);
         for(let i = 0; i < matrix.length; i++){
             for(let j = 0; j < matrix[i].length; j++){
-                let pos = World.w2s(createVector(j*cellSize - size/2, (i + 1)*cellSize - (size)/2));
+                let pos = World.w2s(this.getCellwp(i, j));
                 fill(Colors[matrix[i][j]]);
                 square(pos.x, pos.y, wGS);
                 if(matrix[i][j] > 1){
@@ -343,10 +353,10 @@ class NonPerfectMazeGenerator{
                     textAlign(CENTER, TOP);
                     
                     if(matrix[i][j] == 2){
-                        text(stateId.toString(), pos.x + height, pos.y + height);
+                        text(stateId.toString(), pos.x, pos.y);
                         stateId ++;
                     }
-                    text(stateMap.toString(), pos.x + height, pos.y);
+                    text(stateMap.toString(), pos.x, pos.y - height);
                     stateMap ++;
                 }
             }
@@ -488,9 +498,11 @@ class NonPerfectMazeGenerator{
         //A state is [i, j] as of the graph index of the node
         this.States = []
         this.mapStates = []
+        this.state2mapState = {};
         for(let i = 0; i < this.m; i++){
             for(let j = 0; j < this.n; j++){
                 if(this.isState(i, j, this.graph)){
+                    this.state2mapState[this.States.length] = this.mapStates.length;
                     this.States.push([i, j]);
                     this.mapStates.push([i, j])
                     let [k, l] = this.g2i(i, j);
@@ -503,6 +515,9 @@ class NonPerfectMazeGenerator{
                 }
             }
         }
+
+        this.Nodes = this.States.map(s => this.getCellwp(2*s[0]+1, 2*s[1]+1));
+        this.mapNodes = this.mapStates.map(s => this.getCellwp(2*s[0]+1, 2*s[1]+1));
 
         //For each state find the neighbours and but them in the automaton
         this.Automaton = []

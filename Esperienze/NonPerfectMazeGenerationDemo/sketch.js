@@ -11,6 +11,7 @@ function setup() {
 	World.setup(windowWidth, windowHeight);
 	mazeGenerator = new NonPerfectMazeGenerator(10, 10, 2);
 	mazeGenerator.generateMaze();
+	mazeGenerator.size = 2;
 
 	phLabel = createDiv('ph [0, 1]');
 	phLabel.position(0, 0);
@@ -67,7 +68,7 @@ function draw() {
 	mazeGenerator.pc = pcSlider.value()/100;
 	mazeGenerator.generateMaze();
 	mazeGenerator.buildAutomata();
-	mazeGenerator.draw(2);
+	mazeGenerator.draw();
 
 	if(displayGraphCheckbox.checked()){
 		graphVisualizer.graph = mazeGenerator.Automaton
