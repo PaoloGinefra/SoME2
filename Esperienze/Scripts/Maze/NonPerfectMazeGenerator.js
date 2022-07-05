@@ -21,7 +21,9 @@ class NonPerfectMazeGenerator{
         this.seed = seed;
         this.rng = new RNG(seed);
         this.size = size
+        this.cellSize = size / m;
 
+        this.bgSprite = loadImage("../Art/GroundBgTile.png")
         /**
          * The graph is the graph rappresentation of the maze, containing whether
          * there is a wall facing NESW for every cell
@@ -337,6 +339,7 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
         noStroke();
         let matrix = this.image
         let cellSize = this.size / matrix.length;
+        this.cellSize = cellSize;
         let wGS = World.w2s(cellSize);
         let stateId = 0;
         let stateMap = 0;
@@ -345,7 +348,14 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
             for(let j = 0; j < matrix[i].length; j++){
                 let pos = World.w2s(this.getCellwp(i, j));
                 fill(Colors[matrix[i][j]]);
-                square(pos.x, pos.y, wGS);
+
+                if(matrix[i][j] != 0){
+                    World.PixelCanvas.imageMode(CENTER);
+                    World.PixelCanvas.image(this.bgSprite, pos.x, pos.y, wGS, wGS);
+                }
+                else
+                    square(pos.x, pos.y, wGS);
+
                 if(matrix[i][j] > 1){
                     let height = World.w2s(cellSize/2);
                     fill(255);
@@ -506,12 +516,12 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
                     this.States.push([i, j]);
                     this.mapStates.push([i, j])
                     let [k, l] = this.g2i(i, j);
-                    this.image[k][l] = 2;
+                    //this.image[k][l] = 2;
                 }
                 else if(this.isMapState(i, j, this.graph)){
                     this.mapStates.push([i, j]);
                     let [k, l] = this.g2i(i, j);
-                    this.image[k][l] = 3;
+                    //this.image[k][l] = 3;
                 }
             }
         }

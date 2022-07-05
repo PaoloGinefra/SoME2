@@ -31,7 +31,7 @@ class ImageWaller{
     indexToPos(i, j){
         return createVector(
             (j)*this.cellSize - this.size/2,
-            (i)*this.cellSize - this.size/2
+            (i+1)*this.cellSize - this.size/2
         );
     }
 

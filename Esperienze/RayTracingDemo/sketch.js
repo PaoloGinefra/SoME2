@@ -6,9 +6,10 @@ let lights = false;
 function setup() {
 	World.setup(windowWidth, windowHeight);
 
-	let mazeGenerator = new NonPerfectMazeGenerator(10, 10, 0, 0.7);
+	mazeGenerator = new NonPerfectMazeGenerator(10, 10, 0, 0.7);
+	mazeGenerator.size = 5;
 	mazeGenerator.generateMaze();
-	mazeGenerator.updateImage();
+	mazeGenerator.buildAutomata();
 	let matrix = mazeGenerator.image
 
 	im = new ImageWaller(size = 5);
@@ -19,6 +20,7 @@ function setup() {
 	env.walls = env.walls.concat(im.walls);
 
 	rayCaster = new RayCaster(createVector(0, 1), env);
+	rayCaster.lightColor = color(255, 157, 69, 20)
 	rayCaster.cast();
 
 	button = createButton('Toogle Lights');
@@ -35,8 +37,10 @@ function draw() {
 	rayCaster.shadowColor = lights ? color(0, 120) : color(0)
 
 	env.updateBound();
-	im.drawMatrix(matrix);
 	env.draw();
+
+	mazeGenerator.draw()
+	World.PixelCanvasDraw()
 	let p = World.s2w(World.mouseVec);
 	rayCaster.updateOrigin(p);
 	rayCaster.cast(env.getWalls());

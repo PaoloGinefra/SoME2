@@ -129,7 +129,7 @@ class RayCaster{
      * @param {*} shadowColor The color of the shadow
      * @param {*} alpha The transparency of the  shadow [0, 255]
      */
-    constructor(origin, Env, alphaEsilon = 0.00001, hashRes = 1, viewRadius = 2, bodyColor = color(255), lightColor = color(255, 120), shadowColor = color(255)){
+    constructor(origin, Env, alphaEsilon = 0.00001, hashRes = 1, viewRadius = 2, bodyColor = color(255), lightColor = color(255, 200), shadowColor = color(255)){
         this.origin = origin;
         this.alphaEsilon = alphaEsilon;
         this.Env = Env;
@@ -234,24 +234,42 @@ class RayCaster{
     draw(){
         strokeWeight(0);
         let o = World.w2s(this.origin);
-
-        //Draws the light gradient masked
-        var gradient = drawingContext.createRadialGradient(o.x, o.y, 0, o.x, o.y, World.w2s(this.viewRadius));
+        let rad = World.w2s(this.viewRadius);
+        //Draws the light circle with radial gradient
+        var gradient = drawingContext.createRadialGradient(o.x, o.y, 0, o.x, o.y, rad);
         gradient.addColorStop(0, this.lightColor);
-        gradient.addColorStop(1, color(0,0));
+        gradient.addColorStop(1, color(0));
         drawingContext.fillStyle = gradient;
-        beginShape();
-        for(let i = this.rays.length - 1; i >= 0; i--){
-            if(this.collisions[i] != null){
-                let c1 = World.w2s(this.collisions[i]);
-                vertex(c1.x, c1.y);
-            }
-        }
-        endShape(CLOSE);
+
+        blendMode(MULTIPLY);
+        ellipse(o.x, o.y, rad * 2);
+        blendMode(BLEND)
 
         //Draws the body
         fill(this.bodyColor);
         ellipse(o.x, o.y, World.w2s(0.06));
+
+        //Draws the shadow mask
+        fill(this.shadowColor);
+        beginShape();
+        vertex(0, 0);
+        vertex(0, World.height);
+        vertex(World.width, World.height);
+        vertex(World.width, 0);
+        
+        beginContour();
+        for(let i = this.rays.length - 1; i >= 0; i--){
+            if(this.collisions[i] != null){
+                let diff = p5.Vector.sub(this.collisions[i], this.origin)
+                let dis = min(this.viewRadius, diff.mag())
+                let c1 = World.w2s(p5.Vector.add(this.origin, diff.setMag(dis)));
+                vertex(c1.x, c1.y);
+            }
+        }
+        endContour();
+        endShape(CLOSE);
+
+
     }
 }
 

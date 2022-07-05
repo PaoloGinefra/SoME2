@@ -19,7 +19,7 @@ class Automabot{
         return sin(t * PI / 2);
     }
 
-    constructor(Automaton, Nodes, speed = 1, size = 0.1, Interpolation = Automabot.Linear, stopThresh = 0.01){
+    constructor(Automaton, Nodes, speed = 1, size = 0.5, Interpolation = Automabot.Linear, stopThresh = 0.01){
         this.Automaton = Automaton;
         this.Nodes = Nodes;
         this.speed = speed; //the movement speed of the bot in wu/s
@@ -28,6 +28,8 @@ class Automabot{
         this.size = size; //the size of the bot
         this.t = 0; // time
         this.finished = true;
+
+        this.sprite = loadImage("../Art/MinerTest.png")
     }
 
     /**
@@ -109,7 +111,10 @@ class Automabot{
     drawSprite(){
         fill(0)
         let wPos = World.w2s(this.position)
-        ellipse(wPos.x, wPos.y, World.w2s(this.size))
+        let size = World.w2s(this.size);
+        //ellipse(wPos.x, wPos.y, size)
+        World.PixelCanvas.imageMode(CORNER)
+        World.PixelCanvas.image(this.sprite, wPos.x - size/2, wPos.y - size/2, size, size);
     }
 
     //this function MUST be called once per frame

@@ -24,9 +24,9 @@ function setup() {
 	World.setup(windowWidth, windowHeight);
 
 	mazeGenerator = new NonPerfectMazeGenerator();
-	mazeGenerator.size = 2;
+	mazeGenerator.size = 3;
 	mazeGenerator.seed = 1;
-	mazeGenerator.m = 10;
+	mazeGenerator.m = 5;
 	mazeGenerator.n = mazeGenerator.m;
 	mazeGenerator.ph = 0.5;
 	mazeGenerator.pc = 0.1;
@@ -39,6 +39,7 @@ function setup() {
 	gv.setup();
 
 	automabot = new Automabot(Automaton, gv.Nodes);
+	automabot.Interpolation = Automabot.Linear
 
 	labelStart = createDiv('Starting State: ');
 	labelStart.position(0, 25);
@@ -76,9 +77,10 @@ function setup() {
 }
 
 function draw() {
-	background(255)
+	background(255);
 	World.draw()
 	if(scenarioSelect.value() == 'Maze'){
+		automabot.size = mazeGenerator.cellSize;
 		mazeGenerator.draw();
 	}
 	else{
@@ -92,6 +94,7 @@ function draw() {
 		go = false;
 		button.html('Go');
 	}
+	World.PixelCanvasDraw();
 }
 
 function handleButton(){

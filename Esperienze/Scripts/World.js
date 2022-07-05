@@ -31,6 +31,8 @@ class World{
 
     static offset;
 
+    static PixelCanvas;
+
     //This function MUST be called in the sketch setup
     static setup(width, height){
         createCanvas(width, height);
@@ -42,6 +44,20 @@ class World{
         World.sCenter = createVector(width/2, height/2);
 
         World.interpolator = new Interpolator(0.9, 1, 1, World.targetZoom, 0);
+        World.PixelCanvasSetup();
+    }
+
+    static PixelCanvasSetup(){
+        World.PixelCanvas = createGraphics(World.width, World.height);
+        World.PixelCanvas.noSmooth()
+    }
+
+    static PixelCanvasClear(){
+        World.PixelCanvas.clear();
+    }
+
+    static PixelCanvasDraw(){
+        image(World.PixelCanvas, 0, 0);
     }
 
     //This function MUST be called in the sketch setup
@@ -56,7 +72,7 @@ class World{
         World.s2wk = 1 / World.w2sk;
 
         World.targetZoomPrev = World.targetZoom;
-
+        World.PixelCanvasClear();
     }
 
     //Scalar World 2 Screen convertion
