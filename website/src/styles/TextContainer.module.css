@@ -1,0 +1,26 @@
+.container {
+  margin: 0 auto;
+  max-width: 45em;
+}
+
+.container h1 {
+  font-size: 4em;
+}
+
+.container h2 {
+  font-size: 2em;
+}
+
+.container p {
+  font-size: 1.2em;
+  line-height: 1.5em;
+}
+
+.container img {
+  max-width: 100%;
+  height: auto;
+
+  /* center horizontally */
+  display: block;
+  margin: 0 auto;
+}
