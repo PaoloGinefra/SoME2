@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier src/"
+    "format": "npm run lint -- --fix && prettier src/**/*.mdx --write"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.1.2",
@@ -19,6 +19,8 @@
   "devDependencies": {
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.2",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1"
   }
 }
