@@ -6,8 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "format": "npm run lint -- --fix && prettier src/**/*.mdx --write"
+    "lint": "npm run lint:next && npm run lint:mdx -- --check",
+    "format": "npm run lint:next -- --fix && npm run lint:mdx -- --write",
+    "lint:next": "next lint --max-warnings 0",
+    "lint:mdx": "prettier src/**/*.mdx",
+    "test": "npm run build && npm run lint"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.1.2",
