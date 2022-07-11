@@ -1,4 +1,0 @@
-# Sas
-* ciao
-* come 
-* stai
