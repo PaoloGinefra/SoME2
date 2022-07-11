@@ -1,6 +1,6 @@
 import Sketch from '../components/Sketch'
 
-// The code for this test has been modified from https://p5js.org/examples/motion-morph.html
+// The code for this example has been modified from https://p5js.org/examples/motion-morph.html
 
 const Test = () => {
   let circle = []
