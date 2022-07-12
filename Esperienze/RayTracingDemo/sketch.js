@@ -16,7 +16,7 @@ function setup() {
 
 	env = new Env();
 
-	im.createWalls(matrix, color(255));
+	im.createWalls(matrix);
 	env.walls = env.walls.concat(im.walls);
 
 	rayCaster = new RayCaster(createVector(0, 1), env);
@@ -40,11 +40,9 @@ function draw() {
 	env.draw();
 
 	mazeGenerator.draw()
-	World.PixelCanvasDraw()
 	let p = World.s2w(World.mouseVec);
 	rayCaster.updateOrigin(p);
 	rayCaster.cast(env.getWalls());
 	rayCaster.draw();
-
 
 }

@@ -129,7 +129,7 @@ class RayCaster{
      * @param {*} shadowColor The color of the shadow
      * @param {*} alpha The transparency of the  shadow [0, 255]
      */
-    constructor(origin, Env, alphaEsilon = 0.00001, hashRes = 1, viewRadius = 2, bodyColor = color(255), lightColor = color(255, 200), shadowColor = color(255)){
+    constructor(origin, Env, alphaEsilon = 0.00001, hashRes = 1, viewRadius = 2, bodyColor = color(255), lightColor = color(255, 200), shadowColor = color(0)){
         this.origin = origin;
         this.alphaEsilon = alphaEsilon;
         this.Env = Env;
@@ -251,6 +251,23 @@ class RayCaster{
 
         //Draws the shadow mask
         fill(this.shadowColor);
+
+        beginShape();
+        vertex(0, 0);
+        vertex(0, World.height);
+        vertex(World.width, World.height);
+        vertex(World.width, 0);
+
+        beginContour();
+        for(let alpha = 0; alpha >= -360; alpha -= 5){
+            let offset = p5.Vector.fromAngle(radians(alpha), this.viewRadius);
+            let p = World.w2s(p5.Vector.add(this.origin, offset));
+            vertex(p.x, p.y);
+        }
+        endContour();
+        endShape(CLOSE);
+
+
         beginShape();
         vertex(0, 0);
         vertex(0, World.height);
@@ -260,9 +277,8 @@ class RayCaster{
         beginContour();
         for(let i = this.rays.length - 1; i >= 0; i--){
             if(this.collisions[i] != null){
-                let diff = p5.Vector.sub(this.collisions[i], this.origin)
-                let dis = min(this.viewRadius, diff.mag())
-                let c1 = World.w2s(p5.Vector.add(this.origin, diff.setMag(dis)));
+
+                let c1 = World.w2s(this.collisions[i])
                 vertex(c1.x, c1.y);
             }
         }

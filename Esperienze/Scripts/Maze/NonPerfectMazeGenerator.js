@@ -350,8 +350,10 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
                 fill(Colors[matrix[i][j]]);
 
                 if(matrix[i][j] != 0){
-                    World.PixelCanvas.imageMode(CENTER);
-                    World.PixelCanvas.image(this.bgSprite, pos.x, pos.y, wGS, wGS);
+                    noSmooth();
+                    imageMode(CENTER);
+                    image(this.bgSprite, pos.x, pos.y, wGS, wGS);
+                    smooth()
                 }
                 else
                     square(pos.x, pos.y, wGS);

@@ -94,7 +94,6 @@ function draw() {
 		go = false;
 		button.html('Go');
 	}
-	World.PixelCanvasDraw();
 }
 
 function handleButton(){

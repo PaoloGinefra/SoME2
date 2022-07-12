@@ -76,6 +76,4 @@ function draw() {
 		graphVisualizer.setup();
 		graphVisualizer.drawGraph();
 	}
-
-	World.PixelCanvasDraw();
 }
