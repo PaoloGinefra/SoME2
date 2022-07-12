@@ -1,11 +1,10 @@
 import Sketch from '../components/SketchNext'
-import type p5 from 'p5'
 
 // The code for this example has been modified from https://p5js.org/examples/motion-morph.html
 
 const Test = () => (
   <Sketch
-    sketchFunction={(p5: p5) => {
+    sketchFunction={(p5) => {
       let circle = []
       let square = []
       let morph = []
