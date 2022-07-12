@@ -6,7 +6,7 @@ function setup() {
 	World.setup(windowWidth, windowHeight);
 
 	//Maze generation
-	mazeGenerator = new NonPerfectMazeGenerator(5, 5, 0, 0.7, 0.1);
+	mazeGenerator = new NonPerfectMazeGenerator(10, 10, 0, 0.7, 0.1);
 	mazeGenerator.size = size;
 	mazeGenerator.generateMaze();
 	mazeGenerator.buildAutomata();
@@ -35,16 +35,13 @@ function setup() {
 	state = mazeGenerator.state2mapState[floor(Math.random() * mazeGenerator.Automaton.length)];
 	automabot.computeAnimation(state, "", true);
 
-	console.log(ShortestWord(mazeGenerator.Automaton))
+	//console.log(ShortestWord(mazeGenerator.Automaton))
 }
 
 function draw() {
 	background(0);
 	World.cameraPos = automabot.position;
 	World.draw();
-
-	//Updates Canvas Bound walls
-	env.updateBound();
 
 	mazeGenerator.draw();
 

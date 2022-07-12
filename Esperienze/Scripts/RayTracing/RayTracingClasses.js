@@ -339,7 +339,7 @@ class Env{
      * @returns All the walls in the Env
      */
     getWalls(){
-        return this.Bounds.concat(this.walls);
+        return this.walls;
     }
 
     /**

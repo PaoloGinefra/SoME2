@@ -115,9 +115,10 @@ class Automabot{
     }
     
     drawSprite(){
-        fill(0)
+        fill(255)
         let wPos = World.w2s(this.position)
         let size = World.w2s(this.size);
+        //ellipse(wPos.x, wPos.y, size*1.1);
 
         noSmooth();
         imageMode(CORNER);
