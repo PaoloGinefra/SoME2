@@ -1,7 +1,10 @@
-const withMDX = require('@next/mdx')({
+import mdx from '@next/mdx'
+import gfm from 'remark-gfm'
+
+const withMDX = mdx({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: [],
+    remarkPlugins: [gfm],
     rehypePlugins: [],
     // If you use `MDXProvider`, uncomment the following line.
     // providerImportSource: "@mdx-js/react",
@@ -15,4 +18,4 @@ const nextConfig = withMDX({
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
 })
 
-module.exports = nextConfig
+export default nextConfig
