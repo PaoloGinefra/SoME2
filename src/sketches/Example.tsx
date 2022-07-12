@@ -1,19 +1,26 @@
-import Sketch from '../components/Sketch'
+import Sketch from '../components/SketchNext'
+import type p5 from 'p5'
 
 // The code for this example has been modified from https://p5js.org/examples/motion-morph.html
 
-const Test = () => {
-  let circle = []
-  let square = []
-  let morph = []
-  let state = false
+const Test = () => (
+  <Sketch
+    sketchFunction={(p5: p5) => {
+      let circle = []
+      let square = []
+      let morph = []
+      let state = false
 
-  return (
-    <Sketch
-      setup={(p5, parentRef) => {
+      let bgColor = [
+        255 * Math.random(),
+        255 * Math.random(),
+        255 * Math.random(),
+      ]
+
+      p5.setup = () => {
         const { Vector } = window.p5
 
-        p5.createCanvas(720, 400).parent(parentRef)
+        p5.createCanvas(720, 400)
 
         for (let angle = 0; angle < 360; angle += 9) {
           let v = Vector.fromAngle(p5.radians(angle - 135))
@@ -34,11 +41,12 @@ const Test = () => {
         for (let y = 50; y > -50; y -= 10) {
           square.push(p5.createVector(-50, y))
         }
-      }}
-      draw={(p5) => {
+      }
+
+      p5.draw = () => {
         const { Vector } = window.p5
 
-        p5.background(51)
+        p5.background(bgColor)
 
         // We will keep how far the vertices are from their target
         let totalDistance = 0
@@ -77,9 +85,9 @@ const Test = () => {
           p5.vertex(v.x, v.y)
         })
         p5.endShape(p5.CLOSE)
-      }}
-    />
-  )
-}
+      }
+    }}
+  />
+)
 
 export default Test
