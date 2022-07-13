@@ -135,7 +135,7 @@ class GreenPin extends Pin {
 }
 
 const pins = [];
-const items = [];
+let items = [];
 
 function addItem() {
   let newItem = new OrientableItem(
@@ -166,7 +166,7 @@ window.setup = function () {
 
 window.draw = function () {
   // update
-  items.filter((item) => item.x < width); // remove out of screen items
+  items = items.filter((item) => item.x < width); // remove out of screen items
   items.forEach((item) => item.update());
 
   // draw
