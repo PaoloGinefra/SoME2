@@ -1,205 +1,181 @@
 import "p5";
-import { Bodies, Body, Common, Engine, World, Vector } from "matter-js";
-import polyDecomp from "poly-decomp";
-
-// enable polygon decomposition, see: https://brm.io/matter-js/docs/classes/Common.html#method_setDecomp
-Common.setDecomp(polyDecomp);
 
 // enable intellisense autocompletion for p5 globals
 /// <reference path="@types/p5/global.d.ts" />
 
-class PhysicsBody {
-  constructor(world, attributes, options) {
-    this.world = world;
-    this.attributes = attributes;
-    this.options = options;
-    this.createBody();
-    World.add(this.world, this.body);
+const conveyorSpeed = 0.5;
+const conveyorSectionWidth = 400;
+
+// enum
+const orientations = [0, Math.PI / 2, Math.PI, 3 * (Math.PI / 2)];
+
+function rectangleCenter(x, y, w, h) {
+  const x1 = x;
+  const y1 = y;
+  const x2 = x + w;
+  const y2 = y + h;
+
+  return [(x1 + x2) / 2, (y1 + y2) / 2];
+}
+
+class OrientableItem {
+  mainWidth = 150;
+  mainHeight = 200;
+  nubWidth = 50;
+  nubHeight = 50;
+
+  constructor(x, y, orientation) {
+    this.x = x;
+    this.y = y;
+    this.orientation = orientation;
   }
 
-  createBody() {
-    throw new Error("Not implemented");
+  // calculate the center by making a weighted average of the center of the two rectangles. The area of the rectangles is used as the weight.
+  get center() {
+    // center of the main rectangle
+    const [x1, y1] = rectangleCenter(
+      this.x,
+      this.y,
+      this.mainWidth,
+      this.mainHeight
+    );
+    // center of the nub
+    const [x2, y2] = rectangleCenter(
+      this.x + this.mainWidth / 2 - this.nubWidth / 2,
+      this.y - this.nubHeight,
+      this.nubWidth,
+      this.nubHeight
+    );
+
+    const mainArea = this.mainWidth * this.mainHeight;
+    const nubArea = this.nubWidth * this.nubHeight;
+    const totalArea = mainArea + nubArea;
+
+    // weighted average
+    return [
+      (x1 * mainArea + x2 * nubArea) / totalArea,
+      (y1 * mainArea + y2 * nubArea) / totalArea,
+    ];
+  }
+
+  get angle() {
+    return orientations[this.orientation];
+  }
+
+  update() {
+    this.x += deltaTime * conveyorSpeed;
   }
 
   draw() {
-    if (this.attributes.color) {
-      fill(this.attributes.color);
-    } else {
-      noFill();
-    }
+    const [rx, ry] = this.center;
 
-    if (this.attributes.stroke) {
-      stroke(this.attributes.stroke);
-      if (this.attributes.weight) {
-        strokeWeight(this.attributes.weight);
-      }
-    } else {
-      noStroke();
-    }
+    fill(255);
+    noStroke();
 
-    this.drawBody();
-  }
+    push();
+    translate(rx, ry);
+    rotate(this.angle);
+    translate(-rx, -ry);
 
-  drawBody() {
-    if (this.body.parts && this.body.parts.length > 1) {
-      // skip index 0
-      for (let p = 1; p < this.body.parts.length; p++) {
-        this.drawVertices(this.body.parts[p].vertices);
-      }
-    } else {
-      this.drawVertices(this.body.vertices);
-    }
-  }
-
-  drawVertices(vertices) {
-    beginShape();
-    for (const vertice of vertices) {
-      vertex(vertice.x, vertice.y);
-    }
-    endShape(CLOSE);
-  }
-}
-
-class Box extends PhysicsBody {
-  constructor(world, attributes, options) {
-    super(world, attributes, options);
-  }
-
-  createBody() {
-    this.body = Bodies.rectangle(
-      this.attributes.x,
-      this.attributes.y,
-      this.attributes.w,
-      this.attributes.h,
-      this.options
-    );
-  }
-}
-
-// NOTE: when instantiting this class the x and y coords are in the center of the main rectangle
-class OrientableItem extends PhysicsBody {
-  constructor(world, attributes, options) {
-    super(world, attributes, options);
-  }
-
-  createBody() {
-    const { x, y, mainWidth, mainHeight, nubWidth, nubHeight } =
-      this.attributes;
-
-    // NOTE: matterjs positions rectangles from the center
-    const main = Bodies.rectangle(x, y, mainWidth, mainHeight);
-    const nub = Bodies.rectangle(
-      x,
-      y - mainHeight / 2 - nubHeight / 2,
-      nubWidth,
-      nubHeight
+    rect(this.x, this.y, this.mainWidth, this.mainHeight);
+    rect(
+      this.x + this.mainWidth / 2 - this.nubWidth / 2,
+      this.y - this.nubHeight,
+      this.nubWidth,
+      this.nubHeight
     );
 
-    this.body = Body.create({
-      parts: [main, nub],
-      ...this.options,
-    });
+    pop();
+
+    // debug draw
+    strokeWeight(10);
+
+    stroke("green");
+    const [x, y] = this.center;
+    point(x, y);
+
+    stroke("red");
+    point(this.x, this.y);
   }
 }
 
-const engine = Engine.create();
-const world = engine.world;
+// NOTE: consider this an abstract class
+class Pin {
+  constructor(sectionId) {
+    this.x = conveyorSectionWidth * sectionId + conveyorSectionWidth / 2;
+  }
 
-// disable gravity
-engine.gravity.x = 0;
-engine.gravity.y = 0;
+  draw() {
+    fill(this.color);
+    noStroke();
+    rect(this.x, this.y, this.w, this.h);
+  }
+}
 
+class RedPin extends Pin {
+  color = "red";
+  w = 20;
+  h = 140;
+  y = 0;
+
+  constructor(x, y) {
+    super(x, y);
+  }
+}
+
+class GreenPin extends Pin {
+  color = "green";
+  w = 20;
+  h = 100;
+  y = height - this.h;
+
+  constructor(x, y) {
+    super(x, y);
+  }
+}
+
+const pins = [];
 const items = [];
 
-let upperWall;
-let lowerWall;
+function addItem() {
+  let newItem = new OrientableItem(
+    -150,
+    0,
+    Math.floor(Math.random() * orientations.length)
+  );
 
-let redirector;
+  // center item verically
+  let [_, centerY] = newItem.center;
+  newItem.y = height / 2 + (newItem.y - centerY);
+
+  items.push(newItem);
+}
 
 window.setup = function () {
-  createCanvas(900, 400);
+  createCanvas(1500, 400);
 
-  upperWall = new Box(
-    world,
-    {
-      x: width / 2,
-      y: 0,
-      w: width,
-      h: 20,
-      color: "white",
-    },
-    { isStatic: true }
-  );
-  lowerWall = new Box(
-    world,
-    {
-      x: width / 2,
-      y: height,
-      w: width,
-      h: 20,
-      color: "white",
-    },
-    { isStatic: true }
-  );
+  const sections = Math.floor(width / conveyorSectionWidth);
+  for (let i = 0; i < sections; i++) {
+    const newPin = i % 2 == 0 ? new RedPin(i) : new GreenPin(i);
+    pins.push(newPin);
+  }
 
-  redirector = new Box(
-    world,
-    {
-      x: width / 2,
-      y: 0,
-      w: 20,
-      h: 140,
-      color: "red",
-    },
-    { isStatic: true }
-  );
+  addItem();
+  setInterval(addItem, 3 * 1000);
 };
 
-let time = 0;
-
 window.draw = function () {
-  // physics
+  // update
+  items.filter((item) => item.x < width); // remove out of screen items
+  items.forEach((item) => item.update());
 
-  // NOTE: deltaTime is a p5 global variable
-  Engine.update(engine, deltaTime);
-  items.forEach((item) => {
-    item.body.position.y = 165;
-    Body.applyForce(item.body, item.body.position, Vector.create(0.1, 0));
-  });
-
-  // TODO: destroy items out of screen
-  // TODO: use more robust siystem for time
-
-  if (time == 0) {
-    time = 0;
-
-    let newItem = new OrientableItem(
-      world,
-      {
-        x: 200,
-        y: 175,
-        mainWidth: 150,
-        mainHeight: 200,
-        nubWidth: 50,
-        nubHeight: 50,
-
-        color: "white",
-      },
-      { frictionAir: 0.05 }
-    );
-
-    items.push(newItem);
-  }
-
-  time++;
-  if (time > 3 * 60) {
-    time = 0;
-  }
-
-  // drawing
+  // draw
   background("#333");
-  upperWall.draw();
-  lowerWall.draw();
-  redirector.draw();
+  pins.forEach((pin) => pin.draw());
   items.forEach((item) => item.draw());
+
+  // debug draw
+  strokeWeight(1);
+  stroke(127);
+  line(0, height / 2, width, height / 2);
 };
