@@ -388,7 +388,7 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
      */
     isMapState(i, j, graph = this.graph){
         let n = NonPerfectMazeGenerator.count(graph[i][j], 0);
-        return n >= 3 || !NonPerfectMazeGenerator.isStraight(i, j, graph) || n == 1
+        return n >= 3 || !NonPerfectMazeGenerator.isStraight(i, j, graph) || n <= 1
     }
 
     /**
@@ -541,5 +541,90 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
         this.mapStates.forEach((state, stateId) => {
             this.MapAutomaton.push(this.stateNeighbours(state, stateId, this.mapStates, this.isMapState))
         });
+    }
+
+    getCellIndex(pos){
+        return [floor((pos.y + this.size/2 + this.cellSize/2) / this.cellSize - 0.5),
+                floor((pos.x + this.size/2 + this.cellSize/2) / this.cellSize - 0.5)]
+    }
+
+    isIn(i, j){
+        return i >= 0 && i < this.graph.length && j >= 0 && j < this.graph[0].length
+    }
+
+    isEditable(i, j, tool){
+        return i >= 1 && i < this.image.length - 1 && j >= 1 && j < this.image[0].length - 1 &&
+               ((i % 2) ^ (j % 2)) && this.image[i][j] != tool;
+    }
+
+    isHor(i, j){
+        return (i%2)&&!(j%2);
+    }
+
+    isVer(i, j){
+        return !(i%2)&&(j%2)
+    }
+
+    dfs(check, state){
+        check[state] = true;
+        for(let m = 0; m < 4; m++){
+            let newState = this.MapAutomaton[state][m];
+            if(!check[newState])
+                this.dfs(check, newState);
+        }
+    }
+
+    isConnectedAutomaton(){
+        let check = []
+        this.MapAutomaton.forEach(g => check.push(false));
+        this.dfs(check, 0);
+
+        return !check.some(e => !e);
+    }
+
+    move(i, j, k, l, wall, tool){
+        if(this.isIn(i, j))
+            this.graph[i][j][wall] = Number(!tool);
+        if(this.isIn(k, l))
+            this.graph[k][l][wall+2] = Number(!tool);        
+    }
+
+    /**
+     * 
+     * @param {*} pos The mouse position
+     * @param {*} tool 0 => Wall Brush, 1 => Wall Ereaser
+     */
+    brush(pos, tool = 0){
+        let [I, J] = this.getCellIndex(pos);
+
+        if(!this.isEditable(I, J, tool)){
+            return false;
+        }
+
+        if(this.isHor(I, J)){
+            let [i, j] = [(I-1)/2, (J-2)/2]
+            this.move(i, j, i, j+1, 1, tool);
+            this.buildAutomata();
+
+            if(!this.isConnectedAutomaton()){
+                console.log('AHIAIAI')
+                this.move(i, j, i, j+1, 1, !tool);
+                this.buildAutomata();
+            }
+        }
+        else if(this.isVer(I, J)){
+            let [i, j] = [(I-2)/2, (J-1)/2]
+            this.move(i, j, i+1, j, 0, tool);
+            this.buildAutomata();
+
+            if(!this.isConnectedAutomaton()){
+                console.log('AHIAIAI')
+                this.move(i, j, i+1, j, 0, !tool);
+                this.buildAutomata();
+            }
+        }
+
+        this.updateImage();
+        return true
     }
 }
