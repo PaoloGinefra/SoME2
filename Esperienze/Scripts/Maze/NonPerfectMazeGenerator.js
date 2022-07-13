@@ -547,28 +547,49 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
         });
     }
 
+    /**
+     * @param {*} pos a P5 vector in wu
+     * @returns The index in image of pos
+     */
     getCellIndex(pos){
         return [floor((pos.y + this.size/2 + this.cellSize/2) / this.cellSize - 0.5),
                 floor((pos.x + this.size/2 + this.cellSize/2) / this.cellSize - 0.5)]
     }
 
+    /**
+     * @returns Whether the index is in this.graph
+     */
     isIn(i, j){
         return i >= 0 && i < this.graph.length && j >= 0 && j < this.graph[0].length
     }
 
+    /**
+     * @returns whether the index points to a wall/path
+     */
     isEditable(i, j, tool){
         return i >= 1 && i < this.image.length - 1 && j >= 1 && j < this.image[0].length - 1 &&
                ((i % 2) ^ (j % 2)) && this.image[i][j] != tool;
     }
 
+    /**
+     * @returns whether the cell is an horizontal path
+     */
     isHor(i, j){
         return (i%2)&&!(j%2);
     }
 
+    /**
+     * @returns whether the cell is a vertical path
+     */
     isVer(i, j){
         return !(i%2)&&(j%2)
     }
 
+    /**
+     * Performs a depth first search in the Map Automaton and upates check with the nodes encountered
+     * @param {*} check A bool array
+     * @param {*} state The starting state
+     */
     dfs(check, state){
         check[state] = true;
         for(let m = 0; m < 4; m++){
@@ -578,6 +599,9 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
         }
     }
 
+    /**
+     * @returns Whether the map automaton is connected
+     */
     isConnectedAutomaton(){
         let check = []
         this.MapAutomaton.forEach(g => check.push(false));
@@ -586,6 +610,9 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
         return !check.some(e => !e);
     }
 
+    /**
+     * Uses the tool in the desired spot, remove/put the wall
+     */
     move(i, j, k, l, wall, tool){
         if(this.isIn(i, j))
             this.graph[i][j][wall] = Number(!tool);
@@ -596,9 +623,10 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
     }
 
     /**
-     * 
+     * The fuction to be called for tool using
      * @param {*} pos The mouse position
      * @param {*} tool 0 => Wall Brush, 1 => Wall Ereaser
+     * @returns whether some chenges are made
      */
     brush(pos, tool = 0){
         let [I, J] = this.getCellIndex(pos);
@@ -613,7 +641,6 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
             this.buildAutomata();
 
             if(!this.isConnectedAutomaton()){
-                console.log('AHIAIAI')
                 this.move(i, j, i, j+1, 1, !tool);
                 this.buildAutomata();
             }
@@ -624,11 +651,38 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
             this.buildAutomata();
 
             if(!this.isConnectedAutomaton()){
-                console.log('AHIAIAI')
                 this.move(i, j, i+1, j, 0, !tool);
                 this.buildAutomata();
             }
         }
         return true
+    }
+
+    /**
+     * Draws the brush preview
+     * @param {*} pos 
+     * @param {*} tool 
+     */
+    drawBrush(pos, tool = 0){
+        let [I, J] = this.getCellIndex(pos);
+
+        if(tool > 1 || !this.isEditable(I, J, tool)){
+            return
+        }
+
+        if(!tool){
+            fill(0, 120)
+        }
+        else{
+            fill(255, 0, 0, 120)
+        }
+
+        pos.x = floor((pos.x + this.cellSize/2) / this.cellSize) * this.cellSize;
+        pos.y = floor((pos.y + this.cellSize/2) / this.cellSize) * this.cellSize;
+
+        
+        pos = World.w2s(pos);
+        let size = World.w2s(this.cellSize);
+        square(pos.x, pos.y, size);
     }
 }

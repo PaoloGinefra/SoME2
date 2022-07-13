@@ -85,6 +85,9 @@ function draw() {
 	World.draw();
 	mazeGenerator.draw();
 
+	let wMouse = World.s2w(World.mouseVec);
+	mazeGenerator.drawBrush(wMouse, tool);
+
 	if(displayGraphCheckbox.checked()){
 		graphVisualizer.drawGraph();
 	}
@@ -93,6 +96,7 @@ function draw() {
 	let size = World.w2s(0.1);
 	let p = World.w2s(createVector(0, mazeGenerator.size / 2+0.1));
 	textSize(size)
+	fill(0);
 	text(syncWord, p.x, p.y)
 }
 
@@ -116,7 +120,7 @@ function Generate(){
 
 function mouseClicked(){
 	let wMouse = World.s2w(World.mouseVec);
-	if(mouseButton == LEFT && mazeGenerator.brush(wMouse, tool)){
+	if(tool != 2 && mouseButton == LEFT && mazeGenerator.brush(wMouse, tool)){
 		syncWord = 'Loading...'
 		worker.postMessage(mazeGenerator.Automaton);
 
@@ -127,11 +131,14 @@ function mouseClicked(){
 }
 
 function keyPressed(){
-	tool = !tool;
-	if(tool){
+	tool = (tool+1)%3;
+	if(tool == 1){
 		toolLabel.html('Tool: Wall Eareser');
 	}
-	else{
+	else if(tool == 0){
 		toolLabel.html('Tool: Wall Brush');
+	}
+	else{
+		toolLabel.html('Tool: Empty');
 	}
 }

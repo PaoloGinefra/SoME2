@@ -15,7 +15,7 @@ function setup() {
 
 	//Image walling
 	imageWaller = new ImageWaller(size);
-	imageWaller.createWalls(mazeGenerator.image);
+	imageWaller.createWalls(mazeGenerator.getImage());
 
 	//Enviroment building
 	env = new Env();

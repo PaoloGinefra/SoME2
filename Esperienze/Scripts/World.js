@@ -81,6 +81,7 @@ class World{
             return screenP * World.s2wk;
 
         else if(typeof screenP == "object"){
+            screenP = screenP.copy();
             screenP.y -= World.height; screenP.y *= -1;
             let worldP = screenP.copy().sub(World.sCenter).mult(World.s2wk).add(World.cameraPos);
             return worldP;
