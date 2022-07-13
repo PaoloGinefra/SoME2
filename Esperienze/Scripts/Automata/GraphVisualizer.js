@@ -63,21 +63,57 @@
         intersection = World.w2s(intersection);
     }
 
-    //This draw nodes [I know, mindblowing]
+    //This draws nodes [I know, mindblowing]
     drawGraph(){
         World.offset = this.center;
         this.Nodes.forEach((node, i) => {
             let p = World.w2s(node);
             let id = 0;
-            //Draw links
+
+            //[[targte, numOf ]]
+            let targets = {};
+
+            //Populate targets
             this.graph[i].forEach((nei, j) => {
-                if(i != nei){
+                if(!(nei in targets))
+                    targets[nei] = [[], 0];
+
+                targets[nei][0].push(j);
+                targets[nei][1]++;
+            });
+
+            Object.entries(targets).forEach(([nei, arr]) => {
+                let [indices, count] = arr;
+                let j = indices[0]
+
+                if(i == nei){
+                    this.drawSelfArc(node, id, this.colors[j]);
+                    id ++;
+                }
+                else if(count != 1){
+                    let neighbour = this.Nodes[nei];
+
+                    let diff = p5.Vector.sub(neighbour, node);
+                    let len = diff.mag() - this.nodeSize/ this.scale / 2;
+
+                    let localNode = node.copy();
+
+                    diff.setMag(len - 0.015);
+
+                    indices.forEach((j, k) => {
+                        drawArrowCurve(localNode, diff, this.colors[j], k);
+                    })
+
+                }
+                else{
                     let neighbour = this.Nodes[nei];
 
                     let diff = p5.Vector.sub(neighbour, node);
                     let len = diff.mag() - this.nodeSize/ this.scale / 2;
                     
                     let localNode = node.copy();
+
+                    //Checks if it's a double sided link
                     if(this.graph[nei].includes(i)){
                         len -= this.nodeSize/ this.scale/2;
                         len /= 2;
@@ -86,10 +122,6 @@
 
                     diff.setMag(len - 0.015);
                     drawArrow(localNode, diff, this.colors[j])
-                }
-                else{
-                    this.drawSelfArc(node, id, this.colors[j]);
-                    id ++;
                 }
             });
 
@@ -196,6 +228,7 @@
 //Simple arrow drawing function
 function drawArrow(base, vec, myColor = 'black', myStroke = 0.01, arrowSize = 0.05) {
     base = World.w2s(base);
+    vec = vec.copy();
     vec.mult(World.w2sk);
     vec.y *= -1;
     push();
@@ -208,5 +241,36 @@ function drawArrow(base, vec, myColor = 'black', myStroke = 0.01, arrowSize = 0.
     arrowSize *= World.w2sk;
     translate(vec.mag() - arrowSize, 0);
     triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+    pop();
+  } 
+
+  function drawArrowCurve(base, vec,  myColor = 'black', index = 0, displace = 0.2, myStroke = 0.01, arrowSize = 0.05) {
+    displace *= floor(index / 2) + 1;
+    base = World.w2s(base);
+    vec = vec.copy()
+    vec.mult(World.w2sk);
+    vec.y *= -1;
+
+    let controlOffset = vec.copy().rotate(radians(90)).setMag(World.w2s(displace));
+    controlOffset.mult((index % 2) ? -1 : 1);
+    let control = p5.Vector.add(p5.Vector.div(vec, 2), controlOffset)
+
+    push();
+    stroke(myColor);
+    strokeWeight(World.w2s(myStroke));
+    translate(base.x, base.y);
+
+    noFill();
+    beginShape();
+    vertex(0, 0);
+    quadraticVertex(control.x, control.y, vec.x, vec.y)
+    endShape();
+
+    fill(myColor);
+    rotate(vec.heading());
+    arrowSize *= World.w2sk;
+    translate(vec.mag() - arrowSize/2, 0);
+    rotate(-vec.angleBetween(control));
+    triangle(arrowSize/2, arrowSize / 2, arrowSize/2, -arrowSize / 2, arrowSize + arrowSize/2, 0);
     pop();
   } 
