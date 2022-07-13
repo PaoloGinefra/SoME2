@@ -87,8 +87,10 @@
                 let j = indices[0]
 
                 if(i == nei){
-                    this.drawSelfArc(node, id, this.colors[j]);
-                    id ++;
+                    indices.forEach((j, k) => {
+                        this.drawSelfArc(node, id, this.colors[j]);
+                        id ++;
+                    });
                 }
                 else if(count != 1){
                     let neighbour = this.Nodes[nei];
