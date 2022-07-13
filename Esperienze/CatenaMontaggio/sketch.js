@@ -6,15 +6,60 @@ import "p5";
 const conveyorSpeed = 0.5;
 const conveyorSectionWidth = 400;
 
+// enum
+const orientations = [0, Math.PI / 2, Math.PI, 3 * (Math.PI / 2)];
+
+function rectangleCenter(x, y, w, h) {
+  const x1 = x;
+  const y1 = y;
+  const x2 = x + w;
+  const y2 = y + h;
+
+  return [(x1 + x2) / 2, (y1 + y2) / 2];
+}
+
 class OrientableItem {
   mainWidth = 150;
   mainHeight = 200;
   nubWidth = 50;
   nubHeight = 50;
 
-  constructor(x, y) {
+  constructor(x, y, orientation) {
     this.x = x;
     this.y = y;
+    this.orientation = orientation;
+  }
+
+  // calculate the center by making a weighted average of the center of the two rectangles. The area of the rectangles is used as the weight.
+  get center() {
+    // center of the main rectangle
+    const [x1, y1] = rectangleCenter(
+      this.x,
+      this.y,
+      this.mainWidth,
+      this.mainHeight
+    );
+    // center of the nub
+    const [x2, y2] = rectangleCenter(
+      this.x + this.mainWidth / 2 - this.nubWidth / 2,
+      this.y - this.nubHeight,
+      this.nubWidth,
+      this.nubHeight
+    );
+
+    const mainArea = this.mainWidth * this.mainHeight;
+    const nubArea = this.nubWidth * this.nubHeight;
+    const totalArea = mainArea + nubArea;
+
+    // weighted average
+    return [
+      (x1 * mainArea + x2 * nubArea) / totalArea,
+      (y1 * mainArea + y2 * nubArea) / totalArea,
+    ];
+  }
+
+  get angle() {
+    return orientations[this.orientation];
   }
 
   update() {
@@ -22,8 +67,16 @@ class OrientableItem {
   }
 
   draw() {
+    const [rx, ry] = this.center;
+
     fill(255);
     noStroke();
+
+    push();
+    translate(rx, ry);
+    rotate(this.angle);
+    translate(-rx, -ry);
+
     rect(this.x, this.y, this.mainWidth, this.mainHeight);
     rect(
       this.x + this.mainWidth / 2 - this.nubWidth / 2,
@@ -31,6 +84,13 @@ class OrientableItem {
       this.nubWidth,
       this.nubHeight
     );
+
+    pop();
+
+    const [x, y] = this.center;
+    stroke(0);
+    strokeWeight(10);
+    point(x, y);
   }
 }
 
@@ -73,7 +133,11 @@ const pins = [];
 const items = [];
 
 function addItem() {
-  let newItem = new OrientableItem(-150, 175);
+  let newItem = new OrientableItem(
+    -150,
+    175,
+    Math.floor(Math.random() * orientations.length)
+  );
   items.push(newItem);
 }
 
