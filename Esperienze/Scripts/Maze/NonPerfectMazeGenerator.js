@@ -86,6 +86,10 @@ class NonPerfectMazeGenerator{
         }
     }
 
+    getImage(){
+        return Array.from(this.image, row => Array.from(row, e => Number(e != 0)));
+    }
+
     /**
      * An helper function to print a matrix in the console
      * @param {*} matrix 
@@ -518,12 +522,12 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
                     this.States.push([i, j]);
                     this.mapStates.push([i, j])
                     let [k, l] = this.g2i(i, j);
-                    //this.image[k][l] = 2;
+                    this.image[k][l] = 2;
                 }
                 else if(this.isMapState(i, j, this.graph)){
                     this.mapStates.push([i, j]);
                     let [k, l] = this.g2i(i, j);
-                    //this.image[k][l] = 3;
+                    this.image[k][l] = 3;
                 }
             }
         }
@@ -586,7 +590,9 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
         if(this.isIn(i, j))
             this.graph[i][j][wall] = Number(!tool);
         if(this.isIn(k, l))
-            this.graph[k][l][wall+2] = Number(!tool);        
+            this.graph[k][l][wall+2] = Number(!tool);
+        this.updateImage();
+             
     }
 
     /**
@@ -623,8 +629,6 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
                 this.buildAutomata();
             }
         }
-
-        this.updateImage();
         return true
     }
 }
