@@ -87,10 +87,15 @@ class OrientableItem {
 
     pop();
 
-    const [x, y] = this.center;
-    stroke(0);
+    // debug draw
     strokeWeight(10);
+
+    stroke("green");
+    const [x, y] = this.center;
     point(x, y);
+
+    stroke("red");
+    point(this.x, this.y);
   }
 }
 
@@ -135,9 +140,14 @@ const items = [];
 function addItem() {
   let newItem = new OrientableItem(
     -150,
-    175,
+    0,
     Math.floor(Math.random() * orientations.length)
   );
+
+  // center item verically
+  let [_, centerY] = newItem.center;
+  newItem.y = height / 2 + (newItem.y - centerY);
+
   items.push(newItem);
 }
 
@@ -163,4 +173,9 @@ window.draw = function () {
   background("#333");
   pins.forEach((pin) => pin.draw());
   items.forEach((item) => item.draw());
+
+  // debug draw
+  strokeWeight(1);
+  stroke(127);
+  line(0, height / 2, width, height / 2);
 };
