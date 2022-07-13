@@ -4,6 +4,7 @@ import "p5";
 /// <reference path="@types/p5/global.d.ts" />
 
 const conveyorSpeed = 0.5;
+const conveyorSectionWidth = 400;
 
 class OrientableItem {
   mainWidth = 150;
@@ -35,9 +36,8 @@ class OrientableItem {
 
 // NOTE: consider this an abstract class
 class Pin {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
+  constructor(sectionId) {
+    this.x = conveyorSectionWidth * sectionId + conveyorSectionWidth / 2;
   }
 
   draw() {
@@ -51,6 +51,7 @@ class RedPin extends Pin {
   color = "red";
   w = 20;
   h = 140;
+  y = 0;
 
   constructor(x, y) {
     super(x, y);
@@ -61,32 +62,33 @@ class GreenPin extends Pin {
   color = "green";
   w = 20;
   h = 100;
+  y = height - this.h;
 
   constructor(x, y) {
     super(x, y);
   }
 }
 
-let redPin;
-let greenPin;
+const pins = [];
 const items = [];
 
 function addItem() {
-  let newItem = new OrientableItem(200, 175);
+  let newItem = new OrientableItem(-150, 175);
   items.push(newItem);
 }
 
 window.setup = function () {
-  createCanvas(900, 400);
+  createCanvas(1500, 400);
 
-  redPin = new RedPin(500, 0);
-  greenPin = new GreenPin(700, height - 100);
+  const sections = Math.floor(width / conveyorSectionWidth);
+  for (let i = 0; i < sections; i++) {
+    const newPin = i % 2 == 0 ? new RedPin(i) : new GreenPin(i);
+    pins.push(newPin);
+  }
 
   addItem();
   setInterval(addItem, 3 * 1000);
 };
-
-let time;
 
 window.draw = function () {
   // update
@@ -95,9 +97,6 @@ window.draw = function () {
 
   // draw
   background("#333");
-  redPin.draw();
-  greenPin.draw();
+  pins.forEach((pin) => pin.draw());
   items.forEach((item) => item.draw());
 };
-
-addItem();
