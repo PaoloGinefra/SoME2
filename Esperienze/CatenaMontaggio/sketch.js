@@ -3,7 +3,7 @@ import "p5";
 // enable intellisense autocompletion for p5 globals
 /// <reference path="@types/p5/global.d.ts" />
 
-const conveyorSpeed = 0.5;
+const conveyorSpeed = 0.1;
 const conveyorSectionWidth = 400;
 
 // enum
@@ -31,6 +31,24 @@ class OrientableItem {
   nubWidth = 50;
   nubHeight = 50;
 
+  triggerOffset = [
+    // action 1
+    [
+      this.nubWidth / 2,
+      // these should never happen
+      0,
+      0,
+      0,
+    ],
+    // action 2
+    [
+      this.mainWidth / 2,
+      this.mainHeight / 2 + this.nubHeight,
+      this.mainWidth / 2,
+      this.mainHeight / 2,
+    ],
+  ];
+
   constructor(x, y, initialState, sections) {
     this.x = x;
     this.y = y;
@@ -39,32 +57,9 @@ class OrientableItem {
     this.lastSection = this.section; // NOTE: the item spawns off screen so this will be undefined in the begining
   }
 
-  // calculate the center by making a weighted average of the center of the two rectangles. The area of the rectangles is used as the weight.
+  // we consider the center of the main rectangle to be the center of the whole
   get center() {
-    // center of the main rectangle
-    const [x1, y1] = rectangleCenter(
-      this.x,
-      this.y,
-      this.mainWidth,
-      this.mainHeight
-    );
-    // center of the nub
-    const [x2, y2] = rectangleCenter(
-      this.x + this.mainWidth / 2 - this.nubWidth / 2,
-      this.y - this.nubHeight,
-      this.nubWidth,
-      this.nubHeight
-    );
-
-    const mainArea = this.mainWidth * this.mainHeight;
-    const nubArea = this.nubWidth * this.nubHeight;
-    const totalArea = mainArea + nubArea;
-
-    // weighted average
-    return [
-      (x1 * mainArea + x2 * nubArea) / totalArea,
-      (y1 * mainArea + y2 * nubArea) / totalArea,
-    ];
+    return rectangleCenter(this.x, this.y, this.mainWidth, this.mainHeight);
   }
 
   get angle() {
@@ -82,13 +77,26 @@ class OrientableItem {
   }
 
   update() {
+    // update position
     this.x += deltaTime * conveyorSpeed;
-    const currentSection = this.section;
 
-    if (currentSection && currentSection.index !== this.lastSection?.index) {
-      if (this.x >= currentSection.pinPosition) {
+    // update state
+    const currentSection = this.section;
+    const hasSectionChanged =
+      currentSection && currentSection.index !== this.lastSection?.index;
+
+    if (hasSectionChanged) {
+      const [centerX, _] = this.center;
+      const currentAction = currentSection.action;
+      const triggerOffset = this.triggerOffset[currentAction][this.state];
+
+      // wait for when we pass the pin to update the state
+      if (
+        centerX + triggerOffset >=
+        currentSection.pinPosition - currentSection.pinWidth / 2
+      ) {
         this.lastSection = currentSection;
-        this.transition(currentSection.action);
+        this.transition(currentAction);
       }
     }
   }
@@ -138,6 +146,7 @@ class Section {
     // x position where the pin will be drawn
     this.pinPosition =
       conveyorSectionWidth * this.index + conveyorSectionWidth / 2;
+    this.pinWidth = 20;
   }
 
   isInside(x) {
@@ -147,24 +156,22 @@ class Section {
 
   drawRed() {
     const color = "red";
-    const w = 20;
-    const h = 140;
+    const h = 70;
     const y = 0;
 
     fill(color);
     noStroke();
-    rect(this.pinPosition - w / 2, y, w, h);
+    rect(this.pinPosition - this.pinWidth / 2, y, this.pinWidth, h);
   }
 
   drawGreen() {
     const color = "green";
-    const w = 20;
-    const h = 100;
+    const h = 150;
     const y = height - h;
 
     fill(color);
     noStroke();
-    rect(this.pinPosition - w / 2, y, w, h);
+    rect(this.pinPosition - this.pinWidth / 2, y, this.pinWidth, h);
   }
 
   draw() {
@@ -205,7 +212,9 @@ window.setup = function () {
   }
 
   addItem();
-  window.setInterval(addItem, 3 * 1000);
+
+  const interval = width / conveyorSpeed;
+  window.setInterval(addItem, interval);
 };
 
 window.draw = function () {
