@@ -9,6 +9,13 @@ const conveyorSectionWidth = 400;
 // enum
 const orientations = [0, Math.PI / 2, Math.PI, 3 * (Math.PI / 2)];
 
+const automaton = [
+  [3, 1],
+  [1, 2],
+  [2, 3],
+  [3, 0],
+];
+
 function rectangleCenter(x, y, w, h) {
   const x1 = x;
   const y1 = y;
@@ -24,10 +31,10 @@ class OrientableItem {
   nubWidth = 50;
   nubHeight = 50;
 
-  constructor(x, y, orientation) {
+  constructor(x, y, initialState) {
     this.x = x;
     this.y = y;
-    this.orientation = orientation;
+    this.state = initialState;
   }
 
   // calculate the center by making a weighted average of the center of the two rectangles. The area of the rectangles is used as the weight.
@@ -59,7 +66,11 @@ class OrientableItem {
   }
 
   get angle() {
-    return orientations[this.orientation];
+    return orientations[this.state];
+  }
+
+  transition(action) {
+    this.state = automaton[this.state][action];
   }
 
   update() {
@@ -118,8 +129,8 @@ class RedPin extends Pin {
   h = 140;
   y = 0;
 
-  constructor(x, y) {
-    super(x, y);
+  constructor(sectionId) {
+    super(sectionId);
   }
 }
 
@@ -129,8 +140,8 @@ class GreenPin extends Pin {
   h = 100;
   y = height - this.h;
 
-  constructor(x, y) {
-    super(x, y);
+  constructor(sectionId) {
+    super(sectionId);
   }
 }
 
@@ -141,7 +152,7 @@ function addItem() {
   let newItem = new OrientableItem(
     -150,
     0,
-    Math.floor(Math.random() * orientations.length)
+    Math.floor(Math.random() * automaton.length)
   );
 
   // center item verically
@@ -167,7 +178,19 @@ window.setup = function () {
 window.draw = function () {
   // update
   items = items.filter((item) => item.x < width); // remove out of screen items
-  items.forEach((item) => item.update());
+  items.forEach((item) => {
+    item.update();
+
+    // find lat pin that was passed
+    const pin = pins
+      .sort((p1, p2) => p2.x - p1.x)
+      .find((p) => Math.abs(p.x - item.x) <= 3); // FIXME: this solution is clunky and will not work if the framerate is low enough
+    // when the item has just been spawned it has not passedany pin, so it is undefined
+    if (pin) {
+      const action = pin.color === "red" ? 0 : 1;
+      item.transition(action);
+    }
+  });
 
   // draw
   background("#333");
