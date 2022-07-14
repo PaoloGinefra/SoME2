@@ -3,7 +3,7 @@ import "p5";
 // enable intellisense autocompletion for p5 globals
 /// <reference path="@types/p5/global.d.ts" />
 
-const conveyorSpeed = 0.1;
+const conveyorSpeed = 0.5;
 const conveyorSectionWidth = 400;
 
 // enum
@@ -43,11 +43,13 @@ class OrientableItem {
     // action 2
     [
       this.mainWidth / 2,
-      this.mainHeight / 2 + this.nubHeight,
+      this.mainHeight / 2,
       this.mainWidth / 2,
       this.mainHeight / 2,
     ],
   ];
+
+  easing = 0.05;
 
   constructor(x, y, initialState, sections) {
     this.x = x;
@@ -55,6 +57,7 @@ class OrientableItem {
     this.state = initialState;
     this.sections = sections;
     this.lastSection = this.section; // NOTE: the item spawns off screen so this will be undefined in the begining
+    this.angle = this.targetAngle;
   }
 
   // we consider the center of the main rectangle to be the center of the whole
@@ -62,7 +65,7 @@ class OrientableItem {
     return rectangleCenter(this.x, this.y, this.mainWidth, this.mainHeight);
   }
 
-  get angle() {
+  get targetAngle() {
     return orientations[this.state];
   }
 
@@ -79,6 +82,23 @@ class OrientableItem {
   update() {
     // update position
     this.x += deltaTime * conveyorSpeed;
+
+    // update angle
+    // https://stackoverflow.com/questions/2708476/rotation-interpolation
+    // https://stackoverflow.com/a/2708740
+
+    let target = this.targetAngle;
+    const diff = Math.abs(this.targetAngle - this.angle);
+    if (diff > Math.PI / 2) {
+      if (this.targetAngle > this.angle) {
+        target -= 2 * Math.PI;
+      } else {
+        target += 2 * Math.PI;
+      }
+    }
+
+    const dTheta = target - this.angle;
+    this.angle += dTheta * this.easing;
 
     // update state
     const currentSection = this.section;
