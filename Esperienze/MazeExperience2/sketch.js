@@ -2,7 +2,7 @@ let mazeGenerator, automabot;
 const size = 5;
 let state;
 
-let tool = 0;
+let tool = 2;
 
 let UiPressed = false;
 
@@ -13,6 +13,7 @@ function preload(){
 
 function setup() {
 	World.setup(windowWidth, windowHeight);
+
 	UIsetup();
 	textFont(font);
 
@@ -132,4 +133,7 @@ function UIsetup(){
 		shovelButton.style('background-color: white;opacity: 100%;')
 
 	});
+
+	brickButton.style('background-color: rgba(0,0,0,0); opacity: 50%;')
+	shovelButton.style('background-color: rgba(0,0,0,0); opacity: 50%;')
 }
