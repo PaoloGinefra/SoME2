@@ -36,10 +36,10 @@ function setup() {
 	//Automabot
 	automabot = new Automabot(mazeGenerator.MapAutomaton, mazeGenerator.mapNodes);
 	automabot.size = mazeGenerator.cellSize;
-	automabot.speed = 1;
+	automabot.speed = 3;
 	automabot.Interpolation = Automabot.Linear
 	state = mazeGenerator.state2mapState[floor(Math.random() * mazeGenerator.Automaton.length)];
-	automabot.computeAnimation(state, "", true);
+	automabot.computeAnimation(state, "", true, true);
 
 	//console.log(ShortestWord(mazeGenerator.Automaton))
 }
