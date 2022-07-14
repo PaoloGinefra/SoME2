@@ -88,7 +88,8 @@ class OrientableItem {
     // https://stackoverflow.com/a/2708740
 
     let target = this.targetAngle;
-    const diff = Math.abs(this.targetAngle - this.angle);
+    const diff =
+      Math.abs(Math.round((this.targetAngle - this.angle) / (Math.PI / 2))) * (Math.PI/2);
     if (diff > Math.PI / 2) {
       if (this.targetAngle > this.angle) {
         target -= 2 * Math.PI;
