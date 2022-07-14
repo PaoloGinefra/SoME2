@@ -201,6 +201,12 @@ class Section {
       this.drawGreen();
     }
   }
+
+  mouseClicked() {
+    if (mouseY <= height && this.isInside(mouseX)) {
+      this.action = this.action === 0 ? 1 : 0;
+    }
+  }
 }
 
 const sections = [];
@@ -251,4 +257,8 @@ window.draw = function () {
   strokeWeight(1);
   stroke(127);
   line(0, height / 2, width, height / 2);
+};
+
+window.mouseClicked = function () {
+  sections.forEach((section) => section.mouseClicked());
 };
