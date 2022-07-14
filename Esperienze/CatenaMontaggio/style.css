@@ -6,4 +6,5 @@ body {
 
 canvas {
   margin: 10px;
+  cursor: pointer;
 }

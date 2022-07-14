@@ -9,6 +9,13 @@ const conveyorSectionWidth = 400;
 // enum
 const orientations = [0, Math.PI / 2, Math.PI, 3 * (Math.PI / 2)];
 
+const automaton = [
+  [3, 1],
+  [1, 2],
+  [2, 3],
+  [3, 0],
+];
+
 function rectangleCenter(x, y, w, h) {
   const x1 = x;
   const y1 = y;
@@ -24,46 +31,95 @@ class OrientableItem {
   nubWidth = 50;
   nubHeight = 50;
 
-  constructor(x, y, orientation) {
+  triggerOffset = [
+    // action 1
+    [
+      this.nubWidth / 2,
+      // these should never happen
+      0,
+      0,
+      0,
+    ],
+    // action 2
+    [
+      this.mainWidth / 2,
+      this.mainHeight / 2,
+      this.mainWidth / 2,
+      this.mainHeight / 2,
+    ],
+  ];
+
+  easing = 0.05;
+
+  constructor(x, y, initialState, sections) {
     this.x = x;
     this.y = y;
-    this.orientation = orientation;
+    this.state = initialState;
+    this.sections = sections;
+    this.lastSection = this.section; // NOTE: the item spawns off screen so this will be undefined in the begining
+    this.angle = this.targetAngle;
   }
 
-  // calculate the center by making a weighted average of the center of the two rectangles. The area of the rectangles is used as the weight.
+  // we consider the center of the main rectangle to be the center of the whole
   get center() {
-    // center of the main rectangle
-    const [x1, y1] = rectangleCenter(
-      this.x,
-      this.y,
-      this.mainWidth,
-      this.mainHeight
-    );
-    // center of the nub
-    const [x2, y2] = rectangleCenter(
-      this.x + this.mainWidth / 2 - this.nubWidth / 2,
-      this.y - this.nubHeight,
-      this.nubWidth,
-      this.nubHeight
-    );
-
-    const mainArea = this.mainWidth * this.mainHeight;
-    const nubArea = this.nubWidth * this.nubHeight;
-    const totalArea = mainArea + nubArea;
-
-    // weighted average
-    return [
-      (x1 * mainArea + x2 * nubArea) / totalArea,
-      (y1 * mainArea + y2 * nubArea) / totalArea,
-    ];
+    return rectangleCenter(this.x, this.y, this.mainWidth, this.mainHeight);
   }
 
-  get angle() {
-    return orientations[this.orientation];
+  get targetAngle() {
+    return orientations[this.state];
+  }
+
+  // NOTE: this returnsundefined if the item is off screen
+  get section() {
+    const [x, _] = this.center;
+    return this.sections.find((section) => section.isInside(x));
+  }
+
+  transition(action) {
+    this.state = automaton[this.state][action];
   }
 
   update() {
+    // update position
     this.x += deltaTime * conveyorSpeed;
+
+    // update angle
+    // https://stackoverflow.com/questions/2708476/rotation-interpolation
+    // https://stackoverflow.com/a/2708740
+
+    let target = this.targetAngle;
+    const diff =
+      Math.abs(Math.round((this.targetAngle - this.angle) / (Math.PI / 2))) * (Math.PI/2);
+    if (diff > Math.PI / 2) {
+      if (this.targetAngle > this.angle) {
+        target -= 2 * Math.PI;
+      } else {
+        target += 2 * Math.PI;
+      }
+    }
+
+    const dTheta = target - this.angle;
+    this.angle += dTheta * this.easing;
+
+    // update state
+    const currentSection = this.section;
+    const hasSectionChanged =
+      currentSection && currentSection.index !== this.lastSection?.index;
+
+    if (hasSectionChanged) {
+      const [centerX, _] = this.center;
+      const currentAction = currentSection.action;
+      const triggerOffset = this.triggerOffset[currentAction][this.state];
+
+      // wait for when we pass the pin to update the state
+      if (
+        centerX + triggerOffset >=
+        currentSection.pinPosition - currentSection.pinWidth / 2
+      ) {
+        this.lastSection = currentSection;
+        this.transition(currentAction);
+      }
+    }
   }
 
   draw() {
@@ -99,49 +155,70 @@ class OrientableItem {
   }
 }
 
-// NOTE: consider this an abstract class
-class Pin {
-  constructor(sectionId) {
-    this.x = conveyorSectionWidth * sectionId + conveyorSectionWidth / 2;
+class Section {
+  constructor(index, action) {
+    this.index = index;
+    this.action = action;
+
+    // x position of start and end of this section
+    this.start = conveyorSectionWidth * index;
+    this.end = conveyorSectionWidth * (index + 1);
+
+    // x position where the pin will be drawn
+    this.pinPosition =
+      conveyorSectionWidth * this.index + conveyorSectionWidth / 2;
+    this.pinWidth = 20;
+  }
+
+  isInside(x) {
+    // NOTE: start is inclusive and end is exclusive, this is to avoid having some x coords that are in two sections simultaneously
+    return x >= this.start && x < this.end;
+  }
+
+  drawRed() {
+    const color = "red";
+    const h = 70;
+    const y = 0;
+
+    fill(color);
+    noStroke();
+    rect(this.pinPosition - this.pinWidth / 2, y, this.pinWidth, h);
+  }
+
+  drawGreen() {
+    const color = "green";
+    const h = 150;
+    const y = height - h;
+
+    fill(color);
+    noStroke();
+    rect(this.pinPosition - this.pinWidth / 2, y, this.pinWidth, h);
   }
 
   draw() {
-    fill(this.color);
-    noStroke();
-    rect(this.x, this.y, this.w, this.h);
+    if (this.action === 0) {
+      this.drawRed();
+    } else {
+      this.drawGreen();
+    }
+  }
+
+  mouseClicked() {
+    if (mouseY <= height && this.isInside(mouseX)) {
+      this.action = this.action === 0 ? 1 : 0;
+    }
   }
 }
 
-class RedPin extends Pin {
-  color = "red";
-  w = 20;
-  h = 140;
-  y = 0;
-
-  constructor(x, y) {
-    super(x, y);
-  }
-}
-
-class GreenPin extends Pin {
-  color = "green";
-  w = 20;
-  h = 100;
-  y = height - this.h;
-
-  constructor(x, y) {
-    super(x, y);
-  }
-}
-
-const pins = [];
+const sections = [];
 let items = [];
 
 function addItem() {
   let newItem = new OrientableItem(
     -150,
     0,
-    Math.floor(Math.random() * orientations.length)
+    Math.floor(Math.random() * automaton.length),
+    sections
   );
 
   // center item verically
@@ -154,14 +231,17 @@ function addItem() {
 window.setup = function () {
   createCanvas(1500, 400);
 
-  const sections = Math.floor(width / conveyorSectionWidth);
-  for (let i = 0; i < sections; i++) {
-    const newPin = i % 2 == 0 ? new RedPin(i) : new GreenPin(i);
-    pins.push(newPin);
+  const sectionsNumber = Math.floor(width / conveyorSectionWidth);
+  for (let i = 0; i < sectionsNumber; i++) {
+    const action = i % 2 == 0 ? 0 : 1;
+    const newSection = new Section(i, action);
+    sections.push(newSection);
   }
 
   addItem();
-  setInterval(addItem, 3 * 1000);
+
+  const interval = width / conveyorSpeed;
+  window.setInterval(addItem, interval);
 };
 
 window.draw = function () {
@@ -171,11 +251,15 @@ window.draw = function () {
 
   // draw
   background("#333");
-  pins.forEach((pin) => pin.draw());
+  sections.forEach((section) => section.draw());
   items.forEach((item) => item.draw());
 
   // debug draw
   strokeWeight(1);
   stroke(127);
   line(0, height / 2, width, height / 2);
+};
+
+window.mouseClicked = function () {
+  sections.forEach((section) => section.mouseClicked());
 };
