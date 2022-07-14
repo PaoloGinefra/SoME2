@@ -19,7 +19,21 @@ class Automabot{
         return sin(t * PI / 2);
     }
 
-    constructor(Automaton, Nodes, speed = 1, size = 0.5, Interpolation = Automabot.Linear, stopThresh = 0.02){
+    static EaseIn(t){
+        return pow(t, 1/0.5);
+    }
+
+    static EaseOut(t){
+        return pow(t, 0.7);
+    }
+
+    static DoubleSigmoid(t, a = 0.5){
+        if(t <= 0.5)
+            return pow(2*t, 1/a)/2;
+        return 1 - pow(2*(1-t), 1/a)/2;
+    }
+
+    constructor(Automaton, Nodes, speed = 1, size = 0.5, Interpolation = Automabot.Linear, stopThresh = 0.01){
         this.Automaton = Automaton;
         this.Nodes = Nodes;
         this.speed = speed; //the movement speed of the bot in wu/s
@@ -40,8 +54,8 @@ class Automabot{
      */
 
     //Computes a Queue containing keyframes of the bot's position
-    computeAnimation(state, word, follow = false){
-        this.t = 0
+    computeAnimation(state, word, follow = false, overRide = false){
+        //this.t = 0
         state = this.lastState != null ? this.lastState : state
         let start = this.posQueue.length
         if(start == 0)
@@ -69,13 +83,20 @@ class Automabot{
             }while(isGate);
         }
 
+        if(!start){
+            this.posQueue[0].deltaTime = 0.001;
+        }
+
         //computes the time needed to transition between keyframes assuming a constant speed
         for(let i = start + (start == 0); i < this.posQueue.length; i++){
             this.posQueue[i].deltaTime = p5.Vector.dist(this.posQueue[i-1].pos, this.posQueue[i].pos) / this.speed;
         }
 
         //this.posIndex = 1
-        this.position = this.posQueue[0].pos;
+        if(overRide){
+            this.position = this.posQueue[0].pos;
+            this.lastTarget = this.position;
+        }
     }
 
     isGateState(state, prevState){
@@ -97,13 +118,18 @@ class Automabot{
     animationStep(){
         if(this.posQueue.length > 0){
             let target = this.posQueue[0];
-            this.position = p5.Vector.lerp(this.position,
-                                        target.pos,
-                                        this.Interpolation(this.t / target.deltaTime));
 
-            if(p5.Vector.dist(this.position, target.pos) <= this.stopThresh){
+            let l = this.Interpolation(min(1, this.t / target.deltaTime));
+
+            this.position = p5.Vector.lerp(this.lastTarget,
+                                        target.pos,
+                                        l);
+
+            if(1 - l <= this.stopThresh){
+                this.position = target.pos.copy();
                 this.t = 0;
                 this.posQueue.shift();
+                this.lastTarget = target.pos;
             }
             this.finished = false;
         }
@@ -124,6 +150,23 @@ class Automabot{
         imageMode(CORNER);
         image(this.sprite, wPos.x - size/2, wPos.y - size/2, size, size);
         smooth();
+    }
+
+    /**
+     * Returns the nearest state to the current position
+     */
+    nearestState(Nodes){
+        let minDist = Infinity;
+        let out = 0;
+        Nodes.forEach((node, state) => {
+            let d = p5.Vector.dist(node, this.position);
+            if(d < minDist){
+                minDist = d;
+                out = state;
+            }
+        });
+
+        return out;
     }
 
     //this function MUST be called once per frame

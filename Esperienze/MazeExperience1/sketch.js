@@ -2,8 +2,14 @@ let mazeGenerator, imageWaller, env, rayCaster, automabot;
 let state;
 const size = 5;
 
+let font;
+function preload(){
+	font = loadFont('../Art/Fonts/PressStart2P.ttf')
+}
+
 function setup() {
 	World.setup(windowWidth, windowHeight);
+	textFont(font);
 
 	//Maze generation
 	mazeGenerator = new NonPerfectMazeGenerator(10, 10, 0, 0.7, 0.1);
@@ -29,9 +35,9 @@ function setup() {
 
 	//Automabot
 	automabot = new Automabot(mazeGenerator.MapAutomaton, mazeGenerator.mapNodes);
-	automabot.size = 2 * mazeGenerator.cellSize;
+	automabot.size = mazeGenerator.cellSize;
 	automabot.speed = 1;
-	automabot.Interpolation = Automabot.Sin
+	automabot.Interpolation = Automabot.Linear
 	state = mazeGenerator.state2mapState[floor(Math.random() * mazeGenerator.Automaton.length)];
 	automabot.computeAnimation(state, "", true);
 

@@ -11,14 +11,20 @@ let tool = 0;
 
 let syncWord = 'Sus';
 
-const worker = new Worker('worker.js');
+const worker = new Worker('../Scripts/Automata/SynchWorker.js');
 
 worker.onmessage = message => syncWord = message.data;
 
+let font;
+
+function preload(){
+	font = loadFont('../Art/Fonts/PressStart2P.ttf')
+}
+
 function setup() {
+	textFont(font);
 	World.setup(windowWidth, windowHeight);
 	mazeGenerator = new NonPerfectMazeGenerator(5, 5, 2);
-	mazeGenerator.generateMaze();
 	mazeGenerator.size = 2;
 
 	phLabel = createDiv('ph [0, 1]');

@@ -13,6 +13,15 @@
     [10, 8],
 ]*/
 
+const syncWorker = new Worker('../Scripts/Automata/SynchWorker.js');
+let syncWord = 'Loading...';
+let syncDestination = '';
+
+syncWorker.onmessage = (message) => {
+    syncWord = message.data[0];
+    syncDestination = message.data[1];
+};
+
 function arrayEquals(a, b) {
     return Array.isArray(a) &&
         Array.isArray(b) &&

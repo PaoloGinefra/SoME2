@@ -23,7 +23,11 @@ class NonPerfectMazeGenerator{
         this.size = size
         this.cellSize = size / m;
 
+        this.shovelSprite = loadImage("../Art/ShovelIcon.png")
+        this.brickSprite = loadImage("../Art/BrickIcon.png")
+
         this.bgSprite = loadImage("../Art/GroundBgTile.png")
+        this.ladderSprite = loadImage("../Art/LadderTile.png")
         /**
          * The graph is the graph rappresentation of the maze, containing whether
          * there is a wall facing NESW for every cell
@@ -84,6 +88,8 @@ class NonPerfectMazeGenerator{
                 });
             }
         }
+
+        this.cellSize = this.size / this.image.length;
     }
 
     getImage(){
@@ -369,11 +375,21 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
                     textAlign(CENTER, TOP);
                     
                     if(matrix[i][j] == 2){
-                        text(stateId.toString(), pos.x, pos.y);
+                        //ellipse(pos.x, pos.y, World.w2s(this.cellSize - 0.02))
+                        fill(255)
+                        blendMode(SOFT_LIGHT);
+                        text(stateId.toString(), pos.x, pos.y - height / 2);
+                        blendMode(BLEND);
                         stateId ++;
                     }
-                    text(stateMap.toString(), pos.x, pos.y - height);
+                    //text(stateMap.toString(), pos.x, pos.y - height);
                     stateMap ++;
+                }
+
+                if(matrix[i][j] != 0 && ((i>0 && matrix[i-1][j]!=0) || (i<matrix.length-1 && matrix[i+1][j]!=0))){
+                    noSmooth();
+                    image(this.ladderSprite, pos.x, pos.y, wGS, wGS);
+                    smooth();
                 }
             }
         }
@@ -665,24 +681,37 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
      */
     drawBrush(pos, tool = 0){
         let [I, J] = this.getCellIndex(pos);
+        pos.x = floor((pos.x + this.cellSize/2) / this.cellSize) * this.cellSize;
+        pos.y = floor((pos.y + this.cellSize/2) / this.cellSize) * this.cellSize;
+        pos = World.w2s(pos);
+        let size = World.w2s(this.cellSize);
 
         if(tool > 1 || !this.isEditable(I, J, tool)){
             return
         }
 
+        let sprite;
+
+        imageMode(CENTER);
         if(!tool){
             fill(0, 120)
+            sprite = this.brickSprite;
+            square(pos.x, pos.y, size);
+
         }
         else{
-            fill(255, 0, 0, 120)
+            tint(255, 0, 0, 200);
+            sprite = this.shovelSprite;
+            noSmooth();
+            image(this.bgSprite, pos.x, pos.y, size, size);
+            smooth();
+            tint(255);
         }
 
-        pos.x = floor((pos.x + this.cellSize/2) / this.cellSize) * this.cellSize;
-        pos.y = floor((pos.y + this.cellSize/2) / this.cellSize) * this.cellSize;
+        noSmooth();
+        image(sprite, pos.x, pos.y, size, size);
+        smooth();
 
-        
-        pos = World.w2s(pos);
-        let size = World.w2s(this.cellSize);
-        square(pos.x, pos.y, size);
+
     }
 }
