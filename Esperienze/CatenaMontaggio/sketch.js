@@ -31,10 +31,12 @@ class OrientableItem {
   nubWidth = 50;
   nubHeight = 50;
 
-  constructor(x, y, initialState) {
+  constructor(x, y, initialState, sections) {
     this.x = x;
     this.y = y;
     this.state = initialState;
+    this.sections = sections;
+    this.lastSection = this.section; // NOTE: the item spawns off screen so this will be undefined in the begining
   }
 
   // calculate the center by making a weighted average of the center of the two rectangles. The area of the rectangles is used as the weight.
@@ -69,12 +71,26 @@ class OrientableItem {
     return orientations[this.state];
   }
 
+  // NOTE: this returnsundefined if the item is off screen
+  get section() {
+    const [x, _] = this.center;
+    return this.sections.find((section) => section.isInside(x));
+  }
+
   transition(action) {
     this.state = automaton[this.state][action];
   }
 
   update() {
     this.x += deltaTime * conveyorSpeed;
+    const currentSection = this.section;
+
+    if (currentSection && currentSection.index !== this.lastSection?.index) {
+      if (this.x >= currentSection.pinPosition) {
+        this.lastSection = currentSection;
+        this.transition(currentSection.action);
+      }
+    }
   }
 
   draw() {
@@ -110,49 +126,65 @@ class OrientableItem {
   }
 }
 
-// NOTE: consider this an abstract class
-class Pin {
-  constructor(sectionId) {
-    this.x = conveyorSectionWidth * sectionId + conveyorSectionWidth / 2;
+class Section {
+  constructor(index, action) {
+    this.index = index;
+    this.action = action;
+
+    // x position of start and end of this section
+    this.start = conveyorSectionWidth * index;
+    this.end = conveyorSectionWidth * (index + 1);
+
+    // x position where the pin will be drawn
+    this.pinPosition =
+      conveyorSectionWidth * this.index + conveyorSectionWidth / 2;
+  }
+
+  isInside(x) {
+    // NOTE: start is inclusive and end is exclusive, this is to avoid having some x coords that are in two sections simultaneously
+    return x >= this.start && x < this.end;
+  }
+
+  drawRed() {
+    const color = "red";
+    const w = 20;
+    const h = 140;
+    const y = 0;
+
+    fill(color);
+    noStroke();
+    rect(this.pinPosition - w / 2, y, w, h);
+  }
+
+  drawGreen() {
+    const color = "green";
+    const w = 20;
+    const h = 100;
+    const y = height - h;
+
+    fill(color);
+    noStroke();
+    rect(this.pinPosition - w / 2, y, w, h);
   }
 
   draw() {
-    fill(this.color);
-    noStroke();
-    rect(this.x, this.y, this.w, this.h);
+    if (this.action === 0) {
+      this.drawRed();
+    } else {
+      this.drawGreen();
+    }
   }
 }
 
-class RedPin extends Pin {
-  color = "red";
-  w = 20;
-  h = 140;
-  y = 0;
-
-  constructor(sectionId) {
-    super(sectionId);
-  }
-}
-
-class GreenPin extends Pin {
-  color = "green";
-  w = 20;
-  h = 100;
-  y = height - this.h;
-
-  constructor(sectionId) {
-    super(sectionId);
-  }
-}
-
-const pins = [];
+const sections = [];
 let items = [];
 
 function addItem() {
   let newItem = new OrientableItem(
     -150,
     0,
-    Math.floor(Math.random() * automaton.length)
+    Math.floor(Math.random() * automaton.length),
+    sections
   );
 
   // center item verically
@@ -165,36 +197,25 @@ function addItem() {
 window.setup = function () {
   createCanvas(1500, 400);
 
-  const sections = Math.floor(width / conveyorSectionWidth);
-  for (let i = 0; i < sections; i++) {
-    const newPin = i % 2 == 0 ? new RedPin(i) : new GreenPin(i);
-    pins.push(newPin);
+  const sectionsNumber = Math.floor(width / conveyorSectionWidth);
+  for (let i = 0; i < sectionsNumber; i++) {
+    const action = i % 2 == 0 ? 0 : 1;
+    const newSection = new Section(i, action);
+    sections.push(newSection);
   }
 
   addItem();
-  setInterval(addItem, 3 * 1000);
+  window.setInterval(addItem, 3 * 1000);
 };
 
 window.draw = function () {
   // update
   items = items.filter((item) => item.x < width); // remove out of screen items
-  items.forEach((item) => {
-    item.update();
-
-    // find lat pin that was passed
-    const pin = pins
-      .sort((p1, p2) => p2.x - p1.x)
-      .find((p) => Math.abs(p.x - item.x) <= 3); // FIXME: this solution is clunky and will not work if the framerate is low enough
-    // when the item has just been spawned it has not passedany pin, so it is undefined
-    if (pin) {
-      const action = pin.color === "red" ? 0 : 1;
-      item.transition(action);
-    }
-  });
+  items.forEach((item) => item.update());
 
   // draw
   background("#333");
-  pins.forEach((pin) => pin.draw());
+  sections.forEach((section) => section.draw());
   items.forEach((item) => item.draw());
 
   // debug draw
