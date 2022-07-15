@@ -79,7 +79,7 @@ function G_dis(state1, state2){
     return 1;
 }
 
-function ShortestWord(Automaton){
+function ShortestWord(Automaton, target = undefined){
     const k = Automaton[0].length; //the number of letters
     const nStates = Automaton.length
     const initialState = Array.from(Array(nStates).keys());
@@ -98,7 +98,7 @@ function ShortestWord(Automaton){
     while(Open.length != 0){
         let current = scoreArgMin(Open, FScores);
 
-        if(current.length === 1)
+        if(current.length === 1 && (target == undefined || current[0] == target))
             return [BuildPath(cameFrom, current), current[0], steps];
 
         Open = Open.filter(e => e != current);
