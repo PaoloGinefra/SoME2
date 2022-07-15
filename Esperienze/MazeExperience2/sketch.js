@@ -143,7 +143,7 @@ function drawWord(){
 	textAlign(CENTER, BOTTOM);
 	textSize(World.w2s(mazeGenerator.cellSize));
 	fill(0)
-	text(convertWord(syncWord) + '->' + syncDestination, p.x, p.y);
+	drawtext('$!' + convertWord(syncWord) + '$->' + syncDestination, p.x, p.y);
 }
 
 let dirs = "URDL";
@@ -152,6 +152,38 @@ function convertWord(word){
 	for(let c of word) 
   		out += dirs.charAt(Number(c));
 	return out;
+}
+
+function drawtext(str, x, y) {
+	let array = str.split('$')
+
+	let offset = 0;
+	array.forEach(subStr => {
+		offset += textWidth(subStr);
+		offset -= subStr.includes('!') * textWidth('!');
+	});
+	offset /= 2;
+
+    let pos_x = x;
+	textAlign(LEFT)
+	array.forEach(subStr => {
+		if(subStr.charAt(0) == '!'){
+			for(let char of subStr.slice(1)){
+				let c = Colors[dirs.indexOf(char)];
+				let w = textWidth(char);
+				fill(color(c));
+				text(char, pos_x - offset, y);
+				pos_x += w;
+			}
+		}
+		else{
+			let c = 'black';
+			let w = textWidth(subStr);
+			fill(c);
+			text(subStr, pos_x - offset, y);
+			pos_x += w;
+		}
+	});
 }
 
 let brickButton, shovelButton;
