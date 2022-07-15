@@ -1,10 +1,10 @@
-let mazeGenerator, automabot;
+let mazeGenerator, automabot, graphVisualizer, gvAutomabot;
 const size = 5;
 let state;
-
 let tool = 2;
-
 let UiPressed = false;
+
+let Colors = ['red', 'blue', 'green', 'purple'];
 
 let font;
 function preload(){
@@ -18,17 +18,36 @@ function setup() {
 	textFont(font);
 
 	//Maze Generation
-	mazeGenerator = new NonPerfectMazeGenerator(5, 5, 2, 0.7, 0.1, size);
+	mazeGenerator = new NonPerfectMazeGenerator(6, 6, 2, 0.7, 0.1, size);
 	mazeGenerator.generateMaze();
 	mazeGenerator.buildAutomata();
+
+	//GraphVisualizer
+	graphVisualizer = new GraphVisualizer();
+	graphVisualizer.center = createVector(size+0.5, 0);
+	graphVisualizer.tLength = 0.0001;
+	graphVisualizer.colors = Colors;
+	graphVisualizer.cRep = 0.05
+	graphVisualizer.size = size * 0.9
+	graphVisualizer.graph = mazeGenerator.Automaton
+	graphVisualizer.gridLen = sqrt(mazeGenerator.Automaton.length)
+	graphVisualizer.setup();
 
 	//Automabot
 	automabot = new Automabot();
 	automabot.speed = 5;
 	automabot.Interpolation = Automabot.DoubleSigmoid
-	state = mazeGenerator.state2mapState[floor(Math.random() * mazeGenerator.Automaton.length)];
+	let startState = floor(Math.random() * mazeGenerator.Automaton.length);
+	state = mazeGenerator.state2mapState[startState];
 	UpdateAutomabot();
 	automabot.computeAnimation(state, "", true, 1);
+
+	//GvAutomabot
+	gvAutomabot = new Automabot();
+	gvAutomabot.speed = 5;
+	gvAutomabot.Interpolation = Automabot.DoubleSigmoid;
+	UpdateGvAutomabot();
+	gvAutomabot.computeAnimation(startState, "", true, 1);
 
 	ComputeWord();
 }
@@ -45,7 +64,11 @@ function draw() {
 
 	drawWord();
 
+	graphVisualizer.drawGraph();
+	gvAutomabot.drawSprite();
+
 	automabot.animationStep();
+	gvAutomabot.animationStep();
 }
 
 const keyComands = [
@@ -60,6 +83,7 @@ function keyPressed(){
 	
 	if(i < keyComands[0].length){
 		automabot.computeAnimation(state, i.toString(), true);
+		gvAutomabot.computeAnimation(state, i.toString(), false);
 	}
 }
 
@@ -70,16 +94,23 @@ function mouseClicked(){
 	}
 
 	let wMouse = World.s2w(World.mouseVec);
-	if(tool != 2 && mouseButton == LEFT && mazeGenerator.brush(wMouse, tool)){
-		ComputeWord();
+	if(tool != 2 && mouseButton == LEFT){
+		if(mazeGenerator.brush(wMouse, tool)){
+			mazeGenerator.buildAutomata();
 
-		mazeGenerator.buildAutomata();
+			UpdateAutomabot();
+			state = automabot.nearestState(mazeGenerator.mapNodes);
+			automabot.computeAnimation(state, "", true, 1);
 
-		UpdateAutomabot();
-		state = mazeGenerator.state2mapState[automabot.nearestState(mazeGenerator.Nodes)];
-		automabot.computeAnimation(state, "", true, 1);
+			UpdateVisualizer();
+			gvAutomabot.computeAnimation(automabot.nearestState(mazeGenerator.Nodes), "", false, 1);
 
-		ComputeWord();
+			ComputeWord();
+		}
+		else{
+			tool = 2;
+			ButtonReset();
+		}
 	}
 }
 
@@ -87,6 +118,19 @@ function UpdateAutomabot(){
 	automabot.Automaton = mazeGenerator.MapAutomaton;
 	automabot.Nodes = mazeGenerator.mapNodes;
 	automabot.size = mazeGenerator.cellSize;
+}
+
+function UpdateGvAutomabot(){
+	gvAutomabot.Automaton = mazeGenerator.Automaton;
+	gvAutomabot.Nodes = graphVisualizer.Nodes;
+	gvAutomabot.size = mazeGenerator.cellSize;
+}
+
+function UpdateVisualizer(){
+	graphVisualizer.graph = mazeGenerator.Automaton
+	graphVisualizer.gridLen = sqrt(mazeGenerator.Automaton.length)
+	graphVisualizer.setup();
+	UpdateGvAutomabot();
 }
 
 function ComputeWord(){
@@ -134,6 +178,17 @@ function UIsetup(){
 
 	});
 
+	ButtonReset();
+}
+
+function ButtonReset(){
+	brickButton.style('transform: scale(1);')
 	brickButton.style('background-color: rgba(0,0,0,0); opacity: 50%;')
+	shovelButton.style('transform: scale(1);')
 	shovelButton.style('background-color: rgba(0,0,0,0); opacity: 50%;')
+}
+
+
+function windowResized() {
+	World.setup(windowWidth, windowHeight, 1);
 }

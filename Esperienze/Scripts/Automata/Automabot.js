@@ -56,10 +56,17 @@ class Automabot{
     //Computes a Queue containing keyframes of the bot's position
     computeAnimation(state, word, follow = false, overRide = false){
         //this.t = 0
-        state = this.lastState != null ? this.lastState : state
+        if(!overRide){
+            state = this.lastState != null ? this.lastState : state;
+        }
+        else{
+            this.posQueue = [];
+            this.lastState = state;
+        }
+
         let start = this.posQueue.length
         if(start == 0)
-            this.posQueue.push({pos: this.Nodes[state]})
+            this.posQueue.push({pos: this.Nodes[state], deltaTime: 0.0001});
 
         //Computes the positions executing the given word
         for(let i = 0; i < word.length; i++){
@@ -81,10 +88,6 @@ class Automabot{
                 state = newState;
                 this.lastState = newState;
             }while(isGate);
-        }
-
-        if(!start){
-            this.posQueue[0].deltaTime = 0.001;
         }
 
         //computes the time needed to transition between keyframes assuming a constant speed

@@ -32,8 +32,11 @@ class World{
     static offset;
 
     //This function MUST be called in the sketch setup
-    static setup(width, height){
-        createCanvas(width, height);
+    static setup(width, height, resize = false){
+        if(!resize)
+            createCanvas(width, height);
+        else
+            resizeCanvas(width, height);
         World.width = width;
         World.height = height;
         World.oW = createVector(0, 0);

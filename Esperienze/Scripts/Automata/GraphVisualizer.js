@@ -26,7 +26,7 @@
         this.sigma = sigma;
         this.epsilon = epsilon;
         this.gridLen = gridLen;
-        this.size = 1;
+        this.size = size;
 
         this.center = typeof center == 'undefined' ? createVector(0, 0) : center;
 
@@ -65,7 +65,7 @@
 
     //This draws nodes [I know, mindblowing]
     drawGraph(){
-        World.offset = this.center;
+        //World.offset = this.center;
         this.Nodes.forEach((node, i) => {
             let p = World.w2s(node);
             let id = 0;
@@ -139,7 +139,7 @@
             textSize(World.w2s(this.nodeSize * 0.6 / this.scale));
             text(i.toString(), p.x, p.y);
         })
-        World.offset = createVector(0, 0);
+        //World.offset = createVector(0, 0);
     }
 
     //Compute the repulsive force between two nodes
@@ -196,24 +196,24 @@
         }
 
         //Rescale the graph to fit the size
-        let maxP = createVector(-Infinity, -Infinity);
-        let minP = createVector(Infinity, Infinity);
+        let scale = createVector(-Infinity, -Infinity);
 
         this.Nodes.forEach(node => {
-            maxP.x = max(maxP.x, node.x);
-            maxP.y = max(maxP.y, node.y);
-
-            minP.x = min(minP.x, node.x);
-            minP.y = min(minP.y, node.y);
+            scale.x = max(scale.x, abs(node.x));
+            scale.y = max(scale.y, abs(node.y));
         });
 
-        let scale = p5.Vector.sub(maxP, minP).div(2 * this.size);
+        scale.div(this.size/2);
         this.Nodes.forEach(node => {
             node.x /= scale.x;
             node.y /= scale.y;
         });
 
-        this.scale = scale.x;
+        this.Nodes.forEach(node => {
+            node.add(this.center);
+        });
+
+        this.scale = max(scale.x, scale.y);
         //The scale is also used for the node size, so it's necesary only if smaller than one
         this.scale = this.scale > 1 ? this.scale : 1;
     }
