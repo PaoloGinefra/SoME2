@@ -187,8 +187,3 @@ function ButtonReset(){
 	shovelButton.style('transform: scale(1);')
 	shovelButton.style('background-color: rgba(0,0,0,0); opacity: 50%;')
 }
-
-
-function windowResized() {
-	World.setup(windowWidth, windowHeight, 1);
-}

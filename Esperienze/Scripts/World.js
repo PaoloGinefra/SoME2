@@ -146,3 +146,7 @@ class Interpolator{
         return this.y;
     }
 }
+
+function windowResized() {
+	World.setup(windowWidth, windowHeight, 1);
+}
