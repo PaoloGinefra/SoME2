@@ -4,7 +4,7 @@ let state;
 let tool = 2;
 let UiPressed = false;
 
-let Colors = ['red', 'blue', 'green', 'purple'];
+let Colors = ['red', 'blue', 'green', 'orange'];
 
 let font;
 function preload(){
@@ -18,7 +18,7 @@ function setup() {
 	textFont(font);
 
 	//Maze Generation
-	mazeGenerator = new NonPerfectMazeGenerator(6, 6, 2, 0.7, 0.1, size);
+	mazeGenerator = new NonPerfectMazeGenerator(6, 6, 3, 0.7, 0.1, size);
 	mazeGenerator.generateMaze();
 	mazeGenerator.buildAutomata();
 
@@ -44,7 +44,7 @@ function setup() {
 
 	//GvAutomabot
 	gvAutomabot = new Automabot();
-	gvAutomabot.speed = 5;
+	gvAutomabot.speed = 3;
 	gvAutomabot.Interpolation = Automabot.DoubleSigmoid;
 	UpdateGvAutomabot();
 	gvAutomabot.computeAnimation(startState, "", true, 1);
