@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import p5 from 'p5'
+import { SketchFunction } from '../hooks/useSketch'
 
 declare global {
   interface Window {
@@ -12,7 +13,7 @@ if (!window.p5) {
 }
 
 export interface SketchProps {
-  sketchFunction: (p: p5) => void
+  sketchFunction: SketchFunction
 }
 
 const Sketch = ({ sketchFunction }: SketchProps) => {
@@ -21,7 +22,7 @@ const Sketch = ({ sketchFunction }: SketchProps) => {
   useEffect(() => {
     const p5sketch = new p5(sketchFunction, ref.current)
     return () => p5sketch.remove()
-  })
+  }, [sketchFunction])
 
   return <div ref={ref}></div>
 }
