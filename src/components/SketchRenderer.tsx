@@ -12,19 +12,19 @@ if (!window.p5) {
   window.p5 = p5
 }
 
-export interface SketchProps {
-  sketchFunction: SketchFunction
+export interface SketchRendererProps {
+  sketch: SketchFunction
 }
 
-const Sketch = ({ sketchFunction }: SketchProps) => {
+const SketchRenderer = ({ sketch }: SketchRendererProps) => {
   const ref = useRef<HTMLDivElement>()
 
   useEffect(() => {
-    const p5sketch = new p5(sketchFunction, ref.current)
+    const p5sketch = new p5(sketch, ref.current)
     return () => p5sketch.remove()
-  }, [sketchFunction])
+  }, [sketch])
 
   return <div ref={ref}></div>
 }
 
-export default Sketch
+export default SketchRenderer

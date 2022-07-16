@@ -1,4 +1,4 @@
-import { MutableRefObject, useCallback, useRef } from 'react'
+import { MutableRefObject, useRef } from 'react'
 import type p5 from 'p5'
 import useSketch, { SketchFunction } from './useSketch'
 

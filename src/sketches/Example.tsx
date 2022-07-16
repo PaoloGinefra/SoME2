@@ -1,4 +1,4 @@
-import Sketch from '../components/SketchNext'
+import SketchRenderer from '../components/SketchRendererNext'
 import useSketch from '../hooks/useSketch'
 
 // The code for this example has been modified from https://p5js.org/examples/motion-morph.html
@@ -87,7 +87,7 @@ const Test = () => {
     }
   })
 
-  return <Sketch sketchFunction={sketch} />
+  return <SketchRenderer sketch={sketch} />
 }
 
 export default Test

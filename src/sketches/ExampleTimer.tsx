@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Sketch from '../components/SketchNext'
+import SketchRenderer from '../components/SketchRendererNext'
 import useStatefulSketch from '../hooks/useStatefulSketch'
 
 // The code for this example has been modified from https://p5js.org/examples/motion-morph.html
@@ -37,7 +37,7 @@ const ExampleTimer = () => {
 
   return (
     <>
-      <Sketch sketchFunction={sketch} />
+      <SketchRenderer sketch={sketch} />
       <button onClick={() => setPaused(!paused)}>
         {paused ? 'unpause' : 'pause'} timer
       </button>
