@@ -1,17 +1,15 @@
-import { CONVEYOR_SECTION_WIDTH } from "./constants";
-
 export class Section {
-  constructor(index, action) {
+  constructor(index, action, width) {
     this.index = index;
     this.action = action;
+    this.width = width;
 
     // x position of start and end of this section
-    this.start = CONVEYOR_SECTION_WIDTH * index;
-    this.end = CONVEYOR_SECTION_WIDTH * (index + 1);
+    this.start = this.width * index;
+    this.end = this.width * (index + 1);
 
     // x position where the pin will be drawn
-    this.pinPosition =
-      CONVEYOR_SECTION_WIDTH * this.index + CONVEYOR_SECTION_WIDTH / 2;
+    this.pinPosition = this.width * this.index + this.width / 2;
     this.pinWidth = 20;
   }
 

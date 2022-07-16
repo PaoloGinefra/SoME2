@@ -1,5 +1,5 @@
 import "p5";
-import { automaton, CONVEYOR_SECTION_WIDTH, CONVEYOR_SPEED } from "./constants";
+import { automaton, CONVEYOR_SPEED, SECTIONS_NUMBER } from "./constants";
 import { OrientableItem } from "./OrientableItem";
 import { Section } from "./Section";
 
@@ -25,12 +25,12 @@ function addItem() {
 }
 
 window.setup = function () {
-  createCanvas(1500, 400);
+  createCanvas(2000, 400);
 
-  const sectionsNumber = Math.floor(width / CONVEYOR_SECTION_WIDTH);
-  for (let i = 0; i < sectionsNumber; i++) {
+  const sectionWidth = Math.floor(width / SECTIONS_NUMBER);
+  for (let i = 0; i < SECTIONS_NUMBER; i++) {
     const action = i % 2 == 0 ? 0 : 1;
-    const newSection = new Section(i, action);
+    const newSection = new Section(i, action, sectionWidth);
     sections.push(newSection);
   }
 

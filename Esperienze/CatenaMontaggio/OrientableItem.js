@@ -33,6 +33,7 @@ export class OrientableItem {
     ],
   ];
 
+  // TODO: make easing proportional to section width
   easing = 0.05;
 
   constructor(x, y, initialState, sections) {
