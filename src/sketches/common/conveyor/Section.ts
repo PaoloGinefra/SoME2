@@ -1,5 +1,5 @@
 import type P5 from 'p5'
-import { Action } from './constants'
+import { Action } from './automaton'
 
 export class Section {
   p5: P5

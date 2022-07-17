@@ -5,8 +5,8 @@ import {
   CONVEYOR_SPEED,
   DEBUG,
   SECTIONS_NUMBER,
-  states,
-} from './common/conveyor/constants'
+} from './common/conveyor/settings'
+import { states } from './common/conveyor/automaton'
 import { pick } from './common/conveyor/util'
 import { OrientableItem } from './common/conveyor/OrientableItem'
 import { Section } from './common/conveyor/Section'

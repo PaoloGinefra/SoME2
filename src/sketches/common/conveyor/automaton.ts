@@ -1,7 +1,3 @@
-export const CONVEYOR_SPEED = 0.5
-export const SECTIONS_NUMBER = 7
-export const DEBUG = false
-
 // all possible states
 export const states = [0, 1, 2, 3] as const
 

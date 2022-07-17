@@ -1,12 +1,6 @@
 import type P5 from 'p5'
-import {
-  Action,
-  automaton,
-  CONVEYOR_SPEED,
-  DEBUG,
-  orientations,
-  State,
-} from './constants'
+import { CONVEYOR_SPEED, DEBUG } from './settings'
+import { Action, automaton, orientations, State } from './automaton'
 import { Section } from './Section'
 import { rectangleCenter } from './util'
 
