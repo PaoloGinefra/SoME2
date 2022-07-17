@@ -3,6 +3,7 @@ import {
   Action,
   automaton,
   CONVEYOR_SPEED,
+  DEBUG,
   orientations,
   State,
 } from './constants'
@@ -144,14 +145,15 @@ export class OrientableItem {
 
     this.p5.pop()
 
-    // debug draw
-    this.p5.strokeWeight(10)
+    if (DEBUG) {
+      this.p5.strokeWeight(10)
 
-    this.p5.stroke('green')
-    const [x, y] = this.center
-    this.p5.point(x, y)
+      this.p5.stroke('green')
+      const [x, y] = this.center
+      this.p5.point(x, y)
 
-    this.p5.stroke('red')
-    this.p5.point(this.x, this.y)
+      this.p5.stroke('red')
+      this.p5.point(this.x, this.y)
+    }
   }
 }

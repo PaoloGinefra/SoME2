@@ -3,6 +3,7 @@ import useSketch from '../hooks/useSketch'
 
 import {
   CONVEYOR_SPEED,
+  DEBUG,
   SECTIONS_NUMBER,
   states,
 } from './common/conveyor/constants'
@@ -53,10 +54,11 @@ const ConveyorBelt = () => {
       sections.forEach((section) => section.draw())
       items.forEach((item) => item.draw())
 
-      // debug draw
-      p5.strokeWeight(1)
-      p5.stroke(127)
-      p5.line(0, p5.height / 2, p5.width, p5.height / 2)
+      if (DEBUG) {
+        p5.strokeWeight(1)
+        p5.stroke(127)
+        p5.line(0, p5.height / 2, p5.width, p5.height / 2)
+      }
     }
 
     p5.mouseClicked = function () {
