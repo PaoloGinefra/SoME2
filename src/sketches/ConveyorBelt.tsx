@@ -21,6 +21,8 @@ const ConveyorBelt = () => {
     let sections = []
     let items = []
 
+    let lastSpawnTimestamp = 0
+
     function resize(isSetup = false) {
       const canvasElement = canvas.elt as HTMLCanvasElement
       const div = canvasElement.parentElement
@@ -30,7 +32,7 @@ const ConveyorBelt = () => {
       p5.resizeCanvas(div.clientWidth, 400, isSetup)
     }
 
-    function addItem() {
+    function spawnItem() {
       let newItem = new OrientableItem(p5, -150, 0, pick(states), sections)
 
       // center item verically
@@ -51,11 +53,6 @@ const ConveyorBelt = () => {
         const newSection = new Section(p5, i, action, sectionWidth)
         sections.push(newSection)
       }
-
-      const interval = p5.width / CONVEYOR_SPEED
-
-      // FIXME: cannot use this
-      window.setInterval(addItem, interval)
     }
 
     p5.setup = function () {
@@ -67,6 +64,14 @@ const ConveyorBelt = () => {
       // update
       items = items.filter((item) => item.x < p5.width) // remove out of screen items
       items.forEach((item) => item.update())
+
+      const now = p5.millis()
+      const itemSpawnInterval = p5.width / CONVEYOR_SPEED
+
+      if (lastSpawnTimestamp + itemSpawnInterval < now) {
+        lastSpawnTimestamp = now
+        spawnItem()
+      }
 
       // draw
       p5.background('#333')
