@@ -1,4 +1,4 @@
-import type { Renderer } from 'p5'
+import type { Image, Renderer } from 'p5'
 import SketchRenderer from '../components/SketchRendererNext'
 import useSketch from '../hooks/useSketch'
 
@@ -18,8 +18,8 @@ const ConveyorBelt = () => {
   const sketch = useSketch((p5) => {
     let canvas: Renderer
 
-    let sections = []
-    let items = []
+    let sections: Section[] = []
+    let items: OrientableItem[] = []
 
     let lastSpawnTimestamp = 0
 
