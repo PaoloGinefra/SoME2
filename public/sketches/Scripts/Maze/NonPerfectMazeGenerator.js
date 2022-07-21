@@ -574,6 +574,7 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
     //A state is [i, j] as of the graph index of the node
     this.States = []
     this.mapStates = []
+    this.roomStates = []
     this.state2mapState = {}
     for (let i = 0; i < this.m; i++) {
       for (let j = 0; j < this.n; j++) {
@@ -598,6 +599,14 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
       this.getCellwp(2 * s[0] + 1, 2 * s[1] + 1)
     )
 
+    this.roomNodes = []
+    for (let i = 0; i < this.m; i++) {
+      for (let j = 0; j < this.n; j++) {
+        this.roomStates.push([i, j])
+        this.roomNodes.push(this.getCellwp(2 * i + 1, 2 * j + 1))
+      }
+    }
+
     //For each state find the neighbours and but them in the automaton
     this.Automaton = []
     this.States.forEach((state, stateId) => {
@@ -610,6 +619,13 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
     this.mapStates.forEach((state, stateId) => {
       this.MapAutomaton.push(
         this.stateNeighbours(state, stateId, this.mapStates, this.isMapState)
+      )
+    })
+
+    this.RoomAutomaton = []
+    this.roomStates.forEach((state, stateId) => {
+      this.RoomAutomaton.push(
+        this.stateNeighbours(state, stateId, this.roomStates, () => true)
       )
     })
   }
