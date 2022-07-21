@@ -11,9 +11,14 @@
   font-size: 2em;
 }
 
-.container p, .container li{
+.container p, .container ul{
   font-size: 1.2em;
   line-height: 1.5em;
+}
+
+.container ol{
+  font-size: 1em;
+  line-height: 1em;
 }
 
 .container img {

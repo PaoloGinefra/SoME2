@@ -79,8 +79,12 @@ Only passive solutions are allowed. Studing the shape of the roof you arrive at 
 should be enough to rotate the pieces form any orietation to every other.
 
 </TextContainer>
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 <SketchIframe src="/sketches/conveyor-belt/index.html" height={400} />
+<TextContainer>
 
 <TextContainer>
 
@@ -151,7 +155,38 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
 
     How can we know that for a given automaton a synchronizing word exists?
 
-    This question was originally thought of in disguise, it had a different name and it was wearing a hat and sunglasses.
+    This question was originally thought of in disguise, it had a different name and it was wearing glasses. We are really talking about a Superman-Clark Kent situation though.
+    In the 70s Adler, Goodwyn and Weiss first conjured the "Road Coloring Problem".
+
+    We already established the strong bond between automata and directed graphs, well originally the investigations leaned more on the graph side.
+    A coloring of a directed graph is simply the assignmet of a color to each edge exiting a node such that no two edges exiting from the same node have the same color.
+    It's basically what we did before assigning a symbol for each possible transition and then assigning a color for every symbol.
+
+    The problem goes something like this: given a graph that satifies some conditions (we'll get to those in a moment),
+    does a coloring of the edges that admits a synchronizing sequence exist?
+
+    The conditions mentioned are there mainly to avoid trivial cases where a synchronizing word can't be found.
+    Note that they are all sufficient, which means that when a graph verifies them all, a synch word has to exist (or rather may exist, that's the question) but
+    when it doesn't, it's not implied the there's none.
+    Let's try and work our way up to those. As in all great leggends there are three:
+
+    1. A synchronizing word needs to work starting from any vertex of the graph, so naturally each symbol
+    must be interpretable at each node. Let's say your symbols are A, B and C.
+    If there is a node with just two edges coming out of it and we assign to them the letters A and B,
+    what would happen if at that node we ask for C? It doesn't make sense, does it? The same goes for a node
+    with four exiting edges. The number of edges coming out of a node is called out-degree, so
+    in order for a synchronizing word to even make sense **the out-degree of every node needs to be constant**.
+
+    2. A synchronizing word leads every node to a single one. So, first of all, that node must be reachable in one
+    way or another from every node of the graph. Remember that a graph is just a set of nodes and edges so there's nothing
+    against building one with edgeless nodes or isolated parts. To protect ourself from those we need to be able to
+    reach every node starting from every other node via a valid route, or in other word, we need a **strongly connected graph**
+
+    3. Unfotunatly now it gets a little more complicated. Picture a graph with just three nodes with out-degree of 1,
+    where each node points to the one which does not point to it. You get a cycle, which is not that big of a deal per se.
+    But this cycle is special. You'll never be able to make two different nodes collapse into one using a word. It's impossible.
+    We need to avoid these kind of situations. Without entring in the gory details that are beyond the scope of this article,
+    we need an **aperiodic graph**
 
 
     ### There's more than mazes and lego bricks
@@ -190,10 +225,13 @@ A note[^1]
 - [ ] to do
 - [x] done
 
+<<<<<<< Updated upstream
 {/* <Example />
 
 <ExampleTimer /> */}
 
+=======
+>>>>>>> Stashed changes
 </TextContainer>
 
 <TextContainer>
@@ -208,19 +246,6 @@ A note[^1]
 
 ## Conveyor belt
 
-</TextContainer>
-
-<TextContainer>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore ratione quia
-  enim quam ipsa quo dolore dolorum ullam sequi vitae excepturi praesentium
-  laboriosam voluptatum neque hic tempora illum, accusantium commodi harum
-  similique porro? Eius amet iusto ullam illum vel officiis est quis quas hic,
-  quisquam voluptatum dicta repellendus veniam fuga optio autem culpa provident
-  laudantium expedita iste mollitia earum similique vitae. Ad modi quos nam
-  repellendus molestiae corporis rerum ratione harum temporibus blanditiis,
-  quasi neque perspiciatis ex maiores recusandae? Itaque, cum. Temporibus,
-  dolore voluptates. Neque, dolor eius amet necessitatibus inventore a, quidem
-  consequatur ea rerum, quo perspiciatis accusamus sapiente laudantium!
 </TextContainer>
 
 </FadeBg>
