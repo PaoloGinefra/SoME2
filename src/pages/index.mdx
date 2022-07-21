@@ -185,6 +185,57 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
     We need to avoid these kind of situations. Without entring in the gory details that are beyond the scope of this article,
     we need an **aperiodic graph**
 
+    Now that trivial cases are out of the way, what more can we say about the existence of a synch coloring?
+    Well the authors of the problem didn't arrive at a solution but they proposed a conjecture, the "Road Coloring conjecture".
+
+    Hold on thight because it's about to get crazy.
+
+    They simply conjectured that that's it: as long as those conditions are met,
+    you are guaranteed that a synching coloring exists, they are sufficient.
+
+    It can't be true, can it? Three simple checks are enough for something so oddly specific and powerful? It's almost unbelievable.
+    Such sweet endings must live only in fairy tails. But indeed an ending was not. It was a conjecture, not a theorem.
+    A still untouched hevenly city that can crumble at a single counter exemple, hidden behind the seemingly
+    unsurmountable wall of a lack of a rigorous proof.
+
+    40 years passed and the failed attempts of hundreds of mathematicians continued stacking up.
+    It was thanks to Avraham Trahtman in the year 2007 that we can now talk about the end of this story.
+    He finally proved the conjecture, the dream became reality and they all lived happily ever after.
+    Except for us because this is just the beginning...
+
+    ### Synchcronizing words are sharper than swords
+
+    The "Road Coloring theorem" is really amazing but it doesn't tell us anything on how to find the synchronizing words.
+
+    Let's start by noticing that when a graph allows a synching word to exist, it automatically implies
+    that there are infinite many of them.
+    That's because if we combine a synch word with any other possible combination of symbols we still get a synching word.
+    So let's refine once more our target, we want to find the shortest synching word for a given automaton.
+
+    For this kind of task it may be useful to tuckle the problem from more of a computer sciency perspective.
+    We are looking for an algorithm.
+
+    The fist step of our algorithm has to be checking the existence of the word, and we can easily do that with the Road coloring theorem.
+
+    Then we need to find the word.
+    A basic approach would be to methodically test increasingly longer words against random initial states to see if they are synchronizing.
+    The core idea is not bad, in fact it's the one behind every synching word finding algorithm. But it needs quite a bit of polish.
+
+    What about instead of seeing what happens to a single initial state we apply a transition to a set of states
+    recording where each of them lands? Now we can explore all the different possibilities starting from
+    a set of all the possible states and gradually appling all the possible transitions.
+    Then we apply all the possible transitions to the resulting sets of the previous step
+    and so on until we find a set with just one state.
+
+    Proceeding mindlessly in this way we can build a so called tree.
+    Mind that in this way the order by which we check the transitions matters and we are not ensured to find the shortest sequence.
+    The game changes if we keep track of the sets we encounter along the way. In this way we can keep going only when
+    we are presented with a new set.
+
+    ### CANVAS WITH AN AUTOMABOT PER STARTING NODE
+
+
+
 
     ### There's more than mazes and lego bricks
 
