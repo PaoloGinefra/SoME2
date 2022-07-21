@@ -1,12 +1,16 @@
 let mazeGenerator, imageWaller, env, rayCaster, automabot
 let mapButton
 let state,
-  showMap = false
+  showMap = false,
+  autoMovment = false
 const size = 10
 
 let font
 function preload() {
   font = loadFont('../Art/Fonts/PressStart2P.ttf')
+
+  let params = getURLParams()
+  autoMovment = params.auto == 'true'
 }
 
 function setup() {
@@ -14,7 +18,12 @@ function setup() {
   textFont(font)
 
   //Maze generation
-  mazeGenerator = new NonPerfectMazeGenerator(10, 10, 2, 0.7, 0.1)
+  /**
+   * SEED-Size   WORD
+   * 33694208-8 -> 12113030101
+   * 883911424-8 -> 1101301010 - RRURLURURU
+   */
+  mazeGenerator = new NonPerfectMazeGenerator(8, 8, 883911424, 0.7, 0.1)
   mazeGenerator.size = size
   mazeGenerator.generateMaze()
   mazeGenerator.buildAutomata()
@@ -35,7 +44,16 @@ function setup() {
   rayCaster.bodyColor = color(0, 0)
 
   //Automabot
-  automabot = new Automabot(mazeGenerator.MapAutomaton, mazeGenerator.mapNodes)
+  if (autoMovment)
+    automabot = new Automabot(
+      mazeGenerator.MapAutomaton,
+      mazeGenerator.mapNodes
+    )
+  else
+    automabot = new Automabot(
+      mazeGenerator.RoomAutomaton,
+      mazeGenerator.roomNodes
+    )
   automabot.size = mazeGenerator.cellSize
   automabot.speed = 1.5
   automabot.Interpolation = Automabot.Linear
@@ -43,7 +61,7 @@ function setup() {
     mazeGenerator.state2mapState[
       floor(Math.random() * mazeGenerator.Automaton.length)
     ]
-  automabot.computeAnimation(state, '', true, true)
+  automabot.computeAnimation(state, '', autoMovment, true)
 
   mapButton = createButton('')
   mapButton.position(0, 0)
@@ -52,7 +70,7 @@ function setup() {
   mapButton.style('border: none')
   mapButton.style('outline: none')
 
-  ComputeWord()
+  //ComputeWord()
 }
 
 function ComputeWord() {
@@ -64,7 +82,7 @@ function ComputeWord() {
 }
 
 function draw() {
-  console.log(syncWord)
+  //console.log(syncWord)
 
   background(0)
   World.cameraPos = automabot.position
@@ -113,7 +131,7 @@ function keyPressed() {
     for (i = 0; i < keyComands[j].length && key != keyComands[j][i]; i++);
 
   if (i < keyComands[0].length) {
-    automabot.computeAnimation(state, i.toString(), true)
+    automabot.computeAnimation(state, i.toString(), autoMovment)
   }
 }
 
