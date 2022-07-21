@@ -155,7 +155,7 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
     In the 70s Adler, Goodwyn and Weiss first conjured the "Road Coloring Problem".
 
     We already established the strong bond between automata and directed graphs, well originally the investigations leaned more on the graph side.
-    A coloring of a directed graph is simply the assignmet of a color to each edge exiting a node such that no two edges exiting from the same node have the same color.
+    A coloring of a directed graph is simply the assignmet of a color to each edge exiting a node such that no two edges from the same node have the same color.
     It's basically what we did before assigning a symbol for each possible transition and then assigning a color for every symbol.
 
     The problem goes something like this: given a graph that satifies some conditions (we'll get to those in a moment),
@@ -183,6 +183,38 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
     But this cycle is special. You'll never be able to make two different nodes collapse into one using a word. It's impossible.
     We need to avoid these kind of situations. Without entring in the gory details that are beyond the scope of this article,
     we need an **aperiodic graph**
+
+    Now that trivial cases are out of the way, what more can we say about the existence of a synch coloring?
+    Well the authors of the problem didn't arrive at a solution but they proposed a conjecture, the "Road Coloring conjecture".
+
+    Hold on thight because it's about to get crazy.
+
+    They simply conjectured that that's it: as long as those conditions are met,
+    you are guaranteed that a synching coloring exists, they are sufficient.
+
+    It can't be true, can it? Three simple checks are enough for something so oddly specific and powerful? It's almost unbelievable.
+    Such sweet endings must live only in fairy tails. But indeed an ending was not. It was a conjecture, not a theorem.
+    A still untouched hevenly city that can crumble at a single counter exemple, hidden behind the seemingly
+    unsurmountable wall of a lack of a rigorous proof.
+
+    40 years passed and the failed attempts of hundreds of mathematicians continued stacking up.
+    It was thanks to Avraham Trahtman in the year 2007 that we can now talk about the end of this story.
+    He finally proved the conjecture, the dream became reality and they all lived happily ever after.
+    Except for us because this is just the beginning...
+
+    ### Synchcronizing words are sharper than swords
+
+    The "Road Coloring theorem" is really amazing but it doesn't tell us anything on how to find the synchronizing words.
+
+    Let's start by noticing that when a graph allows a synching word to exist, it automatically implies
+    that there are infinite many of them.
+    That's because if we combine a synch word with any other possible combination of symbols we still get a synching word.
+    So let's refine once more our target, we want to find the shortest synching word for a given automaton.
+
+    For this kind of task it may be useful to tuckle the problem from more of a computer sciency perspective.
+    We are looking for an algorithm.
+
+
 
 
     ### There's more than mazes and lego bricks
