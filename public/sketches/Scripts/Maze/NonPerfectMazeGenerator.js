@@ -377,18 +377,26 @@ class NonPerfectMazeGenerator {
      * Draws the maze
 z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
      */
-  draw(Colors = ['black', 'white', 'purple', 'orange']) {
+  draw(
+    drawNumbers = true,
+    offset = undefined,
+    scale = 1,
+    Colors = ['black', 'white', 'purple', 'orange']
+  ) {
+    offset = offset ? offset : createVector(0, 0)
     noStroke()
     let matrix = this.image
     let cellSize = this.size / matrix.length
     this.cellSize = cellSize
-    let wGS = World.w2s(cellSize)
+    let wGS = World.w2s(cellSize) * scale
     let stateId = 0
     let stateMap = 0
     rectMode(CENTER)
     for (let i = 0; i < matrix.length; i++) {
       for (let j = 0; j < matrix[i].length; j++) {
-        let pos = World.w2s(this.getCellwp(i, j))
+        let pos = World.w2s(
+          p5.Vector.mult(this.getCellwp(i, j), scale).add(offset)
+        )
         fill(Colors[matrix[i][j]])
 
         if (matrix[i][j] != 0) {
@@ -399,12 +407,12 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
         } else square(pos.x, pos.y, wGS)
 
         if (matrix[i][j] > 1) {
-          let height = World.w2s(cellSize / 2)
+          let height = World.w2s((cellSize / 2) * scale)
           fill(255)
           textSize(height)
           textAlign(CENTER, TOP)
 
-          if (matrix[i][j] == 2) {
+          if (drawNumbers && matrix[i][j] == 2) {
             //ellipse(pos.x, pos.y, World.w2s(this.cellSize - 0.02))
             fill(255)
             blendMode(SOFT_LIGHT)

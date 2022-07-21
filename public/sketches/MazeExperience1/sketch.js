@@ -1,6 +1,8 @@
 let mazeGenerator, imageWaller, env, rayCaster, automabot
-let state
-const size = 5
+let mapButton
+let state,
+  showMap = false
+const size = 10
 
 let font
 function preload() {
@@ -12,7 +14,7 @@ function setup() {
   textFont(font)
 
   //Maze generation
-  mazeGenerator = new NonPerfectMazeGenerator(10, 10, 0, 0.7, 0.1)
+  mazeGenerator = new NonPerfectMazeGenerator(10, 10, 2, 0.7, 0.1)
   mazeGenerator.size = size
   mazeGenerator.generateMaze()
   mazeGenerator.buildAutomata()
@@ -35,7 +37,7 @@ function setup() {
   //Automabot
   automabot = new Automabot(mazeGenerator.MapAutomaton, mazeGenerator.mapNodes)
   automabot.size = mazeGenerator.cellSize
-  automabot.speed = 3
+  automabot.speed = 1.5
   automabot.Interpolation = Automabot.Linear
   state =
     mazeGenerator.state2mapState[
@@ -43,21 +45,55 @@ function setup() {
     ]
   automabot.computeAnimation(state, '', true, true)
 
-  //console.log(ShortestWord(mazeGenerator.Automaton))
+  mapButton = createButton('')
+  mapButton.position(0, 0)
+  mapButton.mousePressed(ToggleMap)
+  mapButton.style('background: none')
+  mapButton.style('border: none')
+  mapButton.style('outline: none')
+
+  ComputeWord()
+}
+
+function ComputeWord() {
+  syncWord = '...'
+  syncWorker.postMessage([
+    mazeGenerator.Automaton,
+    mazeGenerator.Automaton.length - 1,
+  ])
 }
 
 function draw() {
+  console.log(syncWord)
+
   background(0)
   World.cameraPos = automabot.position
   World.draw()
 
-  mazeGenerator.draw()
+  mapButton.size(
+    World.w2s(mazeGenerator.cellSize),
+    World.w2s(mazeGenerator.cellSize)
+  )
+
+  mapButton.position(
+    (World.width - mapButton.width) / 2,
+    (World.height - mapButton.height) / 2
+  )
+
+  mazeGenerator.draw(false)
 
   automabot.drawSprite()
 
   rayCaster.updateOrigin(automabot.position)
   rayCaster.cast(env.getWalls())
   rayCaster.draw()
+
+  if (showMap)
+    mazeGenerator.draw(
+      true,
+      p5.Vector.add(automabot.position, createVector(0, 0)),
+      0.1
+    )
 
   automabot.animationStep()
 }
@@ -79,4 +115,8 @@ function keyPressed() {
   if (i < keyComands[0].length) {
     automabot.computeAnimation(state, i.toString(), true)
   }
+}
+
+function ToggleMap() {
+  showMap = !showMap
 }
