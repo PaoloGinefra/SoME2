@@ -5,14 +5,27 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
   background-color: white;
   color: black;
   text-align: justify;
 }
 
-
 * {
   box-sizing: border-box;
+}
+
+kbd {
+  color: black;
+  background-color: #eee;
+  border-radius: 0.25em;
+  padding: 0.25rem 0.5rem;
+
+  box-shadow: inset 0 -4px 0 #bbb;
+
+  font-family: monospace;
+  font-weight: normal;
+  font-style: normal;
 }
