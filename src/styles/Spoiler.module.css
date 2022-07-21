@@ -1,0 +1,20 @@
+.spoiler {
+  border-radius: 0.25em;
+  padding: 0 0.25em;
+
+  transition-duration: 0.5s;
+  transition-property: color, background-color;
+}
+
+.hidden {
+  color: transparent;
+  background-color: black;
+
+  /* pointer-events: none; */
+  user-select: none;
+  cursor: pointer;
+}
+
+.shown {
+  background-color: rgba(0, 0, 0, 0.3);
+}

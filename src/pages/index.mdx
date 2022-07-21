@@ -1,12 +1,149 @@
 import TextContainer from '../components/TextContainer'
-import DarkFadeBg from '../components/DarkFadeBg'
+import FadeBg from '../components/FadeBg'
+import Spoiler from '../components/Spoiler'
 import SketchIframe from '../components/SketchIframe'
 import Example from '../sketches/Example'
 import ExampleTimer from '../sketches/ExampleTimer'
 
 <TextContainer>
-# Hello world
 
+    # All roads lead to Rome, a colorful problem
+
+</TextContainer>
+
+<FadeBg color = 'black'>
+<TextContainer>
+
+## An adventurous mathematician
+
+It was a quiet evening. Avraham, an intrepid maths enthusiast, had just got home after a long day at uni.
+Mindlessly scrolling through his phone and seeing the umpteenth online advertisement about cryptocurrencies, half curious, half surrendered, Avraham decided he would give them a go.
+
+He just knew he wasn't going to be keen on finance nor trading. He was although excited about trying to mine some Bitcoin, he had heard great things of it, so he set himself to do that.
+Little did he know that he was taking _mining_ a bit too literally...
+All geared up, hoping to squeeze in a little fitness in his search, he adventured into the "flatland mine".
+
+Spanning only in a single vertical plane, the harsh tunnels were going to be a challenge to scout.
+
+To the reader, Avraham may seem impulsive, almost hasty, but he is surely not unwary. In fact, he had made sure to bring a map of the mine with him.
+
+We all know how mathematicians are though... While looking for a bitcoin, still exploring, Avraham got caught up in his thoughts
+and switched to autopilot, thinking back to a conjecture he had stumbled upon the day before.
+
+Returning to the $\R$eal world he understood he had gotten lost. A brief moment of panic followed but soon enough, behind his glasses, his eyes flashed with a frenzied glee.
+He was suddenly a part of one of the problems he so loved to take on.
+
+A quick glance at the map was enough to realise that he unfortunately could not pinpoint his location, the mine's corridors looked all the same and were too dark: it was impossible to find a reference point.
+
+### CANVAS CON MOVIMENTO NON AUTOMATICO
+
+The next natural step was to clearly identify what was he looking for.\
+He figured that he needed to choose what to do only at the crossroads, because he could just follow streight corridors and go back if he found a dead end.\
+So he needed a set of instructions (which told him whether to go Up, Down, Left or Right at the crossroads) that would lead him to the exit no metter his location.
+
+A bunch of questions naturally started to float around in Avraham's mind:
+
+- Does such a set even exist?
+- Is there a way to find it quickly?
+- How many instructions would the smallest one contain at best? and at worst?
+
+### CANVAS CON MOVIMENTO AUTOMATICO
+
+Avraham then sat down and began to ponder, scribbling on the mine's dusty walls.
+After a while (he quickly lost track of time) he shouted: 'EUREKA!!! I need to follow UULDL'.
+
+</TextContainer>
+</FadeBg>
+
+<FadeBg color='#192841'>
+<TextContainer>
+## An orientation problem fair and square
+The year is 2122, the world has evolved in unimaginable ways: deadly diseases are a thing of the past,
+the usage of metal straws insted of plastic ones managed to save the enviroment and the Riemann hypothesis has been proven
+for a couple of years now. But above all of that, LEGO finally decided to launch its firtst full scale car model.
+Obviously, LEGO being LEGO, the factory of said cars had to be built entirely using legos... something about brand identity.
+
+Unfortunatly, a new way to move objects in a straight line hasn't been found yet, conveyor belts are still the state of the art.
+Not only that, but a series of poorly made decisions (some of them regarding hibernation) has led you to be
+in charge of designing said contraptions for the LEGO car company.
+
+Today you are tackling a peculiar situation:\
+The last step to completing a car is to attach the roof. There are two conveyor belts perpendicular to each other,
+one for the almost-finished cars and the other for the roofs. The problem is that roofs can come in four different orientations
+but only one of them fits the car!
+
+### PICTURE WITH THE ORIENTATIONS
+
+Your job is to design a setup to orient the pieces in the right way. Oviously you can use lego bricks only, so no sensors, no motors, nothing like that.
+Only passive solutions are allowed. Studing the shape of the roof you arrive at the conclusion that placing a series of briks in just one of two vertical positions
+should be enough to rotate the pieces form any orietation to every other.
+
+### CANVAS WITH JUST ONE BRICK TO TEST AT FIRST, AND THE POSSIBILITY TO ADD
+
+Now the big problem is to find the right series. You try to solve the problem on your own but after a while you give up.
+So you try a quick browser search (obviously using your mind) and you find an old paper that seems to give you all the answers.
+The name of the author strucks you for being quite unusual. You really can't think about anybody else named Avrham.
+Anyway, you try using the suggested algorithm and find the sequence "01010100101"
+
+</TextContainer>
+</FadeBg>
+
+<FadeBg color = 'black'>
+  <TextContainer>
+
+    ## What's behind the trick
+
+    The findings of Avraham and future you almost resemble a magic trick. In fact
+    something like this has been used in several ones.
+    The ability to follow a set of instructions just to end up in the same
+    configuration, no matter the starting one, is not only mind blowing but also
+    hella useful. You may be surprised to know that this is a mathematical concept
+    that has been studied for over half a centuary now and that it even has some problems still left unsolved.
+    Let's dive a little deeper...
+
+    ### The beauty of Automata / Time to abstract
+
+    So, as we have just seen, the "trick" works in a wide variety of situations so, in a truly mathematical fashion, we need
+    to use the power of abstraction to factor out all the scenario specific differences so as just to focus on the common part.
+
+    First of all we can call the crossroads / roofs orientations / configurations "States" and the instructions to move between them "Transitions".
+
+    In both the examples is clear that after reaching a state you are presented with a choice, you could either go Up, Down, Left or Right in the maze
+    or choose the Green or Red brick for the legos. It's natural to identify transitions with symbols like U,D,L,R or G and R or 0,1,2,3 and so on.
+    Now try and think of the last sequence of symbols you used to convey some sort of meaning... a word. That's how a sequence of instructions is called.
+
+    Now, if we associate every symbol with a color, we can draw every state as a node and every transition as a colored arrow between nodes.
+    We have now rappresented our setup as a directed graph.
+
+    ### CANVAS WITH GRAPH
+
+    Not only that, but now given a starting state and a word we can easily compute the landing state.
+
+    ### AUTOMABOT DEMO
+
+    So let's recap, we have constructed a not so black box that can take in a set of instructions, a word, and spits out a result.
+    Doesn't it sounds even a little familiar? Careful because this time the answer is litterally before your eyes: a Computer!
+
+
+    Well not quite, it's an abstract computer, a mathematical one. An automaton!
+
+    Now try and execute the same word from the same starting state twice, do you expect the results to change?
+    I mean it would be a problem if it did: if you ask your calculator what 2+2 is, you'd want the answer not to change every time, wouldn't you?
+    These kind of processes are called deterministic.
+    Furthermore, in this case the number of possible states has a limit, it's finite.
+
+    We have built a **Deterministic Finite Automaton** also known as a DFA.
+
+    ### GRAPH VERSION OF MAZE AND BELT WITH AUTOMABOT
+
+  </TextContainer>
+</FadeBg>
+
+<TextContainer>
+  Spoiler: <Spoiler>scemo chi legge</Spoiler>
+</TextContainer>
+
+<TextContainer>
 ## Math (with $\KaTeX$)
 
 Lift($L$) can be determined by Lift Coefficient ($C_L$) like the following
@@ -33,21 +170,11 @@ A note[^1]
 - [ ] to do
 - [x] done
 
-</TextContainer>
-
-<DarkFadeBg>
-<TextContainer>
-    
-## TODO: Put labyrinth here.
-
 <Example />
 
 <ExampleTimer />
 
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore ratione quia enim quam ipsa quo dolore dolorum ullam sequi vitae excepturi praesentium laboriosam voluptatum neque hic tempora illum, accusantium commodi harum similique porro? Eius amet iusto ullam illum vel officiis est quis quas hic, quisquam voluptatum dicta repellendus veniam fuga optio autem culpa provident laudantium expedita iste mollitia earum similique vitae. Ad modi quos nam repellendus molestiae corporis rerum ratione harum temporibus blanditiis, quasi neque perspiciatis ex maiores recusandae? Itaque, cum. Temporibus, dolore voluptates. Neque, dolor eius amet necessitatibus inventore a, quidem consequatur ea rerum, quo perspiciatis accusamus sapiente laudantium!
-
 </TextContainer>
-</DarkFadeBg>
 
 <TextContainer>
 [A link to Google](https://google.com)
@@ -56,7 +183,7 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore ratione quia en
 
 </TextContainer>
 
-<DarkFadeBg>
+<FadeBg>
 <TextContainer>
 
 ## Conveyor belt
@@ -78,4 +205,4 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore ratione quia en
   consequatur ea rerum, quo perspiciatis accusamus sapiente laudantium!
 </TextContainer>
 
-</DarkFadeBg>
+</FadeBg>
