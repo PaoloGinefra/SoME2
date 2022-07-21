@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MazeExperience2</title>
+
+    <!-- P5 -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"
+      integrity="sha512-NxocnqsXP3zm0Xb42zqVMvjQIktKEpTIbCXXyhBPxqGZHqhcOXHs4pXI/GoZ8lE+2NJONRifuBpi9DxC58L0Lw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/addons/p5.sound.min.js"
+      integrity="sha512-WzkwpdWEMAY/W8WvP9KS2/VI6zkgejR4/KTxTl4qHx0utqeyVE0JY+S1DlMuxDChC7x0oXtk/ESji6a0lP/Tdg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script src="../Scripts/World.js"></script>
+    <script src="../Scripts/Automata/Automabot.js"></script>
+    <script src="../Scripts/Automata/GraphVisualizer.js"></script>
+    <script src="../Scripts/Automata/SynchWordFinder.js"></script>
+    <script src="../Scripts/Maze/NonPerfectMazeGenerator.js"></script>
+    <script src="../Scripts/Utilities/Random.js"></script>
+    <script src="sketch.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      canvas {
+        margin: auto;
+      }
+
+      .ui {
+        border: none;
+        image-rendering: pixelated;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color: rgba(255, 255, 255, 0);
+        height: 50px;
+        width: 50px;
+        margin: 1%;
+        transition-duration: 0.3s;
+      }
+
+      .container {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <button
+        class="ui"
+        id="brick"
+        style="background-image: url('../Art/BrickIcon.png')"
+      ></button>
+      <button
+        class="ui"
+        id="shovel"
+        style="background-image: url('../Art/ShovelIcon.png')"
+      ></button>
+    </div>
+  </body>
+</html>
