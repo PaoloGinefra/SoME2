@@ -1,0 +1,4 @@
+.frame {
+  width: calc(100% - 2 * 4em);
+  margin: 0 4em;
+}

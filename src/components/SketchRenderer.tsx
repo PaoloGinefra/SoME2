@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { CSSProperties, useEffect, useRef } from 'react'
 import p5 from 'p5'
 import { SketchFunction } from '../hooks/useSketch'
 
@@ -12,11 +12,15 @@ if (!window.p5) {
   window.p5 = p5
 }
 
+export type Dimensions = [width: number, height: number]
+
 export interface SketchRendererProps {
   sketch: SketchFunction
+  className?: string
+  style?: CSSProperties
 }
 
-const SketchRenderer = ({ sketch }: SketchRendererProps) => {
+const SketchRenderer = ({ sketch, ...props }: SketchRendererProps) => {
   const ref = useRef<HTMLDivElement>()
 
   useEffect(() => {
@@ -24,7 +28,7 @@ const SketchRenderer = ({ sketch }: SketchRendererProps) => {
     return () => p5sketch.remove()
   }, [sketch])
 
-  return <div ref={ref}></div>
+  return <div ref={ref} {...props}></div>
 }
 
 export default SketchRenderer
