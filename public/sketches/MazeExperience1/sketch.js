@@ -4,6 +4,7 @@ let state,
   showMap = false,
   autoMovment = false
 const size = 10
+let dirsButtons = []
 
 let font
 function preload() {
