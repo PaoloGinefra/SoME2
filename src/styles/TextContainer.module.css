@@ -11,7 +11,7 @@
   font-size: 2em;
 }
 
-.container p {
+.container p, .container li{
   font-size: 1.2em;
   line-height: 1.5em;
 }

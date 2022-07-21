@@ -16,10 +16,10 @@ import ExampleTimer from '../sketches/ExampleTimer'
 
 ## An adventurous mathematician
 
-It was a quiet evening. Avraham, an intrepid maths enthusiast, had just got home after a long day at uni.
+It was a quiet evening in Gaussville. Avraham, an intrepid maths enthusiast, had just got home after a long day at uni.
 Mindlessly scrolling through his phone and seeing the umpteenth online advertisement about cryptocurrencies, half curious, half surrendered, Avraham decided he would give them a go.
 
-He just knew he wasn't going to be keen on finance nor trading. He was although excited about trying to mine some Bitcoin, he had heard great things of it, so he set himself to do that.
+He just knew he wasn't going to be keen on finance nor trading. He was although excited about trying to mine some Bitcoins, he had heard great things of it, so he set himself to do that.
 Little did he know that he was taking _mining_ a bit too literally...
 All geared up, hoping to squeeze in a little fitness in his search, he adventured into the "flatland mine".
 
@@ -50,7 +50,7 @@ A bunch of questions naturally started to float around in Avraham's mind:
 ### CANVAS CON MOVIMENTO AUTOMATICO
 
 Avraham then sat down and began to ponder, scribbling on the mine's dusty walls.
-After a while (he quickly lost track of time) he shouted: 'EUREKA!!! I need to follow UULDL'.
+After a while (he quickly lost track of time) he shouted: 'EUREKA!!! I need to follow <Spoiler>UULDL</Spoiler>'.
 
 </TextContainer>
 </FadeBg>
@@ -83,7 +83,7 @@ should be enough to rotate the pieces form any orietation to every other.
 Now the big problem is to find the right series. You try to solve the problem on your own but after a while you give up.
 So you try a quick browser search (obviously using your mind) and you find an old paper that seems to give you all the answers.
 The name of the author strucks you for being quite unusual. You really can't think about anybody else named Avrham.
-Anyway, you try using the suggested algorithm and find the sequence "01010100101"
+Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GRRGR</Spoiler>"
 
 </TextContainer>
 </FadeBg>
@@ -110,19 +110,19 @@ Anyway, you try using the suggested algorithm and find the sequence "01010100101
 
     In both the examples is clear that after reaching a state you are presented with a choice, you could either go Up, Down, Left or Right in the maze
     or choose the Green or Red brick for the legos. It's natural to identify transitions with symbols like U,D,L,R or G and R or 0,1,2,3 and so on.
-    Now try and think of the last sequence of symbols you used to convey some sort of meaning... a word. That's how a sequence of instructions is called.
+    Now try and think of the last sequence of symbols you used to convey some sort of meaning... a <Spoiler>word</Spoiler>. That's how a sequence of instructions is called.
 
     Now, if we associate every symbol with a color, we can draw every state as a node and every transition as a colored arrow between nodes.
     We have now rappresented our setup as a directed graph.
 
     ### CANVAS WITH GRAPH
 
-    Not only that, but now given a starting state and a word we can easily compute the landing state.
+    Not only that, but now given a starting state and a word we can easily compute the landing state. It's just a metter of following the right arrows.
 
     ### AUTOMABOT DEMO
 
     So let's recap, we have constructed a not so black box that can take in a set of instructions, a word, and spits out a result.
-    Doesn't it sounds even a little familiar? Careful because this time the answer is litterally before your eyes: a Computer!
+    Doesn't it sounds even a little familiar? Careful because this time the answer is litterally before your eyes: <Spoiler>a Computer!</Spoiler>
 
 
     Well not quite, it's an abstract computer, a mathematical one. An automaton!
@@ -135,6 +135,22 @@ Anyway, you try using the suggested algorithm and find the sequence "01010100101
     We have built a **Deterministic Finite Automaton** also known as a DFA.
 
     ### GRAPH VERSION OF MAZE AND BELT WITH AUTOMABOT
+
+    ### It's a matter of synchronization
+
+    Now let's focus on the actual magic trick, i think it's time we give a name to what we are looking for.
+    We have a bunch of different starting states and we want to bring them to just one.
+    It's like we are a conductor and every member of the orchestra is playing out of synch, we need to
+    find a sequence to reallign them, something like a synchronizing sequence... a **synchronizing word**.
+
+    Okay cool, let's try not to follow Avraham's exemple. Let's ensure that our goal really exists *before* we embark in our wonderful quest.
+
+    How can we know that for a given automaton a synchronizing word exists?
+
+    This question was originally thought of in disguise, it had a different name and it was wearing a hat and sunglasses.
+
+
+    ### There's more than mazes and lego bricks
 
   </TextContainer>
 </FadeBg>
