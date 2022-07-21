@@ -5,17 +5,6 @@ let items = []
 
 let lastSpawnTimestamp = 0
 
-function resize(isSetup = false) {
-  if (!canvas) return
-
-  const canvasElement = canvas.elt
-  const container = canvasElement.parentElement
-
-  // if we are calling this from setup() do not readraw the canvas
-  // this is because the draw() method was implementd assuming that the  setup() would have been exectued completely before being called
-  resizeCanvas(container.clientWidth, 400, isSetup)
-}
-
 function spawnItem() {
   let newItem = new OrientableItem(-150, 0, pick(states), sections)
 
@@ -27,20 +16,18 @@ function spawnItem() {
 }
 
 function conveyorSetup(isSetup = false) {
-  resize(isSetup)
-
   sections = []
 
-  const sectionWidth = Math.floor(width / SECTIONS_NUMBER)
   for (let i = 0; i < SECTIONS_NUMBER; i++) {
     const action = i % 2 == 0 ? 0 : 1
-    const newSection = new Section(i, action, sectionWidth)
+    const newSection = new Section(i, action, SECTION_WIDTH)
     sections.push(newSection)
   }
 }
 
 function setup() {
-  canvas = createCanvas(500, 400)
+  const width = SECTIONS_NUMBER * SECTION_WIDTH
+  canvas = createCanvas(width, 400)
   conveyorSetup(true)
 }
 
@@ -71,8 +58,4 @@ function draw() {
 
 function mouseClicked() {
   sections.forEach((section) => section.mouseClicked())
-}
-
-function windowResized() {
-  conveyorSetup()
 }
