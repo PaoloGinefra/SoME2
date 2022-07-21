@@ -2,7 +2,7 @@ import { AppProps } from 'next/app'
 import Head from 'next/head'
 import '../styles/globals.css'
 
-const siteTitle = 'Our website title'
+const siteTitle = 'All roads lead to Rome, a colorful problem'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -11,7 +11,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
         <meta
           name="description"
-          content="Learn how to build a personal website using Next.js"
+          content={
+            'A SoME2 submission about the so-called "Road coloring problem"'
+          }
         />
         <meta
           property="og:image"
