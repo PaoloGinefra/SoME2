@@ -8,17 +8,27 @@ const Automaton = [
 let gv
 let automabot, mazeGenerator
 
-let startingStateInput, wordInput
+let startingStateInput, wordInput, scenarioButton
 let go = false
 
 let divHeight = 30
+let ShowMine = false
+
+let brickColors
+let mineColors
 
 function setup() {
-  console.log('setup')
+  brickColors = [color('red'), color('green')]
+  mineColors = [color('red'), color('blue'), color('green'), color('orange')]
+
   World.setup(windowWidth, windowHeight)
 
+  mazeGenerator = new NonPerfectMazeGenerator(7, 7, 178079500, 0.7, 0.1)
+  mazeGenerator.generateMaze()
+  mazeGenerator.buildAutomata()
+
   gv = new GraphVisualizer(Automaton)
-  gv.colors = [color('red'), color('green')]
+  gv.colors = brickColors
   gv.gridLen = 3
   gv.setup()
 
@@ -35,14 +45,14 @@ function setup() {
 
   startingStateInput = select('#startingState')
 
-  let len = Automaton.length
-  for (let i = 0; i < len; i++) {
-    startingStateInput.option(i.toString())
-  }
+  updateOptions()
 
   startingStateInput.changed(handleSelect)
 
   wordInput = select('#wordInput')
+
+  scenarioButton = select('#switch')
+  scenarioButton.mousePressed(handleScenario)
 
   automabot.computeAnimation(
     Number(startingStateInput.value()),
@@ -94,4 +104,42 @@ function parceWord(word) {
   }
 
   return output
+}
+
+function updateOptions(){
+  let len = gv.graph.length
+  startingStateInput.html('')
+  for (let i = 0; i < len; i++) {
+    startingStateInput.option(i.toString())
+  }
+  startingStateInput.value()
+}
+
+function handleScenario() {
+  ShowMine = !ShowMine
+
+  if (ShowMine) {
+    gv.graph = mazeGenerator.Automaton
+    gv.size = 5
+    gv.colors = mineColors
+    gv.setup()
+
+    wordInput.attribute('pattern', '[udlrUDLR0123]+')
+
+    automabot.Automaton = mazeGenerator.Automaton
+    automabot.Nodes = gv.Nodes
+    scenarioButton.html('Mine')
+  } else {
+    gv.graph = Automaton
+    gv.size = 1
+    gv.colors = brickColors
+    gv.setup()
+
+    wordInput.attribute('pattern', '[rgRG01]+')
+    automabot.Automabot = Automaton
+    automabot.Nodes = gv.Nodes
+    scenarioButton.html('Conveyor belt')
+  }
+  handleSelect()
+  updateOptions()
 }

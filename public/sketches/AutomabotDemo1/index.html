@@ -37,21 +37,36 @@
 				Helvetica Neue, sans-serif;
 			}
 
-			input[type='submit']{
+			#buttonContainer{
+				position: fixed;
+				bottom:0;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+			}
+
+			input[type='submit'], button{
 				border-radius: 2em;
 				border: 2px solid black;
 				background-color: transparent;
 				transition-duration: 0.3s;
-				padding: 3%;
+				padding: 2%;
 			}
 
-			input[type='submit']:hover{
+			button{
+				padding: 1%;
+				font-size: 1.5em;
+				border-radius: 1em;
+				margin: 1%;
+			}
+
+			input[type='submit']:hover, button:hover{
 				background-color: black;
 				color: white;
 				/* border: none; */
 			}
 
-			input[type='submit']:active{
+			input[type='submit']:active, button:active{
 				transition-duration: 0.1s;
 				background-color: rgb(111, 111, 111);
 			}
@@ -82,5 +97,7 @@
 			<br><br>
 			<input id='Submit' type="submit" value="Compute">
 		</form>
+		<div id="buttonContainer"><button id="switch">Conveyor belt</button></div>
+		
 	</body>
 </html>
