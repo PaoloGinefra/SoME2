@@ -6,7 +6,7 @@ const Automaton = [
 ]
 
 let gv
-let automabots, mazeGenerator
+let automabots, beltbots, minebots, mazeGenerator
 
 let wordInput, scenarioButton
 let go = false
@@ -30,7 +30,6 @@ function setup() {
   gv = new GraphVisualizer(Automaton)
   gv.colors = brickColors
   gv.gridLen = 3
-  gv.setup()
 
   buildBots()
 
@@ -45,20 +44,39 @@ function draw() {
   World.draw()
 
   gv.drawGraph()
-  automabots.forEach((bot) => bot.drawSprite())
 
   automabots.forEach((bot) => bot.animationStep())
 
-
-  // if (go) automabot.animationStep()
-
-  // if (automabot.finished) {
-  //   go = false
-  // }
+  automabots.forEach((bot) => bot.drawSprite())
 }
 
 function buildBots() {
-  automabots = []
+  beltbots = []
+  minebots = []
+
+  gv.graph = mazeGenerator.Automaton
+  gv.size = 5
+  gv.setup()
+
+  mazeGenerator.Automaton.forEach((_, i) => {
+    let automabot = new Automabot(mazeGenerator.Automaton, gv.Nodes)
+    automabot.speed = 1
+    automabot.size = 0.1
+    automabot.Interpolation = Automabot.DoubleSigmoid
+    automabot.Sprite = (pos, size) => {
+      fill('black')
+      stroke(0)
+      strokeWeight(World.w2s(0.005))
+      ellipse(pos.x, pos.y, size)
+    }
+    automabot.computeAnimation(i, '', false, true)
+    minebots.push(automabot)
+  })
+
+  gv.graph = Automaton
+  gv.size = 1
+  gv.setup()
+
   gv.graph.forEach((_, i) => {
     let automabot = new Automabot(Automaton, gv.Nodes)
     automabot.speed = 1
@@ -71,15 +89,9 @@ function buildBots() {
       ellipse(pos.x, pos.y, size)
     }
     automabot.computeAnimation(i, '', false, true)
-    automabots.push(automabot)
+    beltbots.push(automabot)
   })
-}
-
-function handleSelect() {
-  let state = Number(startingStateInput.value())
-
-  go = false
-  automabot.computeAnimation(state, parceWord(wordInput.value()), false, true)
+  automabots = beltbots
 }
 
 function parceWord(word) {
@@ -87,7 +99,30 @@ function parceWord(word) {
   let output = ''
 
   for (let c of word) {
-    output += c == 'r' || c == '0' ? '0' : '1'
+    if (!ShowMine) output += c == 'r' || c == '0' ? '0' : '1' 
+    else {
+      switch (c) {
+        case 'u':
+        case '0':
+          output += '0'
+          break
+
+        case 'r':
+        case '1':
+          output += '1'
+          break
+
+        case 'd':
+        case '2':
+          output += '2'
+          break
+
+        case 'l':
+        case '3':
+          output += '3'
+          break
+      }
+    }
   }
 
   return output
@@ -104,8 +139,7 @@ function handleScenario() {
 
     wordInput.attribute('pattern', '[udlrUDLR0123]+')
 
-    automabot.Automaton = mazeGenerator.Automaton
-    automabot.Nodes = gv.Nodes
+    automabots = minebots
     scenarioButton.html('Mine')
   } else {
     gv.graph = Automaton
@@ -114,20 +148,16 @@ function handleScenario() {
     gv.setup()
 
     wordInput.attribute('pattern', '[rgRG01]+')
-    automabot.Automabot = Automaton
-    automabot.Nodes = gv.Nodes
+
+    automabots = beltbots
     scenarioButton.html('Conveyor belt')
   }
 }
 
 function handleSubmit() {
-  if (!go) {
-    let word = wordInput.value()
-    automabots.forEach((bot, i) =>
-      bot.computeAnimation(i, parceWord(word), false, true)
-    )
-    go = true
-  } else {
-    go = false
-  }
+  let word = wordInput.value()
+  console.log(parceWord(word))
+  automabots.forEach((bot, i) =>
+    bot.computeAnimation(i, parceWord(word), false, true)
+  )
 }

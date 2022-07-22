@@ -76,7 +76,7 @@ class Automabot {
     //Computes the positions executing the given word
     for (let i = 0; i < word.length; i++) {
       let isGate = false
-      let char = word[i]
+      let char = Number(word[i])
 
       do {
         let newState = this.Automaton[state][char]

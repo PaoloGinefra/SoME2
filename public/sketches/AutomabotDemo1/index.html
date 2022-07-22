@@ -87,7 +87,7 @@
 		</style>
 	</head>
 	<body>
-		<form autocomplete="off" onsubmit="handleSubmit(); return false;">
+		<form autocomplete="off" onsubmit="try{handleSubmit()}finally{return false}">
 			<label for="wordInput">Word:</label>
 			<input type="text" id="wordInput" name="wordInput" pattern="[rgRG01]+">
 			<br><br>
