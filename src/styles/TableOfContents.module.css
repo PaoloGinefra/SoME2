@@ -1,0 +1,22 @@
+.toc {
+  margin-block: 20px;
+  font-size: 20px;
+}
+
+.a {
+  font-size: 20px;
+  color: inherit;
+  text-decoration-thickness: 1px;
+}
+
+.li {
+  line-height: 30px;
+}
+
+.ul {
+  margin-top: 0
+}
+
+.p {
+  margin-bottom: 5px;
+}
