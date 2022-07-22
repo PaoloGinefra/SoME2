@@ -71,6 +71,7 @@ function setup() {
   mapButton.style('border: none')
   mapButton.style('outline: none')
 
+  findButtons()
   //ComputeWord()
 }
 
@@ -84,10 +85,11 @@ function ComputeWord() {
 
 function draw() {
   //console.log(syncWord)
-
   background(0)
   World.cameraPos = automabot.position
   World.draw()
+
+  transformDirButtons()
 
   mapButton.size(
     World.w2s(mazeGenerator.cellSize),
@@ -138,4 +140,34 @@ function keyPressed() {
 
 function ToggleMap() {
   showMap = !showMap
+}
+
+const ids = ['#up', '#right', '#down', '#left']
+function findButtons() {
+  for (let i = 0; i < 4; i++) {
+    dirsButtons.push(select(ids[i]))
+    dirsButtons[i].mousePressed(() =>
+      automabot.computeAnimation(state, i.toString(), autoMovment)
+    )
+  }
+}
+
+function transformDirButtons(
+  size = mazeGenerator.cellSize * 0.8,
+  dist = mazeGenerator.cellSize * 1.2
+) {
+  let offset = createVector(0, -1).mult(World.w2s(dist))
+  let wSize = World.w2s(size)
+  for (let i = 0; i < 4; i++) {
+    dirsButtons[i].size(wSize, wSize)
+    let p = p5.Vector.add(
+      createVector(
+        (World.width - dirsButtons[i].width) / 2,
+        (World.height - dirsButtons[i].height) / 2
+      ),
+      offset
+    )
+    dirsButtons[i].position(p.x, p.y)
+    offset.rotate(PI / 2)
+  }
 }
