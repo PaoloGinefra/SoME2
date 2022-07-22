@@ -23,7 +23,7 @@ class OrientableItem {
   ]
 
   // TODO: make easing proportional to section width
-  easing = 0.05
+  easing = 0.004
 
   constructor(x, y, initialState, sections) {
     this.x = x
@@ -74,7 +74,7 @@ class OrientableItem {
     }
 
     const dTheta = target - this.angle
-    this.angle += dTheta * this.easing
+    this.angle += dTheta * this.easing * deltaTime
 
     // update state
     const currentSection = this.section
