@@ -7,7 +7,15 @@ let items = []
 
 let lastSpawnTimestamp = 0
 
-function spawnItem() {
+function spawnItem(force = false) {
+  const now = millis()
+  const itemSpawnInterval = width / CONVEYOR_SPEED
+
+  if (now - lastSpawnTimestamp < itemSpawnInterval) {
+    if (!force) return
+  }
+  lastSpawnTimestamp = now
+
   let newItem = new OrientableItem(-150, 0, pick(states), sections)
 
   // center item verically
@@ -39,6 +47,8 @@ function setupConveyor(sectionsNumber) {
     const newSection = new Section(i, action, SECTION_WIDTH)
     sections.push(newSection)
   }
+
+  spawnItem(true)
 }
 
 function setup() {
@@ -49,14 +59,7 @@ function draw() {
   // update
   items = items.filter((item) => item.x < width) // remove out of screen items
   items.forEach((item) => item.update())
-
-  const now = millis()
-  const itemSpawnInterval = width / CONVEYOR_SPEED
-
-  if (lastSpawnTimestamp + itemSpawnInterval < now) {
-    lastSpawnTimestamp = now
-    spawnItem()
-  }
+  spawnItem()
 
   // draw
   background('#333')
