@@ -91,10 +91,14 @@ function draw() {
 
   transformDirButtons()
 
-  mapButton.size(
-    World.w2s(mazeGenerator.cellSize),
-    World.w2s(mazeGenerator.cellSize)
-  )
+  if (showMap){
+    mapButton.size(World.width, World.height)
+  }
+  else
+    mapButton.size(
+      World.w2s(mazeGenerator.cellSize),
+      World.w2s(mazeGenerator.cellSize)
+    )
 
   mapButton.position(
     (World.width - mapButton.width) / 2,
@@ -113,7 +117,10 @@ function draw() {
     mazeGenerator.draw(
       true,
       p5.Vector.add(automabot.position, createVector(0, 0)),
-      0.1
+      (World.xViewSpanW * World.height) /
+        World.width /
+        mazeGenerator.image.length /
+        mazeGenerator.cellSize
     )
 
   automabot.animationStep()
@@ -140,6 +147,11 @@ function keyPressed() {
 
 function ToggleMap() {
   showMap = !showMap
+  if (showMap) {
+    dirsButtons.forEach((b) => b.style('opacity: 0'))
+  } else {
+    dirsButtons.forEach((b) => b.style('opacity: 0.2'))
+  }
 }
 
 const ids = ['#up', '#right', '#down', '#left']
