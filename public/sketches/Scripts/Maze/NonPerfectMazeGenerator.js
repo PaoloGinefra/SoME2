@@ -641,7 +641,7 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
 
     //Carve out exit
     let [ei, ej] = this.States[this.States.length - 1]
-    this.image[2 * ei + 2][2 * ej + 1] = 4
+    this.image[2 * this.m][2 * ej + 1] = 4
   }
 
   /**

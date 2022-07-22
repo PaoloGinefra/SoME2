@@ -11,13 +11,12 @@ import ExampleTimer from '../sketches/ExampleTimer'
 
     # All roads lead to Rome, a colorful problem
 
+    <TableOfContents />
+
 </TextContainer>
 
 <FadeBg color = 'black'>
 <TextContainer>
-
-<TableOfContents />
-
 ## An adventurous mathematician
 
 It was a quiet evening in Gaussville. Avraham, an intrepid maths enthusiast, had just got home after a long day at uni.
@@ -171,8 +170,6 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
 
     We have built a **Deterministic Finite Automaton** also known as a DFA.
 
-    ### GRAPH VERSION OF MAZE AND BELT WITH AUTOMABOT
-
     ### It's a matter of synchronisation
 
     Now let's focus on the actual magic trick, I think it's time we give a name to what we are looking for.
@@ -254,7 +251,10 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
     Then we apply all the possible transitions to the resulting sets of the previous step
     and so on until we find a set with just one state.
 
-    ### CANVAS WITH AN AUTOMABOT PER STARTING NODE
+    <SketchIframe
+      src="/sketches/ManyBots/index.html"
+      height={500}
+    />
 
     Proceeding mindlessly in this way a so-called tree can be built.
     Mind that the order by which we check the transitions matters and we are not ensured to find the shortest sequence.
@@ -262,7 +262,12 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
     Just by doing that we have automatically selected only the shortest words because sequences that loop back to previous states are discarded.
 
     If you think about it we are building a new automaton/directed graph where each state is a set of states. Finding the shortest synchronising word has become a matter of finding the shortest path between two nodes of a graph. And we have pretty good solutions to this problems, algorithms like Dijkstra’s or A*
-
+    </TextContainer>
+    <SketchIframe
+      src="/sketches/MazeExperience2/index.html"
+      height={500}
+    />
+    <TextContainer>
     ### Reasoning about the unknown
 
     Now that we have found a way to find them, let's talk about sizes. Even if a synch word exists and we can find it, it’s not very useful if it’s overwhelmingly long.
@@ -285,15 +290,4 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
     So first of all let’s remember that the important part is not the destination but the friends you made along the way. Secondly let’s now substitute Avrahm with the embedded circuit of a vending machine or of a satellite, the mine with the harsh real word and the being spaced out by mathematical wondering with some generic error. We have found a way to make simple computational devices error resistents. Now whenever an error is detected, or the machine is switched on or we generally lose track of the current state, we have a simple, hopefully short, set of instructions to rest the situation. We can take a long breath and start again from there.
 
   </TextContainer>
-</FadeBg>
-
-<FadeBg color='#192841'>
-  <TextContainer>
-    I dont' know where this sketch should be placed
-  </TextContainer>
-
-  <SketchIframe
-    src="/sketches/MazeExperience2/index.html"
-    height={500}
-  />
 </FadeBg>
