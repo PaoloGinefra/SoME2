@@ -1,3 +1,5 @@
+const secitonsNumberSpan = document.getElementById('section-number')
+
 let canvas
 
 let sections = []
@@ -15,10 +17,21 @@ function spawnItem() {
   items.push(newItem)
 }
 
-function conveyorSetup(isSetup = false) {
-  sections = []
+function setupConveyor(sectionsNumber) {
+  secitonsNumberSpan.innerText = sectionsNumber
 
-  for (let i = 0; i < SECTIONS_NUMBER; i++) {
+  // setup canvas
+  const width = sectionsNumber * SECTION_WIDTH
+  if (!canvas) {
+    canvas = createCanvas(width, 400)
+  } else {
+    resizeCanvas(width, 400)
+  }
+  canvas.parent('canvas-container')
+
+  // put stuff in canvas
+  sections = []
+  for (let i = 0; i < sectionsNumber; i++) {
     const action = i % 2 == 0 ? 0 : 1
     const newSection = new Section(i, action, SECTION_WIDTH)
     sections.push(newSection)
@@ -26,9 +39,7 @@ function conveyorSetup(isSetup = false) {
 }
 
 function setup() {
-  const width = SECTIONS_NUMBER * SECTION_WIDTH
-  canvas = createCanvas(width, 400)
-  conveyorSetup(true)
+  setupConveyor(INITIAL_SECTIONS)
 }
 
 function draw() {
@@ -59,3 +70,13 @@ function draw() {
 function mouseClicked() {
   sections.forEach((section) => section.mouseClicked())
 }
+
+document.getElementById('btn-add').addEventListener('click', () => {
+  let n = Math.min(MAX_SECTIONS, sections.length + 1)
+  setupConveyor(n)
+})
+
+document.getElementById('btn-remove').addEventListener('click', () => {
+  let n = Math.max(MIN_SECTIONS, sections.length - 1)
+  setupConveyor(n)
+})
