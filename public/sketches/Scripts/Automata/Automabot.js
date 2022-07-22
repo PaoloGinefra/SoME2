@@ -152,7 +152,11 @@ class Automabot {
     let wPos = World.w2s(this.position)
     let size = World.w2s(this.size)
     //ellipse(wPos.x, wPos.y, size*1.1);
+    this.Sprite(wPos, size)
+  }
 
+  //Change the function to draw different sprite
+  Sprite(wPos, size) {
     noSmooth()
     imageMode(CORNER)
     image(this.sprite, wPos.x - size / 2, wPos.y - size / 2, size, size)
