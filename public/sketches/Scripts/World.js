@@ -58,7 +58,7 @@ class World {
     )
     World.xViewSpanW = World.zoom * World.zoom
     World.w2sk = World.width / World.xViewSpanW
-    World.s2wk = 1 / World.w2sk
+    World.s2wk = World.w2sk == 0 ? 9999 : 1 / World.w2sk
 
     World.targetZoomPrev = World.targetZoom
   }

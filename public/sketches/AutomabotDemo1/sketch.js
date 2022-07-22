@@ -25,7 +25,7 @@ function setup() {
   automabot = new Automabot(Automaton, gv.Nodes)
   automabot.speed = 2
   automabot.size = 0.1
-  automabot.Interpolation = Automabot.Linear
+  automabot.Interpolation = Automabot.DoubleSigmoid
   automabot.Sprite = (pos, size) => {
     fill('black')
     stroke(0)

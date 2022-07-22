@@ -13,19 +13,66 @@
 		<script src="../Scripts/Automata/Automabot.js"></script>
 		<script src="sketch.js"></script>
 		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+			@import url('//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css');
 			body {
 				margin: 0;
 				padding: 0;
 				/* hide overflow when shown in iframe */
 				overflow: hidden;
+
+				font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont,
+				Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+				Helvetica Neue, sans-serif;
 			}
 			canvas {
 				margin: auto;
 			}
+
+			form{
+				position: absolute;
+				margin: 2%;
+				font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont,
+				Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+				Helvetica Neue, sans-serif;
+			}
+
+			input[type='submit']{
+				border-radius: 2em;
+				border: 2px solid black;
+				background-color: transparent;
+				transition-duration: 0.3s;
+				padding: 3%;
+			}
+
+			input[type='submit']:hover{
+				background-color: black;
+				color: white;
+				/* border: none; */
+			}
+
+			input[type='submit']:active{
+				transition-duration: 0.1s;
+				background-color: rgb(111, 111, 111);
+			}
+
+			input[type='text']{
+				transition-duration: 0.3s;
+				margin: 5%;
+			}
+
+			input[type='text']:focus{
+				transform: scale(1.01);
+				box-shadow: 3px 3px 10px #888888;
+			}
+
+			select{
+				margin: 2%;
+			}
 		</style>
 	</head>
 	<body>
-		<form autocomplete="on" onsubmit="handleSubmit(); return false;">
+		<form autocomplete="off" onsubmit="handleSubmit(); return false;">
 			<label for="wordInput">Word:</label>
 			<input type="text" id="wordInput" name="wordInput" pattern="[rgRG01]+">
 			<br><br>
