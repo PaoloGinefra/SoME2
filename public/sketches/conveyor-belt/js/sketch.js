@@ -29,8 +29,11 @@ function setupConveyor(sectionsNumber) {
   }
   canvas.parent('canvas-container')
 
-  // put stuff in canvas
+  // reset state
   sections = []
+  items = []
+
+  // put stuff in canvas
   for (let i = 0; i < sectionsNumber; i++) {
     const action = i % 2 == 0 ? 0 : 1
     const newSection = new Section(i, action, SECTION_WIDTH)
