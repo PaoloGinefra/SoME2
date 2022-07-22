@@ -51,13 +51,34 @@
         margin: 1em;
       }
 
-      #ui-container button {
-        margin: 0 1em;
+      #ui-container span{
+        font-size: 1.5em;
+      }
 
+      #ui-container button{
+        text-align: center;
+        margin: 0 1em;
         font-size: 2em;
         width: 1.5em;
         height: 1.5em;
-      }
+				border-radius: 0.5em;
+				border: 0.1em solid white;
+				background-color: transparent;
+				transition-duration: 0.3s;
+				/* padding: 3%; */
+        color:white
+			}
+
+			#ui-container button:hover{
+				background-color: white;
+				color: black;
+				/* border: none; */
+			}
+
+			#ui-container button:active{
+				transition-duration: 0.1s;
+				background-color: rgb(111, 111, 111);
+			}
 
       canvas {
         display: block;
