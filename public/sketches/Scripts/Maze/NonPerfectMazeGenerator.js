@@ -33,6 +33,7 @@ class NonPerfectMazeGenerator {
 
     this.bgSprite = loadImage('../Art/GroundBgTile.png')
     this.ladderSprite = loadImage('../Art/LadderTile.png')
+    this.exitSprite = loadImage('../Art/ExitTile.png')
     /**
      * The graph is the graph rappresentation of the maze, containing whether
      * there is a wall facing NESW for every cell
@@ -397,7 +398,7 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
         let pos = World.w2s(
           p5.Vector.mult(this.getCellwp(i, j), scale).add(offset)
         )
-        fill(Colors[matrix[i][j]])
+        fill(0)
 
         if (matrix[i][j] != 0) {
           noSmooth()
@@ -420,12 +421,21 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
             blendMode(BLEND)
             stateId++
           }
+          if (matrix[i][j] == 4) {
+            noSmooth()
+            imageMode(CENTER)
+            blendMode(SOFT_LIGHT)
+            image(this.exitSprite, pos.x, pos.y, wGS, wGS)
+            blendMode(BLEND)
+            smooth()
+          }
           //text(stateMap.toString(), pos.x, pos.y - height);
           stateMap++
         }
 
         if (
           matrix[i][j] != 0 &&
+          matrix[i][j] != 4 &&
           ((i > 0 && matrix[i - 1][j] != 0) ||
             (i < matrix.length - 1 && matrix[i + 1][j] != 0))
         ) {
@@ -628,6 +638,10 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
         this.stateNeighbours(state, stateId, this.roomStates, () => true)
       )
     })
+
+    //Carve out exit
+    let [ei, ej] = this.States[this.States.length - 1]
+    this.image[2 * ei + 2][2 * ej + 1] = 4
   }
 
   /**

@@ -21,14 +21,17 @@ function setup() {
   //Maze generation
   /**
    * SEED-Size   WORD
-   * 33694208-8 -> 12113030101
-   * 883911424-8 -> 1101301010 - RRURLURURU
+   * 486832964-8 -> 233030033010
+   * 299283156-8 -> 10130010110
+   * 704532495-7 -> 1000010
+   * 996002286-7 -> 1010303
+   * 178079500-7 -> 030010 ULUURU
    */
-  mazeGenerator = new NonPerfectMazeGenerator(8, 8, 883911424, 0.7, 0.1)
+  mazeGenerator = new NonPerfectMazeGenerator(7, 7, 178079500, 0.7, 0.1)
   mazeGenerator.size = size
   mazeGenerator.generateMaze()
   mazeGenerator.buildAutomata()
-  if (mazeGenerator.seed == 0) console.log(mazeGenerator.rng.state)
+  if (mazeGenerator.seed == 0) console.log(mazeGenerator.rng.seed)
 
   //Image walling
   imageWaller = new ImageWaller(size)
@@ -93,8 +96,7 @@ function draw() {
 
   if (showMap){
     mapButton.size(World.width, World.height)
-  }
-  else
+  } else
     mapButton.size(
       World.w2s(mazeGenerator.cellSize),
       World.w2s(mazeGenerator.cellSize)
