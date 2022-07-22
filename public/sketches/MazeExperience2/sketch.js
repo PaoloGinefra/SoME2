@@ -143,7 +143,7 @@ function UpdateVisualizer() {
 
 function ComputeWord() {
   syncWord = '...'
-  syncWorker.postMessage([mazeGenerator.Automaton, 0])
+  syncWorker.postMessage([mazeGenerator.Automaton, undefined])
 }
 
 function drawWord() {

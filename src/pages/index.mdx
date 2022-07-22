@@ -142,6 +142,8 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
     Now, if we associate every symbol with a colour, we can draw every state as a node and every transition as a coloured arrow between nodes.
     We have now represented our setup as a directed graph.
 
+    For the scenarios we encountered so far we can number the crossroads starting from the bottom of the mine, while the lego bricks can be in four orientations. Drawing the transitions according to the mine’s configuration and to the physics of the collisions we obtain:
+
     <SketchIframe
       src="/sketches/ConveyorBeltGraphVis/index.html"
       height={500}
@@ -267,6 +269,9 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
       src="/sketches/MazeExperience2/index.html"
       height={500}
     />
+    <Caption>
+      Now that we know how to compute the synchronising word of an automaton we can have some fun modifying the mine. Remember you can not create unaccessible areas
+    </Caption>
     <TextContainer>
     ### Reasoning about the unknown
 
