@@ -1,0 +1,39 @@
+.quote{
+    background-color: rgba(255,255,255,0.1);
+    margin: 2em -2em;
+    padding: 1.5em;
+    font-style: italic;
+    text-align: center;
+    position: relative;
+    border-left: solid 5px rgba(255,255,255,0.6);
+}
+
+
+.quote::before{
+    position: absolute;
+    top:0.7em;
+    left: 0.3em;
+    content: '“';
+    font-style: italic;
+    font-size: 2em;
+}
+
+.quote::after{
+    position: absolute;
+    bottom:0.7em;
+    right: 0.3em;
+    content: '„';
+    font-style: italic;
+    font-size: 2em;
+}
+
+@media only screen and (max-width : 800px) {
+    .quote{
+        background-color: rgba(255,255,255,0.2);
+        margin: 2em 2em;
+        padding: 1.5em;
+        font-style: italic;
+        text-align: center;
+        position: relative
+    }
+}
