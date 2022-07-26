@@ -30,7 +30,7 @@ const SketchIframe = ({
 
     const doResize = () => {
       const w = ref.current.clientWidth
-      const h = w / aspectRatio 
+      const h = w / aspectRatio
       setHeigth(h)
     }
     doResize()
