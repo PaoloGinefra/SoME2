@@ -1,40 +1,66 @@
-.quote{
-    background-color: rgba(255,255,255,0.1);
+.quote, .question{
     margin: 2em -2em;
     padding: 1.5em;
     font-style: italic;
     text-align: center;
     position: relative;
-    border-left: solid 5px rgba(255,255,255,0.6);
     border-radius: 1.7vh;
 }
 
+.quote{
+    border-left: solid 5px rgba(255,255,255,0.6);
+    background-color: rgba(255,255,255,0.1);
+}
 
-.quote::before{
+.question{
+    border-left: solid 5px rgba(255, 247, 0, 0.6);
+    background-color: rgba(255,255,255,0.2);
+}
+
+.quote::before, .question::before{
     position: absolute;
     top:0.5em;
     left: 0.3em;
-    content: '“';
     font-style: italic;
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
-.quote::after{
+.quote::before{
+    content: '“';
+}
+
+.quote::after, .question::after{
     position: absolute;
     bottom:0.5em;
     right: 0.3em;
-    content: '„';
     font-style: italic;
-    font-size: 2em;
+    font-size: 1.5em;
+}
+
+.quote::after{
+    content: '„';
+}
+
+.question::before{
+    content: '¿';
+    left:0.7em;
+}
+
+.question::after{
+    content: '?';
+    right:0.7em;
 }
 
 @media only screen and (max-width : 800px) {
-    .quote{
-        background-color: rgba(255,255,255,0.2);
+    .quote, .question{
         margin: 2em 2em;
         padding: 1.5em;
-        font-style: italic;
-        text-align: center;
-        position: relative
+    }
+    .question::before{
+        left:0.3em;
+        
+    }
+    .question::after{
+        right: 0.3em;
     }
 }
