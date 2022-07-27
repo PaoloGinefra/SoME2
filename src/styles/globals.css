@@ -32,16 +32,18 @@ kbd {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
+  margin:-1px;
   background: black;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
+  border-radius: 1.7vh;
   background: white;
   transition-duration: 2s;
 }

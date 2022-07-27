@@ -151,9 +151,12 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
 
     <SketchIframe
       src="/sketches/ConveyorBeltGraphVis/index.html"
-      initialHeigth={500}
+      initialHeigth={400  }
     />
 
+    <Caption>
+      Tap on the button to switch between the two scenarios
+    </Caption>
     Not only that, but now given a starting state and a word we can easily compute the landing state. It's just a matter of following the right arrows.
 
     <SketchIframe
@@ -161,7 +164,7 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
       initialHeigth={500}
     />
     <Caption>
-      Enter a word made of Gs and Rs for the Conveyor Belt or made of Us, Rs, Ls and Ds for the Mine, select a starting state and compute the result
+      Enter a word made of Gs and Rs for the Conveyor Belt or made of Us, Rs, Ls and Ds for the Mine, select a starting state and compute the result. Then, follow the automabot.
     </Caption>
 
     So let's recap, we have constructed a not-so-black box that can take in a set of instructions, a word, and spit out a result.
@@ -262,6 +265,10 @@ Anyway, you try using the suggested algorithm and find the sequence "<Spoiler>GR
       src="/sketches/ManyBots/index.html"
       initialHeigth={500}
     />
+
+     <Caption>
+      Enter a word and check if it's a synching one followin the automabots.
+    </Caption>
 
     Proceeding mindlessly in this way a so-called tree can be built.
     Mind that the order by which we check the transitions matters and we are not ensured to find the shortest sequence.
