@@ -34,12 +34,12 @@ function setup() {
 
   automabot = new Automabot(Automaton, gv.Nodes)
   automabot.speed = 2
-  automabot.size = 0.15
+  automabot.size = 0.30
   automabot.Interpolation = Automabot.DoubleSigmoid
   automabot.Sprite = (pos, size) => {
-    fill(0,0,0,100)
-    stroke(0)
-    strokeWeight(World.w2s(0.005))
+    fill(0,0,0,0)
+    stroke(0,0,0)
+    strokeWeight(World.w2s(0.03))
     ellipse(pos.x, pos.y, size)
   }
 

@@ -61,12 +61,12 @@ function buildBots() {
   mazeGenerator.Automaton.forEach((_, i) => {
     let automabot = new Automabot(mazeGenerator.Automaton, gv.Nodes)
     automabot.speed = 1
-    automabot.size = 0.13
+    automabot.size = 0.26
     automabot.Interpolation = Automabot.DoubleSigmoid
     automabot.Sprite = (pos, size) => {
-      fill(0,0,0,100)
-      stroke(0)
-      strokeWeight(World.w2s(0.005))
+      fill(0,0,0,0)
+      stroke(0,0,0)
+      strokeWeight(World.w2s(0.025))
       ellipse(pos.x, pos.y, size)
     }
     automabot.computeAnimation(i, '', false, true)
@@ -80,12 +80,12 @@ function buildBots() {
   gv.graph.forEach((_, i) => {
     let automabot = new Automabot(Automaton, gv.Nodes)
     automabot.speed = 1
-    automabot.size = 0.175
+    automabot.size = 0.3
     automabot.Interpolation = Automabot.DoubleSigmoid
     automabot.Sprite = (pos, size) => {
-      fill(0,0,0,100)
-      stroke(0)
-      strokeWeight(World.w2s(0.005))
+      fill(0,0,0,0)
+      stroke(0,0,0)
+      strokeWeight(World.w2s(0.025))
       ellipse(pos.x, pos.y, size)
     }
     automabot.computeAnimation(i, '', false, true)
