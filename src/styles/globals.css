@@ -30,6 +30,10 @@ kbd {
   font-style: normal;
 }
 
+ul {
+    text-align: left;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 4px;
@@ -52,3 +56,4 @@ kbd {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
