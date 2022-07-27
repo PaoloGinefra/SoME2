@@ -12,6 +12,7 @@ function preload() {
 }
 
 function setup() {
+  World.targetZoom = 5
   World.setup(windowWidth, windowHeight)
 
   UIsetup()

@@ -14,6 +14,7 @@ const toc: TocEntry = {
     "There's more than mines and lego bricks":
       '#theres-more-than-mines-and-lego-bricks',
   },
+  Credits: '#the-world-behind-the-keyboard',
 }
 
 export default function TableOfContents() {
