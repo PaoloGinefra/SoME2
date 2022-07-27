@@ -1,0 +1,11 @@
+.credit {
+    display: inline-block;
+    font-family: monospace;
+    background-color: rgba(255,255,255,0.6);
+    color: rgba(59, 33, 89, 0.6);
+    border-radius: .6em;
+    padding: 0px 1.2em;
+    font-size: 0.9em;
+    margin: 5px 0px 5px 5px ;
+    font-weight: bolder;
+}
