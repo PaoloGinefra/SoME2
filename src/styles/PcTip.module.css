@@ -1,16 +1,15 @@
-.pctip{
-    display:none;
+.pctip {
+  display: none;
 }
 
-.pctip::before{
-    font-style: normal;
-    white-space: pre;
-    content: '\a💻 ';
+.pctip::before {
+  font-style: normal;
+  white-space: pre;
+  content: '\a💻 ';
 }
 
 @media (hover: hover) {
-    .pctip{
-        display: contents;
-    }
+  .pctip {
+    display: contents;
+  }
 }
-
