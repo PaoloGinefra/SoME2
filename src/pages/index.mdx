@@ -7,6 +7,7 @@ import TableOfContents from '../components/TableOfContents'
 import Quote from '../components/Quote'
 import Question from '../components/Question'
 import Credit from '../components/Credit'
+import PcTip from '../components/PcTip'
 import Example from '../sketches/Example'
 import ExampleTimer from '../sketches/ExampleTimer'
 
@@ -51,7 +52,8 @@ A quick glance at the map was enough to realise that he, unfortunately, could no
   <kbd>&uarr;</kbd>
   <kbd>&rarr;</kbd>
   <kbd>&darr;</kbd>
-  to explore the mine. Click on Avraham to show the mine's map
+  to explore the mine. Click on Avraham to show the mine's map.
+  <PcTip>Scroll into the frame to zoom in and out</PcTip>
 </Caption>
 
 He took some deep breaths and tried to recollect himself, beginning to figure out a way to escape the labyrinth.
@@ -119,7 +121,7 @@ Studying the shape of the roof you arrive at the conclusion that placing a serie
 The problem is just finding out the right series which positions the roof as needed. You get down and try to find the sequence manually but the task gets very frustrating really quickly: soon enough you end up giving up any hope.
 With a quick browser search – using your mind, obviously – you find an old paper that seems to give you all the answers.
 The name of the author strucks you as being quite unusual. You really can't think about anybody else named Avraham.
-Anyway, using the suggested algorithm the sequence is soon found: "<Spoiler>GRRGR</Spoiler>"
+Anyway, using the suggested algorithm the sequence is soon found: <Spoiler> GRRGR </Spoiler>
 
 </TextContainer>
 </FadeBg>
@@ -141,7 +143,7 @@ Anyway, using the suggested algorithm the sequence is soon found: "<Spoiler>GRRG
 First of all, we will call the crossroads/roofs orientations/configurations "**States**" and the instructions to move between them "**Transitions**".
 
 In both the examples above it is clear that after reaching a state you are presented with a choice, you could either go Up, Down, Left or Right in the mine or choose the Green rather than the Red brick for the legos. Let’s identify transitions with symbols like U, D, L, R or G and R or 0, 1, 2, 3 and so on.
-Now, think of the last sequence of symbols you used to convey some sort of meaning: a <Spoiler>**Word**</Spoiler>. That's what we’ll call a sequence of instructions in our model.
+Now, think of the last sequence of symbols you used to convey some sort of meaning: a <Spoiler> **Word** </Spoiler>. That's what we’ll call a sequence of instructions in our model.
 
 If we associate every symbol with a colour, we can draw every state as an indexed circle and every transition as a coloured arrow between them.
 Our setups are officially represented as a directed graph.
@@ -254,7 +256,7 @@ Iteratively, until we were to find a set with just one state.
     />
 
      <Caption>
-      Enter a word and check if it's a synching one following the automabots
+      Enter a word and check if it's a synching one following the automabots. You can switch between the two scenarios clicking on the bottom button.
     </Caption>
 
 This way a tree can be built.
@@ -338,6 +340,5 @@ Keep in mind that this structure wasn’t rigid at all and we made sure to help 
 Particular thanks go to professor Emanuele Rodaro for sharing his knowledge on the topic and putting us on the right track.
 
 If you are interested in the code behind this article it’s available on <a href="https://github.com/PaoloGinefra/SoME2" style={{color: 'white'}} target="blank">Github</a>
-
   </TextContainer>
 </FadeBg>

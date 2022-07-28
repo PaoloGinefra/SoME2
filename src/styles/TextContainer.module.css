@@ -11,6 +11,10 @@
   font-size: 2em;
 }
 
+.container h3 {
+  font-size: 1.5em;
+}
+
 .container p,
 .container ul {
   font-size: 1.2em;

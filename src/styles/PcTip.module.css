@@ -1,0 +1,15 @@
+.pctip{
+    display:none;
+}
+
+.pctip::before{
+    font-style: normal;
+    content: '💻 ';
+}
+
+@media (hover: hover) {
+    .pctip{
+        display: contents;
+    }
+}
+

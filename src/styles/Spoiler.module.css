@@ -1,18 +1,31 @@
 .spoiler {
   border-radius: 0.25em;
-  padding: 0 0.25em;
+  padding: 0 1em;
 
   transition-duration: 0.5s;
   transition-property: color, background-color;
+  text-align: center;
 }
 
 .hidden {
   color: transparent;
   background-color: rgb(79, 79, 79);
-
   /* pointer-events: none; */
   user-select: none;
   cursor: pointer;
+  position: relative;
+
+}
+
+.hidden::before{
+  top:50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-family: monospace;
+  position: absolute;
+  color:white;
+  font-size: 0.9em;
+  content: 'spoiler';
 }
 
 .shown {
