@@ -6,7 +6,7 @@ import SketchIframe from '../components/SketchIframe'
 import TableOfContents from '../components/TableOfContents'
 import Quote from '../components/Quote'
 import Question from '../components/Question'
-import Credit from '../components/Credit'
+import Credit from '../components/Credits'
 import PcTip from '../components/PcTip'
 import Example from '../sketches/Example'
 import ExampleTimer from '../sketches/ExampleTimer'
@@ -15,7 +15,22 @@ import ExampleTimer from '../sketches/ExampleTimer'
 
     # All roads lead to Rome, a colorful problem
 
-    <TableOfContents />
+    <TableOfContents
+      toc={{
+        'An adventurous mathematician': '#an-adventurous-mathematician',
+        'An orientation problem fair and square':
+        '#an-orientation-problem-fair-and-square',
+        "What's behind the trick": '#whats-behind-the-trick',
+        '.': {
+          'Time to abstract': '#time-to-abstract',
+          'When words are sharper than bits': '#when-words-are-sharper-than-bits',
+          'Reasoning about the unknown': '#reasoning-about-the-unknown',
+          "There's more than mines and lego bricks":
+          '#theres-more-than-mines-and-lego-bricks',
+        },
+        "Credits": '#the-world-behind-the-keyboard',
+      }}
+    />
 
 </TextContainer>
 
@@ -329,11 +344,16 @@ So, first of all, let’s remember that the important part is not the destinatio
   <TextContainer>
     ## The world behind the keyboard
     We are a team of 5 software engineering students (*names and roles are in alphabetical order*):
-    - Dario Crosa: <Credit>Creative Coding</Credit> <Credit>Full stack Web Development</Credit>
-    - Federico Grandi: <Credit>Full stack Web Development</Credit>
-    - Francesco Genovese: <Credit>Frontend Web Development</Credit> <Credit>Writing</Credit>
-    - Matteo Garzone: <Credit>Creative Coding</Credit>
-    - Paolo Ginefra: <Credit>Creative Coding</Credit> <Credit>Pixel Art </Credit> <Credit>Project Management</Credit> <Credit>Writing</Credit>
+
+    <Credits
+      credits={{
+        "Dario Crosa": ["Creative Coding", "Full stack Web Development"],
+        "Federico Grandi": ["Full stack Web Development"],
+        "Francesco Genovese": ["Frontend Web Development", "Writing"],
+        "Matteo Garzone": ["Creative Coding"],
+        "Paolo Ginefra": ["Creative Coding", "Pixel Art", "Project Management" ,"Writing"],
+      }}
+    />
 
 Keep in mind that this structure wasn’t rigid at all and we made sure to help each other in any way possible. This was our first time making something like this, we hope you enjoyed it and any kind of <a href="https://github.com/PaoloGinefra/SoME2/issues" style={{color: 'white'}} target="blank">feedback</a> is highly appreciated :)
 

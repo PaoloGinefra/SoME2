@@ -32,7 +32,7 @@ kbd {
 }
 
 ul {
-    text-align: left;
+  text-align: left;
 }
 
 /* width */
@@ -42,7 +42,7 @@ ul {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  margin:-1px;
+  margin: -1px;
   background: black;
 }
 
@@ -57,4 +57,3 @@ ul {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-

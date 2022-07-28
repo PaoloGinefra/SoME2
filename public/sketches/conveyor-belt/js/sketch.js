@@ -7,6 +7,8 @@ let items = []
 
 let lastSpawnTimestamp = 0
 
+let legoImage
+
 function spawnItem(force = false) {
   const now = millis()
   const itemSpawnInterval = width / CONVEYOR_SPEED
@@ -16,7 +18,7 @@ function spawnItem(force = false) {
   }
   lastSpawnTimestamp = now
 
-  let newItem = new OrientableItem(-150, 0, pick(states), sections)
+  let newItem = new OrientableItem(-150, 0, pick(states), sections, legoImage)
 
   // center item verically
   let [_, centerY] = newItem.center
@@ -49,6 +51,10 @@ function setupConveyor(sectionsNumber) {
   }
 
   spawnItem(true)
+}
+
+function preload() {
+  legoImage = loadImage('../Art/lego.png')
 }
 
 function setup() {

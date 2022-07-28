@@ -90,6 +90,10 @@ function keyPressed() {
     automabot.computeAnimation(state, i.toString(), true)
     gvAutomabot.computeAnimation(state, i.toString(), false)
   }
+
+  // prevent default behaviour
+  // stops the page from scrolling when the user uses the arrow keys to move the character
+  return false
 }
 
 function mouseClicked() {
