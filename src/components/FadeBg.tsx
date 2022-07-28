@@ -1,4 +1,3 @@
-import { Color } from 'p5'
 import classes from '../styles/FadeBg.module.css'
 
 const FadeBg = (props) => {
