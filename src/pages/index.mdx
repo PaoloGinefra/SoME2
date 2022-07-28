@@ -81,7 +81,7 @@ A bunch of questions naturally started popping into Avraham's mind:
 </Caption>
 
 Avraham sat down and began to ponder, scribbling on the mine's dusty walls.
-After a while — maybe hours, maybe days — he shouted in pure elation: '*EUREKA!!!* I need to follow <Spoiler>ULUURU</Spoiler>'.
+After a while — maybe hours, maybe days — he shouted in pure elation: '_EUREKA!!!_ I need to follow <Spoiler>ULUURU</Spoiler>'.
 
 </TextContainer>
 </FadeBg>
@@ -98,7 +98,7 @@ But it doesn’t end there: a series of poorly made choices (some of them regard
 
 Today you are tackling a peculiar situation:
 
-The last step to completing a car is attaching the roof. There are two conveyor belts positioned perpendicular to each other: one carries the almost-finished cars and the other one transports the roofs. 
+The last step to completing a car is attaching the roof. There are two conveyor belts positioned perpendicular to each other: one carries the almost-finished cars and the other one transports the roofs.
 The problem is that roofs can come in four different orientations but only one of them fits the car!
 
 ### PICTURE WITH THE ORIENTATIONS
@@ -117,7 +117,7 @@ Studying the shape of the roof you arrive at the conclusion that placing a serie
 <TextContainer>
 
 The problem is just finding out the right series which positions the roof as needed. You get down and try to find the sequence manually but the task gets very frustrating really quickly: soon enough you end up giving up any hope.
-With a quick browser search – using your mind, obviously  – you find an old paper that seems to give you all the answers.
+With a quick browser search – using your mind, obviously – you find an old paper that seems to give you all the answers.
 The name of the author strucks you as being quite unusual. You really can't think about anybody else named Avraham.
 Anyway, using the suggested algorithm the sequence is soon found: "<Spoiler>GRRGR</Spoiler>"
 
@@ -129,14 +129,14 @@ Anyway, using the suggested algorithm the sequence is soon found: "<Spoiler>GRRG
 
     ## What's behind the trick
 
-    The findings of Avraham and waken-from-cryostasis-future-you may seem some kind of obscure wizardry. Truth is, magicians use these findings in several of their tricks. The chance to follow a set of instructions which always end up in the same configuration, no matter the starting point, is not only mind-blowing but also hell of a lot  useful. 
+    The findings of Avraham and waken-from-cryostasis-future-you may seem some kind of obscure wizardry. Truth is, magicians use these findings in several of their tricks. The chance to follow a set of instructions which always end up in the same configuration, no matter the starting point, is not only mind-blowing but also hell of a lot  useful.
 
     You may be surprised to know that what we have introduced with the couple of tales above is a mathematical concept that has been studied for over half a century now. It even has some questions and problems which have gone unsolved so far.
     Let's dive a little deeper...
 
     ### Time to abstract
 
-    As we have just seen, the "trick" works in a wide variety of situations. In a truly mathematical fashion, we’ll use the power of abstraction to factor out all the scenario-specific differences and focus on the common part. 
+    As we have just seen, the "trick" works in a wide variety of situations. In a truly mathematical fashion, we’ll use the power of abstraction to factor out all the scenario-specific differences and focus on the common part.
 
 First of all, we will call the crossroads/roofs orientations/configurations "**States**" and the instructions to move between them "**Transitions**".
 
@@ -156,9 +156,9 @@ Getting back to the scenarios we encountered, to get a directed graph we can wor
     <Caption>
       Tap on the button to switch between the two scenarios
     </Caption>
-    
+
     Now, given a starting state and a _word_ we can easily compute the landing state. It's just a matter of following the correct arrows.
-    
+
     <SketchIframe
       src="/sketches/AutomabotDemo1/index.html"
       initialHeigth={500}
@@ -182,10 +182,11 @@ Getting back to the scenarios we encountered, to get a directed graph we can wor
     ### It's a matter of synchronisation
 
     Now let's focus on the actual magic trick, I think it's time we give a name to what we are looking for.
+
 We have a bunch of different starting states and we want to bring them to just one.
 It's like we are a conductor and every member of the orchestra is playing out of sync. We need to find a sequence to realign them, something like a synchronising sequence... a **synchronising word**.
 
-Okay cool, let's try not to follow Avraham's example though. Let's ensure that our goal really exists *before* we embark on our wonderful quest.
+Okay cool, let's try not to follow Avraham's example though. Let's ensure that our goal really exists _before_ we embark on our wonderful quest.
 
 How can we know that for a given automaton a synchronising word exists? Or, equivalently, how can we tell if an automaton is synchronising?
 
@@ -202,13 +203,13 @@ The conditions mentioned are there mainly to avoid trivial cases where a synchro
 Let's try and work our way up to those. As in all great legends, there are three:
 
 1. A synchronising word needs to work starting from any vertex of the graph so, naturally, each symbol must be interpretable at each node.
-Let's say your symbols are A, B and C. If there was a node with just two edges coming out of it and we assigned to the edges the letters A and B, what would happen if at that node we asked for C? It wouldn’t make any sense, would it? The same goes for a node
-with four exiting edges. The number of edges coming out of a node is called _out-degree_, so for a synchronising word to even make sense **the out-degree of every node needs to be constant**.
+   Let's say your symbols are A, B and C. If there was a node with just two edges coming out of it and we assigned to the edges the letters A and B, what would happen if at that node we asked for C? It wouldn’t make any sense, would it? The same goes for a node
+   with four exiting edges. The number of edges coming out of a node is called _out-degree_, so for a synchronising word to even make sense **the out-degree of every node needs to be constant**.
 
-2. A synchronising word leads every node to a single one. So, first of all, said node must be reachable, in one way or another, from every node of the graph. Remember that a graph is just a set of nodes and edges so there's nothing against building one with edgeless nodes or isolated parts. To protect ourselves from those, we need to be able to reach every node starting from every other node via a valid route, in other *words*, we need a **strongly connected graph**
+2. A synchronising word leads every node to a single one. So, first of all, said node must be reachable, in one way or another, from every node of the graph. Remember that a graph is just a set of nodes and edges so there's nothing against building one with edgeless nodes or isolated parts. To protect ourselves from those, we need to be able to reach every node starting from every other node via a valid route, in other _words_, we need a **strongly connected graph**
 
 3. Unfortunately, now it gets a little more complicated. Picture a graph with just three nodes with an out-degree of 1, a graph where each node points to the one which does not point to it. You get a cycle, which is not that big of a deal per se, but this cycle is special. You'll never be able to make two different nodes collapse into one using a word. It's impossible.
-We need to avoid these kinds of situations. Without going into the gory details, that are beyond the scope of this article, we need an **aperiodic graph**
+   We need to avoid these kinds of situations. Without going into the gory details, that are beyond the scope of this article, we need an **aperiodic graph**
 
 Now that trivial cases are out of the way, what more can we say about the existence of a synchronising colouring?
 Well, the authors of the problem didn't arrive at a solution but they proposed a conjecture, the "Road Colouring conjecture".
@@ -227,10 +228,9 @@ It is thanks to Avraham Trahtman that we can now talk about the end of this stor
 In 2007 he was finally able to prove the conjecture: the dream became reality and all maths-enthusiasts lived happily ever after.
 Maybe not all of them: for us this is just the beginning...
 
-
     ### When words are sharper than bits
 
-The "Road Colouring theorem", although amazing, doesn't tell us much about how to find the synchronising words. We’re a teeny-tiny step away from solving a never-ending variety of everyday problems 
+The "Road Colouring theorem", although amazing, doesn't tell us much about how to find the synchronising words. We’re a teeny-tiny step away from solving a never-ending variety of everyday problems
 
 Let's start by noticing that when a graph allows a synching word to exist, it automatically implies that there are infinitely many of them.
 That's because if we combine a synch word with any other possible combination of symbols we still get a synching word.
@@ -244,10 +244,9 @@ Then we need to find the word.
 A basic approach would be to methodically test increasingly longer words against random initial states to see if they are synchronising.
 The core idea is not bad, in fact, it's the one behind many synching word-finding algorithms. But it needs quite a bit of polish.
 
-What if, instead of applying a transition singularly to each initial state, we applied it to the whole set of them, to then record where each of them landed?  We would now be able to explore all the different possibilities starting from a set of all the possible states,gradually applying all the possible transitions.
+What if, instead of applying a transition singularly to each initial state, we applied it to the whole set of them, to then record where each of them landed? We would now be able to explore all the different possibilities starting from a set of all the possible states,gradually applying all the possible transitions.
 Finally applying all the possible transitions to the resulting sets of the previous step
 Iteratively, until we were to find a set with just one state.
-
 
     <SketchIframe
       src="/sketches/ManyBots/index.html"
@@ -257,12 +256,13 @@ Iteratively, until we were to find a set with just one state.
      <Caption>
       Enter a word and check if it's a synching one following the automabots
     </Caption>
+
 This way a tree can be built.
 Mind that the order by which we check the transitions matters and we are not ensured to find the shortest sequence.
 The tables turn if we keep track of the sets we encounter along the way and keep going only when we are presented with a new set.
 Just by doing that, we automatically select the shortest words because sequences that loop back to previous states in vain are discarded.
 
-If you think about it, we are building a new automaton/directed graph where each state is a set of states. Finding the shortest synchronising word has become a matter of finding the shortest path between two nodes of a graph. Pretty good solutions to this problems are already known: Algorithms like Dijkstra’s or A* do the job fairly well.
+If you think about it, we are building a new automaton/directed graph where each state is a set of states. Finding the shortest synchronising word has become a matter of finding the shortest path between two nodes of a graph. Pretty good solutions to this problems are already known: Algorithms like Dijkstra’s or A\* do the job fairly well.
 
     </TextContainer>
     <SketchIframe
@@ -278,21 +278,27 @@ If you think about it, we are building a new automaton/directed graph where each
     ### Reasoning about the unknown
 
     Now that we have found a way to find them, let's talk about sizes. Even if a synch word exists and we can find it, it’s not very useful if it’s overwhelmingly long.
-Naturally, something like the length of the synch word is heavily dependent on the topology of the automaton so that it would be really difficult to figure the length without knowing the actual word. 
+
+Naturally, something like the length of the synch word is heavily dependent on the topology of the automaton so that it would be really difficult to figure the length without knowing the actual word.
 
 We are nevertheless in the realm of mathematics: so, when we don’t know something, we estimate. In particular, we can focus on the search for an upper bound so as to have a grasp on the usability of the word.
 The spirit of Giacomo Leopardi possesses us for a moment allowing us to see only the worst possible scenario. What’s the absolute longest shortest word we could potentially find?
 
-Well, as we have discussed in the previous paragraphs, whenever a transition brings a set to a previously encountered one we get an unnecessary sequence of symbols. That’s not good: for the longest shortest word we can’t waste any precious symbols. 
+Well, as we have discussed in the previous paragraphs, whenever a transition brings a set to a previously encountered one we get an unnecessary sequence of symbols. That’s not good: for the longest shortest word we can’t waste any precious symbols.
 
-In fact, the worst scenario possible is that there are no useless loops,meaning that starting from the set containing all the states we need to pass exactly once for every other possible set with more than one element. 
+In fact, the worst scenario possible is that there are no useless loops,meaning that starting from the set containing all the states we need to pass exactly once for every other possible set with more than one element.
 
 Computing how many subsets of a set containing $n$ elements there are is shockingly simple: $2^n$. That’s because every element of the set can either be in or out of a subset, essentially giving you two choices. Thus, choosing $n$ times between two options gives you $2^n$ different configurations. From those, we have to account for the empty set and all the sets containing one element (because they are the destination).
 Consequently an upper bound for the length of the shortest synchronising word is $2^n -n - 1$.
 
-<Quote>It’s definitely something but we are talking about a potential absolute worst case: an exponential bound is not that exciting, quite the opposite, actually. Also, every example of automaton I have encountered so far has a synch word much shorter than that</Quote>
+<Quote>
+  It’s definitely something but we are talking about a potential absolute worst
+  case: an exponential bound is not that exciting, quite the opposite, actually.
+  Also, every example of automaton I have encountered so far has a synch word
+  much shorter than that
+</Quote>
 
- That’s what the young Ján Černý might have thought before formulating his conjecture:yup, another one. This time, the intrepid paladin of knowledge that will prove or disprove it may be reading this article right now. This time we are talking about an open problem.
+That’s what the young Ján Černý might have thought before formulating his conjecture:yup, another one. This time, the intrepid paladin of knowledge that will prove or disprove it may be reading this article right now. This time we are talking about an open problem.
 
 Černý conjectured that the smallest upper bound for an automaton with $n$ states is $(n-1)^2$. And by now we are sure that it can’t get lower than that given we know of some automaton whose shortest synch word is exactly $(n-1)^2$ symbols long.
 
