@@ -4,3 +4,11 @@
   margin-top: 5px;
   margin-bottom: 15px;
 }
+
+.caption p{
+  margin:2px auto;
+}
+
+.caption span {
+  font-style: normal;
+}

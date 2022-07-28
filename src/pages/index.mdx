@@ -67,8 +67,11 @@ A quick glance at the map was enough to realise that he, unfortunately, could no
   <kbd>&uarr;</kbd>
   <kbd>&rarr;</kbd>
   <kbd>&darr;</kbd>
-  to explore the mine. Click on Avraham to show the mine's map.
-  <PcTip>Scroll into the frame to zoom in and out</PcTip>
+  to explore the mine.
+  
+
+  <span class="emoji">🗺️</span> Click on Avraham to show the mine's map.
+<PcTip>Scroll into the frame to zoom in and out</PcTip>
 </Caption>
 
 He took some deep breaths and tried to recollect himself, beginning to figure out a way to escape the labyrinth.
@@ -93,13 +96,14 @@ A bunch of questions naturally started popping into Avraham's mind:
   <kbd>&uarr;</kbd>
   <kbd>&rarr;</kbd>
   <kbd>&darr;</kbd>
-  to choose where Avraham should go at crossroads. Click on Avraham to show the mine's
-  map.
+  to choose where Avraham should go at crossroads. Click on Avraham to show the mine's map.
 </Caption>
 
 Avraham sat down and began to ponder, scribbling on the mine's dusty walls.
-After a while — maybe hours, maybe days — he shouted in pure elation: '_EUREKA!!!_ I need to follow <Spoiler>ULUURU</Spoiler>'.
+After a while — maybe hours, maybe days — he shouted in pure elation: 
+_EUREKA!!!_ I need to go <Spoiler>ULUURU</Spoiler>
 
+He just needed to follow the instructions: U, L, R, D meaning either Up, Left, Right or Down.
 </TextContainer>
 </FadeBg>
 
@@ -131,12 +135,18 @@ Studying the shape of the roof you arrive at the conclusion that placing a serie
   padded
 />
 
+<Caption>
+Touch the Lego barriers to switch their position to rotate the car roofs in the right orientation. 
+
+You can remove or add barriers clicking ond the <kbd>-</kbd> and <kbd>+</kbd> buttons.
+</Caption>
 <TextContainer>
 
 The problem is just finding out the right series which positions the roof as needed. You get down and try to find the sequence manually but the task gets very frustrating really quickly: soon enough you end up giving up any hope.
 With a quick browser search – using your mind, obviously – you find an old paper that seems to give you all the answers.
 The name of the author strucks you as being quite unusual. You really can't think about anybody else named Avraham.
-Anyway, using the suggested algorithm the sequence is soon found: <Spoiler> GRRGR </Spoiler>
+
+Anyways, using the suggested algorithm the sequence is soon found: <Spoiler> GRRGR </Spoiler>. You place the barriers in the figured order: G meaning Green and R meaning Red.
 
 </TextContainer>
 </FadeBg>
@@ -171,7 +181,9 @@ Getting back to the scenarios we encountered, to get a directed graph we can wor
     />
 
     <Caption>
-      Tap on the button to switch between the two scenarios
+      <span class="emoji">🔘</span> Tap on the button to switch between the two scenarios.
+      <PcTip>Scroll into the frame to zoom in and out</PcTip>
+
     </Caption>
 
     Now, given a starting state and a _word_ we can easily compute the landing state. It's just a matter of following the correct arrows.
@@ -181,7 +193,7 @@ Getting back to the scenarios we encountered, to get a directed graph we can wor
       initialHeigth={500}
     />
     <Caption>
-      Enter a word made of Gs and Rs for the Conveyor Belt or made of Us, Rs, Ls and Ds for the Mine, select a starting state and compute the result. Then follow it on the graph.
+      Enter a word made of Gs and Rs for the Conveyor Belt or made of Us, Rs, Ls and Ds for the Mine, select a starting state and compute the result. Then, follow it on the graph.
     </Caption>
 
     So let's recap, we have constructed a not-so-black box that can take in a set of instructions, a word, and spit out a result.
@@ -271,7 +283,9 @@ Iteratively, until we were to find a set with just one state.
     />
 
      <Caption>
-      Enter a word and check if it's a synching one following the automabots. You can switch between the two scenarios clicking on the bottom button.
+      <span class="emoji">🔃</span> Enter a word and check if it's a synching one following the automabots. 
+      
+      <span class="emoji">🔘</span> You can switch between the two scenarios clicking on the bottom button.
     </Caption>
 
 This way a tree can be built.

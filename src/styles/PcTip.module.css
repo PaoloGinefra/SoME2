@@ -4,7 +4,8 @@
 
 .pctip::before{
     font-style: normal;
-    content: '💻 ';
+    white-space: pre;
+    content: '\a💻 ';
 }
 
 @media (hover: hover) {
