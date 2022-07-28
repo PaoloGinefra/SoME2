@@ -7,11 +7,11 @@ export interface CreditsProps {
 
 export default function Credits({ credits }: CreditsProps) {
   const items = Object.entries(credits).map(([name, roles]) => (
-    <li className={classes.item}>
+    <li key={name} className={classes.item}>
       <span className={classes.name}>{name}</span>
       <span className={classes.roles}>
         {roles.map((role) => (
-          <Chip text={role} />
+          <Chip key={role} text={role} />
         ))}
       </span>
     </li>
