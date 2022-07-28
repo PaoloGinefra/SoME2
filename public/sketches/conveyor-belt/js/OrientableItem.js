@@ -1,4 +1,5 @@
 class OrientableItem {
+  // DO NOT change theese unless you also adjust the lego image to match
   mainWidth = 150
   mainHeight = 200
   nubWidth = 50
@@ -25,11 +26,12 @@ class OrientableItem {
   // TODO: make easing proportional to section width
   easing = 0.004
 
-  constructor(x, y, initialState, sections) {
+  constructor(x, y, initialState, sections, legoImage) {
     this.x = x
     this.y = y
     this.state = initialState
     this.sections = sections
+    this.legoImage = legoImage
     this.lastSection = this.section
     this.angle = this.targetAngle
   }
@@ -108,12 +110,12 @@ class OrientableItem {
     rotate(this.angle)
     translate(-rx, -ry)
 
-    rect(this.x, this.y, this.mainWidth, this.mainHeight)
-    rect(
-      this.x + this.mainWidth / 2 - this.nubWidth / 2,
+    image(
+      this.legoImage,
+      this.x,
       this.y - this.nubHeight,
-      this.nubWidth,
-      this.nubHeight
+      this.mainWidth,
+      this.mainHeight + this.nubHeight
     )
 
     pop()
