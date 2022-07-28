@@ -94,7 +94,7 @@ function draw() {
 
   transformDirButtons()
 
-  if (showMap){
+  if (showMap) {
     mapButton.size(World.width, World.height)
   } else
     mapButton.size(
@@ -145,6 +145,10 @@ function keyPressed() {
   if (i < keyComands[0].length) {
     automabot.computeAnimation(state, i.toString(), autoMovment)
   }
+
+  // prevent default behaviour
+  // stops the page from scrolling when the user uses the arrow keys to move the character
+  return false
 }
 
 function ToggleMap() {
