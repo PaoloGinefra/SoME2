@@ -68,9 +68,8 @@ A quick glance at the map was enough to realise that he, unfortunately, could no
   <kbd>&rarr;</kbd>
   <kbd>&darr;</kbd>
   to explore the mine.
-  
 
-  <span class="emoji">🗺️</span> Click on Avraham to show the mine's map.
+  <span className="emoji">🗺️</span> Click on Avraham to show the mine's map.
 <PcTip>Scroll into the frame to zoom in and out</PcTip>
 </Caption>
 
@@ -96,9 +95,9 @@ A bunch of questions naturally started popping into Avraham's mind:
   <kbd>&uarr;</kbd>
   <kbd>&rarr;</kbd>
   <kbd>&darr;</kbd>
-  to guide Avraham at crossroads. 
+  to guide Avraham at crossroads.
 
-<span class="emoji">🗺️</span> Click on Avraham to show the mine's map.
+<span className="emoji">🗺️</span> Click on Avraham to show the mine's map.
 </Caption>
 
 Avraham sat down and began to ponder, scribbling on the mine's dusty walls.
@@ -106,6 +105,7 @@ After a while — maybe hours, maybe days — he shouted in pure elation:
 _EUREKA!!!_ I need to go <Spoiler>ULUURU</Spoiler>
 
 He just needed to follow the instructions: U, L, R, D meaning either Up, Left, Right or Down.
+
 </TextContainer>
 </FadeBg>
 
@@ -138,9 +138,10 @@ Studying the shape of the roof you arrive at the conclusion that placing a serie
 />
 
 <Caption>
-<span class="emoji">🖱️</span> Click on the Lego barriers to switch their position to rotate the car roofs in the right orientation. 
+<span className="emoji">🖱️</span> Click on the Lego barriers to switch their position to rotate the car roofs in the right orientation.
 
 You can remove or add barriers clicking ond the <kbd>-</kbd> and <kbd>+</kbd> buttons.
+
 </Caption>
 <TextContainer>
 
@@ -183,7 +184,7 @@ Getting back to the scenarios we encountered, to get a directed graph we can wor
     />
 
     <Caption>
-      <span class="emoji">🔘</span> Tap on the button to switch between the two scenarios.
+      <span className="emoji">🔘</span> Tap on the button to switch between the two scenarios.
       <PcTip>Scroll into the frame to zoom in and out</PcTip>
 
     </Caption>
@@ -195,9 +196,9 @@ Getting back to the scenarios we encountered, to get a directed graph we can wor
       initialHeigth={500}
     />
     <Caption>
-      <span class="emoji">⌨️</span> Enter a word made of Gs and Rs for the Conveyor Belt or made of Us, Rs, Ls and Ds for the Mine.
-      
-       <span class="emoji">👉</span> Select a starting state and compute the result and follow it on the graph.
+      <span className="emoji">⌨️</span> Enter a word made of Gs and Rs for the Conveyor Belt or made of Us, Rs, Ls and Ds for the Mine.
+
+       <span className="emoji">👉</span> Select a starting state and compute the result and follow it on the graph.
     </Caption>
 
     So let's recap, we have constructed a not-so-black box that can take in a set of instructions, a word, and spit out a result.
@@ -277,7 +278,7 @@ Then we need to find the word.
 A basic approach would be to methodically test increasingly longer words against random initial states to see if they are synchronising.
 The core idea is not bad, in fact, it's the one behind many synching word-finding algorithms. But it needs quite a bit of polish.
 
-What if, instead of applying a transition singularly to each initial state, we applied it to the whole set of them, to then record where each of them landed?  We would now be able to explore all the different possibilities starting from a set of all the possible states,gradually applying all the possible transitions.
+What if, instead of applying a transition singularly to each initial state, we applied it to the whole set of them, to then record where each of them landed? We would now be able to explore all the different possibilities starting from a set of all the possible states,gradually applying all the possible transitions.
 Finally applying all the transitions to the resulting sets of the previous step
 Iteratively, until we were to find a set with just one state.
 
@@ -287,9 +288,9 @@ Iteratively, until we were to find a set with just one state.
     />
 
      <Caption>
-      <span class="emoji">🔃</span> Enter a word and check if it's a synching one following the automabots. 
-      
-      <span class="emoji">🔘</span> You can switch between the two scenarios clicking on the bottom button.
+      <span className="emoji">🔃</span> Enter a word and check if it's a synching one following the automabots.
+
+      <span className="emoji">🔘</span> You can switch between the two scenarios clicking on the bottom button.
       <PcTip>Scroll into the frame to zoom in and out</PcTip>
 
     </Caption>
@@ -309,9 +310,9 @@ If you think about it, we are building a new automaton/directed graph where each
       padded
     />
     <Caption>
-      <span class="emoji">🚧</span> Now that we know how to compute the synchronising word of an automaton we can have some fun modifying the mine. 
-      
-      <span class="emoji">❗</span> Remember you can not create unaccessible areas!
+      <span className="emoji">🚧</span> Now that we know how to compute the synchronising word of an automaton we can have some fun modifying the mine.
+
+      <span className="emoji">❗</span> Remember you can not create unaccessible areas!
       <PcTip>Scroll into the frame to zoom in and out</PcTip>
 
     </Caption>
@@ -384,5 +385,6 @@ Keep in mind that this structure wasn’t rigid at all and we made sure to help 
 Particular thanks go to professor Emanuele Rodaro for sharing his knowledge on the topic and putting us on the right track.
 
 If you are interested in the code behind this article it’s available on <a href="https://github.com/PaoloGinefra/SoME2" style={{color: 'white'}} target="blank">Github</a>
+
   </TextContainer>
 </FadeBg>
