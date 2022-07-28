@@ -1,0 +1,9 @@
+.name {
+  display: inline-block;
+}
+
+.roles {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
