@@ -98,6 +98,7 @@ A bunch of questions naturally started popping into Avraham's mind:
   to guide Avraham at crossroads.
 
 <span className="emoji">🗺️</span> Click on Avraham to show the mine's map.
+<PcTip>Scroll into the frame to zoom in and out</PcTip>
 </Caption>
 
 Avraham sat down and began to ponder, scribbling on the mine's dusty walls.
@@ -114,7 +115,7 @@ He just needed to follow the instructions: U, L, R, D meaning either Up, Left, R
 ## An orientation problem fair and square
 The year is 2122 and the world has changed so much: mankind has evolved past deadly diseases, metal straws have replaced plastic ones ‒ finally saving the environment ‒ and the Riemann hypothesis has been proven for a couple of years now. But above all of that, LEGO has, at last, decided to launch its first full-scale car model.
 
-LEGO, being LEGO, had to build the factory of said cars entirely using legos... Must be something about brand identity.
+LEGO, being LEGO, had to build the factory of such cars entirely using legos... Must be something about brand identity.
 
 Sadly, a new way of moving objects in a straight line has not been found yet and conveyor belts are still the state of the art as far as chain production comes.
 But it doesn’t end there: a series of poorly made life decisions (some of them regarding hibernation) has led you to be in charge of designing the contraptions for the LEGO car factory.
@@ -140,8 +141,9 @@ Studying the shape of the roof you arrive at the conclusion that placing a serie
 <Caption>
 <span className="emoji">🖱️</span> Click on the Lego barriers to switch their position to rotate the car roofs in the right orientation.
 
-You can remove or add barriers clicking ond the <kbd>-</kbd> and <kbd>+</kbd> buttons.
+<span className="emoji">➕</span> You can remove or add barriers clicking ond the <kbd>-</kbd> and <kbd>+</kbd> buttons.
 
+<span className="emoji">↔</span> Once some barriers are added you can scroll horizontally to view them all
 </Caption>
 <TextContainer>
 
@@ -199,12 +201,14 @@ Getting back to the scenarios we encountered, to get a directed graph we can wor
       <span className="emoji">⌨️</span> Enter a word made of Gs and Rs for the Conveyor Belt or made of Us, Rs, Ls and Ds for the Mine.
 
        <span className="emoji">👉</span> Select a starting state and compute the result and follow it on the graph.
+       <PcTip>Scroll into the frame to zoom in and out</PcTip>
+
     </Caption>
 
     So let's recap, we have constructed a not-so-black box that can take in a set of instructions, a word, and spit out a result.
     Doesn't it sound even a little familiar? Careful because this time the answer is literally before your eyes: <Spoiler>a Computer!</Spoiler>
 
-    Well not quite, it's an abstract computer, a mathematical one. An automaton!
+    Well not quite, it's an abstract, way simpler and memoryless computer, a mathematical one. An automaton!
 
     Now try and execute the same word from the same starting state twice, do you expect the results to change?
     It would be a problem if it did: when you ask your calculator what 2+2 is, you'd want the answer not to change every time, wouldn't you?
@@ -224,7 +228,7 @@ Okay cool, let's try not to follow Avraham's example though. Let's ensure that o
 
 How can we know that for a given automaton a synchronising word exists? Or, equivalently, how can we tell if an automaton is synchronising?
 
-This question was originally thought of in disguise, it had a different name and it was wearing glasses. We are really talking about a Superman-Clark Kent situation though.
+This question, just like many others in maths, was also thought of in disguise, it had a different name and it was wearing glasses. We are really talking about a Superman-Clark Kent situation though.
 In the 70s Adler, Goodwyn and Weiss first conjured the "Road Colouring Problem".
 
 We already established the strong bond between automata and directed graphs, well originally the investigations leaned more on the graph side.
@@ -251,7 +255,7 @@ Well, the authors of the problem didn't arrive at a solution but they proposed a
 Hold on tight because it's about to get crazy.
 
 They simply conjectured that… you guessed it: as long as those conditions are met,
-you are guaranteed that a synching colouring exists, they are sufficient.
+you are guaranteed that a synchronising colouring exists, they are sufficient.
 
 It can't be true, can it? Three simple checks are enough for something so oddly specific and powerful? It's almost unbelievable.
 Such sweet endings must live only in fairy tales. But indeed an ending was not. Until otherwise proven, it was just a conjecture, not a theorem.
@@ -266,9 +270,9 @@ Maybe not all of them: for us this is just the beginning...
 
 The "Road Colouring theorem", although amazing, doesn't tell us much about how to find the synchronising words. We’re a teeny-tiny step away from solving a never-ending variety of everyday problems
 
-Let's start by noticing that when a graph allows a synching word to exist, it automatically implies that there are infinitely many of them.
-That's because if we combine a synch word with any other possible combination of symbols we still get a synching word.
-So let's refine once more our target, we want to find the shortest synching word for a given automaton.
+Let's start by noticing that when a graph allows a synchronising word to exist, it automatically implies that there are infinitely many of them.
+That's because if we combine a synch word with any other possible combination of symbols we still get a synchronising word.
+So let's refine once more our target, we want to find the shortest synchronising word for a given automaton.
 
 For these kinds of tasks, it may be useful to tackle the problem from more of a computer science perspective: we are looking for an algorithm.
 
@@ -276,11 +280,10 @@ The first step has to be checking whether the word can be found, and we can easi
 
 Then we need to find the word.
 A basic approach would be to methodically test increasingly longer words against random initial states to see if they are synchronising.
-The core idea is not bad, in fact, it's the one behind many synching word-finding algorithms. But it needs quite a bit of polish.
+The core idea is not bad, in fact, it's the one behind many synchronising word-finding algorithms. But it needs quite a bit of polish.
 
 What if, instead of applying a transition singularly to each initial state, we applied it to the whole set of them, to then record where each of them landed? We would now be able to explore all the different possibilities starting from a set of all the possible states,gradually applying all the possible transitions.
-Finally applying all the transitions to the resulting sets of the previous step
-Iteratively, until we were to find a set with just one state.
+Finally applying all the transitions to the resulting sets of the previous step iteratively, until we were to find a set with just one state.
 
     <SketchIframe
       src="/sketches/ManyBots/index.html"
@@ -288,14 +291,13 @@ Iteratively, until we were to find a set with just one state.
     />
 
      <Caption>
-      <span className="emoji">🔃</span> Enter a word and check if it's a synching one following the automabots.
+      <span className="emoji">🔃</span> Enter a word and check if it's a synchronising one following the automabots.
 
       <span className="emoji">🔘</span> You can switch between the two scenarios clicking on the bottom button.
       <PcTip>Scroll into the frame to zoom in and out</PcTip>
 
     </Caption>
 
-This way a tree can be built.
 Mind that the order by which we check the transitions matters and we are not ensured to find the shortest sequence.
 The tables turn if we keep track of the sets we encounter along the way and keep going only when we are presented with a new set.
 Just by doing that, we automatically select the shortest words because sequences that loop back to previous states in vain are discarded.
@@ -368,12 +370,12 @@ So, first of all, let’s remember that the important part is not the destinatio
 <FadeBg color="#3b2159">
   <TextContainer>
     ## The world behind the keyboard
-    We are a team of 5 software engineering students (*names and roles are in alphabetical order*):
+     We are a team of 5 Engineering of Computing Systems students (*names and roles are in alphabetical order*):
 
     <Credits
       credits={{
-        "Dario Crosa": ["Creative Coding", "Full stack Web Development"],
-        "Federico Grandi": ["Full stack Web Development"],
+        "Dario Crosa": ["Creative Coding", "Full Stack Web Development"],
+        "Federico Grandi": ["Full Stack Web Development"],
         "Francesco Genovese": ["Frontend Web Development", "Writing"],
         "Matteo Garzone": ["Creative Coding"],
         "Paolo Ginefra": ["Creative Coding", "Pixel Art", "Project Management" ,"Writing"],
