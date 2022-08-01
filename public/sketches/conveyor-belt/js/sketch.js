@@ -51,7 +51,13 @@ function setupConveyor(sectionsNumber) {
   // put stuff in canvas
   for (let i = 0; i < sectionsNumber; i++) {
     const action = i % 2 == 0 ? 0 : 1
-    const newSection = new Section(i, action, SECTION_WIDTH, greenPinImage, redPinImage)
+    const newSection = new Section(
+      i,
+      action,
+      SECTION_WIDTH,
+      greenPinImage,
+      redPinImage
+    )
     sections.push(newSection)
   }
 
