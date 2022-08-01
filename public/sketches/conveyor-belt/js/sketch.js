@@ -7,7 +7,7 @@ let items = []
 
 let lastSpawnTimestamp = 0
 
-let legoImage
+let legoImage, greenPinImage, redPinImage
 
 function spawnItem(force = false) {
   const now = millis()
@@ -51,7 +51,7 @@ function setupConveyor(sectionsNumber) {
   // put stuff in canvas
   for (let i = 0; i < sectionsNumber; i++) {
     const action = i % 2 == 0 ? 0 : 1
-    const newSection = new Section(i, action, SECTION_WIDTH)
+    const newSection = new Section(i, action, SECTION_WIDTH, greenPinImage, redPinImage)
     sections.push(newSection)
   }
 
@@ -60,6 +60,8 @@ function setupConveyor(sectionsNumber) {
 
 function preload() {
   legoImage = loadImage('../Art/lego.png')
+  greenPinImage = loadImage('../Art/Pins/greenPin.png')
+  redPinImage = loadImage('../Art/Pins/redPin.png')
 }
 
 function setup() {
