@@ -108,7 +108,8 @@ class GraphVisualizer {
 
   //This draws nodes [I know, mindblowing]
   drawGraph() {
-    let thereSprite = this.sprites != null && this.sprites.length == this.Nodes.length
+    let thereSprite =
+      this.sprites != null && this.sprites.length == this.Nodes.length
     //World.offset = this.center;
     this.Nodes.forEach((node, i) => {
       let p = World.w2s(node)

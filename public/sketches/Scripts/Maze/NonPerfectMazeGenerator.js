@@ -445,8 +445,6 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
           //text(stateMap.toString(), pos.x, pos.y - height);
           stateMap++
         }
-
-
       }
     }
   }
@@ -536,7 +534,6 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
       while (!isState(nextI, nextJ, this.graph)) {
         let n = NonPerfectMazeGenerator.count(nextNode, 0)
         if (n == 1) return stateId
-
         ;[neiState, neiNode] = [nextState.slice(), nextNode.slice()]
         outDirIndex = neiNode.findIndex(
           (w, index) => !w && index != (outDirIndex + 2) % 4
