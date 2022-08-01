@@ -1,4 +1,4 @@
-const secitonsNumberSpan = document.getElementById('section-number')
+const sectionsNumberSpan = document.getElementById('section-number')
 
 let canvas
 
@@ -28,7 +28,7 @@ function spawnItem(force = false) {
 }
 
 function setupConveyor(sectionsNumber) {
-  secitonsNumberSpan.innerText = sectionsNumber
+  sectionsNumberSpan.innerText = sectionsNumber
 
   // setup canvas
   const width = sectionsNumber * SECTION_WIDTH
