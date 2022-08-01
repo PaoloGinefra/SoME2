@@ -28,6 +28,11 @@ function spawnItem(force = false) {
 }
 
 function setupConveyor(sectionsNumber) {
+  // if we already have the desired number of sections, do nothing
+  if (sectionsNumber == sections.length) {
+    return
+  }
+
   sectionsNumberSpan.innerText = sectionsNumber
 
   // setup canvas
