@@ -125,8 +125,6 @@ Today you are tackling a peculiar situation:
 The last step to completing a car is attaching the roof. There are two conveyor belts positioned perpendicular to each other: one carries the almost-finished cars and the other one transports the roofs.
 The problem is that roofs can come in four different orientations but only one of them fits the car!
 
-### PICTURE WITH THE ORIENTATIONS
-
 Your job is to design a setup to orient the pieces in the right way. Obviously, to assemble the mechanism you can use only lego bricks, so no sensors, no motors, nothing like that: only passive solutions are allowed.
 Studying the shape of the roof you arrive at the conclusion that placing a series of bricks in just one of two vertical positions should be enough to rotate the pieces from any orientation to every other.
 
@@ -141,7 +139,9 @@ Studying the shape of the roof you arrive at the conclusion that placing a serie
 <Caption>
 <span >🖱️</span> Click on the Lego barriers to switch their position to rotate the car roofs in the right orientation.
 
-<span >➕</span> You can remove or add barriers clicking ond the <kbd>-</kbd> and <kbd>+</kbd> buttons.
+<span>➕</span> You can remove or add barriers clicking ond the <kbd>-</kbd> and <kbd>
+  +
+</kbd> buttons.
 
 <span ></span> Once some barriers are added you can scroll horizontally to view them all
 </Caption>
@@ -248,10 +248,16 @@ Let's try and work our way up to those. As in all great legends, there are three
    Let's say your symbols are A, B and C. If there was a node with just two edges coming out of it and we assigned to the edges the letters A and B, what would happen if at that node we asked for C? It wouldn’t make any sense, would it? The same goes for a node
    with four exiting edges. The number of edges coming out of a node is called _out-degree_, so for a synchronising word to even make sense **the out-degree of every node needs to be constant**.
 
+   <SketchIframe src="/sketches/Condition1/index.html" initialHeigth={300} />
+
 2. A synchronising word leads every node to a single one. So, first of all, said node must be reachable, in one way or another, from every node of the graph. Remember that a graph is just a set of nodes and edges so there's nothing against building one with edgeless nodes or isolated parts. To protect ourselves from those, we need to be able to reach every node starting from every other node via a valid route, in other _words_, we need a **strongly connected graph**
+
+   <SketchIframe src="/sketches/Condition2/index.html" initialHeigth={300} />
 
 3. Unfortunately, now it gets a little more complicated. Picture a graph with just three nodes with an out-degree of 1, a graph where each node points to the one which does not point to it. You get a cycle, which is not that big of a deal per se, but this cycle is special. You'll never be able to make two different nodes collapse into one using a word. It's impossible.
    We need to avoid these kinds of situations. Without going into the gory details, that are beyond the scope of this article, we need an **aperiodic graph**
+
+   <SketchIframe src="/sketches/Condition3/index.html" initialHeigth={300} />
 
 Now that trivial cases are out of the way, what more can we say about the existence of a synchronising colouring?
 Well, the authors of the problem didn't arrive at a solution but they proposed a conjecture, the "Road Colouring conjecture".
@@ -318,7 +324,11 @@ If you think about it, we are building a new automaton/directed graph where each
     <Caption>
       <span >🚧</span> Now that we know how to compute the synchronising word of an automaton we can have some fun modifying the mine.
 
+      <span >⚙️</span> The shortest synchronising word will appear on top of the mine's map
+
       <span >❗</span> Remember you can not create unaccessible areas!
+
+      <span >🧭</span> You can move Avrahm just like before
       <PcTip>Scroll into the frame to zoom in and out</PcTip>
 
     </Caption>

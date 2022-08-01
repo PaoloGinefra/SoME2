@@ -15,6 +15,7 @@ class GraphVisualizer {
     * @param sigma A damping factor for the forces apllied, it's a scalar multiplied by the forces. default 0.1
     * @param epsilon The biggest Force considered to be irrelevant
     * @param gridLen The length of the initial disposition grid
+    * @param sprites A list of sprites as p5 loaded images to be drawn instead of numbers
     */
 
   constructor(
@@ -28,7 +29,8 @@ class GraphVisualizer {
     cRep = 0.2,
     cSpr = 0.1,
     epsilon = 0.01,
-    gridLen = 2
+    gridLen = 2,
+    sprites = null
   ) {
     this.graph = graph
     this.nodeSize = nodeSize
@@ -45,8 +47,22 @@ class GraphVisualizer {
     //The colors of the links by alphabet
     this.colors = colors
 
+    this.sprites = sprites
+
     this.done = false
     this.t = 0
+  }
+
+  clearSprites() {
+    this.sprites = []
+  }
+
+  loadConveyerSprites() {
+    this.clearSprites()
+    for (let i = 0; i < 4; i++)
+      this.sprites.push(
+        loadImage('../Art/BrickOrientations/' + i.toString() + '.png')
+      )
   }
 
   //This is a setup function for the initial disposition of the nodes
@@ -92,6 +108,8 @@ class GraphVisualizer {
 
   //This draws nodes [I know, mindblowing]
   drawGraph() {
+    let thereSprite =
+      this.sprites != null && this.sprites.length == this.Nodes.length
     //World.offset = this.center;
     this.Nodes.forEach((node, i) => {
       let p = World.w2s(node)
@@ -151,16 +169,30 @@ class GraphVisualizer {
       })
 
       //Draw Node
+      let diam = World.w2s(this.nodeSize / this.scale)
       stroke('black')
       fill(255)
       strokeWeight(World.w2s(0.01))
-      ellipse(p.x, p.y, World.w2s(this.nodeSize / this.scale))
+      ellipse(p.x, p.y, diam)
 
-      fill(0)
+      blendMode(BLEND)
+      if (thereSprite) {
+        imageMode(CENTER)
+        image(this.sprites[i], p.x, p.y, diam * 0.7, diam * 0.7)
+
+        blendMode(SOFT_LIGHT)
+        // fill(255, 120)
+        // strokeWeight(World.w2s(0.005))
+        // ellipse(p.x, p.y, diam * 0.25)
+      }
+
+      fill(thereSprite ? 255 : 0)
       noStroke()
       textAlign(CENTER, CENTER)
-      textSize(World.w2s((this.nodeSize * 0.6) / this.scale))
-      text(i.toString(), p.x, p.y)
+      textStyle(thereSprite ? BOLD : NORMAL)
+      textSize(diam * 0.6 * (thereSprite ? 0.7 : 1))
+      text(i.toString(), p.x, p.y - (thereSprite ? 0 : 0))
+      blendMode(BLEND)
     })
     //World.offset = createVector(0, 0);
   }
@@ -245,6 +277,7 @@ class GraphVisualizer {
     this.t = 0
     this.buildNodes()
     this.orderGraph()
+    this.loadConveyerSprites()
   }
 }
 

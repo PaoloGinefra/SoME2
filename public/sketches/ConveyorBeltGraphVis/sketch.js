@@ -28,7 +28,6 @@ function setup() {
 
   scenarioButton = select('#switch')
   scenarioButton.mousePressed(handleScenario)
-
 }
 
 function draw() {
