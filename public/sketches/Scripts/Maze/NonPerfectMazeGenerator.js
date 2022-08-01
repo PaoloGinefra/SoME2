@@ -407,6 +407,18 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
           smooth()
         } else square(pos.x, pos.y, wGS)
 
+        //Draw Ladder
+        if (
+          matrix[i][j] != 0 &&
+          matrix[i][j] != 4 &&
+          ((i > 0 && matrix[i - 1][j] != 0) ||
+            (i < matrix.length - 1 && matrix[i + 1][j] != 0))
+        ) {
+          noSmooth()
+          image(this.ladderSprite, pos.x, pos.y, wGS, wGS)
+          smooth()
+        }
+
         if (matrix[i][j] > 1) {
           let height = World.w2s((cellSize / 2) * scale)
           fill(255)
@@ -421,6 +433,7 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
             blendMode(BLEND)
             stateId++
           }
+          //Draw Exit
           if (matrix[i][j] == 4) {
             noSmooth()
             imageMode(CENTER)
@@ -433,16 +446,7 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
           stateMap++
         }
 
-        if (
-          matrix[i][j] != 0 &&
-          matrix[i][j] != 4 &&
-          ((i > 0 && matrix[i - 1][j] != 0) ||
-            (i < matrix.length - 1 && matrix[i + 1][j] != 0))
-        ) {
-          noSmooth()
-          image(this.ladderSprite, pos.x, pos.y, wGS, wGS)
-          smooth()
-        }
+
       }
     }
   }

@@ -174,17 +174,24 @@ class GraphVisualizer {
       strokeWeight(World.w2s(0.01))
       ellipse(p.x, p.y, diam)
 
-
+      blendMode(BLEND)
       if (thereSprite) {
         imageMode(CENTER)
         image(this.sprites[i], p.x, p.y, diam * 0.7, diam * 0.7)
+
+        blendMode(SOFT_LIGHT)
+        // fill(255, 120)
+        // strokeWeight(World.w2s(0.005))
+        // ellipse(p.x, p.y, diam * 0.25)
       }
 
-      fill(0, thereSprite ? 0 : 255)
+      fill(thereSprite ? 255 : 0)
       noStroke()
       textAlign(CENTER, CENTER)
-      textSize(diam * 0.6)
-      text(i.toString(), p.x, p.y)
+      textStyle(thereSprite ? BOLD : NORMAL)
+      textSize(diam * 0.6 * (thereSprite ? 0.7 : 1))
+      text(i.toString(), p.x, p.y - (thereSprite ? 0 : 0))
+      blendMode(BLEND)
     })
     //World.offset = createVector(0, 0);
   }
