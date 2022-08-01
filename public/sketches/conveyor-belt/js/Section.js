@@ -1,8 +1,10 @@
 class Section {
-  constructor(index, action, width) {
+  constructor(index, action, width, greenPinImage, redPinImage) {
     this.index = index
     this.action = action
     this.width = width
+    this.greenPinImage = greenPinImage
+    this.redPinImage = redPinImage
 
     // x position of start and end of this section
     this.start = this.width * index
@@ -19,23 +21,20 @@ class Section {
   }
 
   drawRed() {
-    const color = 'red'
     const h = 70
     const y = 0
 
-    fill(color)
     noStroke()
-    rect(this.pinPosition - this.pinWidth / 2, y, this.pinWidth, h)
+    image(this.redPinImage, this.pinPosition - this.pinWidth / 2, y, this.pinWidth, h)
+    //rect(this.pinPosition - this.pinWidth / 2, y, this.pinWidth, h)
   }
 
   drawGreen() {
-    const color = 'green'
     const h = 150
     const y = height - h
 
-    fill(color)
     noStroke()
-    rect(this.pinPosition - this.pinWidth / 2, y, this.pinWidth, h)
+    image(this.greenPinImage, this.pinPosition - this.pinWidth / 2, y, this.pinWidth, h)
   }
 
   draw() {
