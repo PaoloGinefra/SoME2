@@ -14,6 +14,7 @@ class World {
   //Zoom
   //=========================================
   static zoom = 1 //parameter controlling Camera zoom
+  static defaultZoom //default zoom
   static targetZoom = 2 //target zoom for interpolation
   static targetZoomPrev = 2 //target zoom for interpolation
   static zoomMouseSpeed = 0.001 //How responisve to mouse wheel is the zoom, the higher the faster
@@ -31,6 +32,8 @@ class World {
 
   static offset
 
+  static prevKey = ''
+
   //This function MUST be called in the sketch setup
   static setup(width, height, resize = false) {
     if (!resize) createCanvas(width, height)
@@ -41,6 +44,7 @@ class World {
     World.cameraPos = createVector(0, 0)
     World.offset = createVector(0, 0)
     World.sCenter = createVector(width / 2, height / 2)
+    World.defaultZoom = World.targetZoom
 
     World.interpolator = new Interpolator(0.9, 1, 1, World.targetZoom, 0)
   }
@@ -60,7 +64,13 @@ class World {
     World.w2sk = World.width / World.xViewSpanW
     World.s2wk = World.w2sk == 0 ? 9999 : 1 / World.w2sk
 
+    if (key != World.prevKey && key == 'r'){
+      World.targetZoom = World.defaultZoom
+      key = ''
+    }
+
     World.targetZoomPrev = World.targetZoom
+    World.prevKey = key
   }
 
   //Scalar World 2 Screen convertion
