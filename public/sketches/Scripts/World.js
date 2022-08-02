@@ -53,6 +53,11 @@ class World {
   static draw() {
     World.mouseVec = createVector(mouseX, mouseY)
 
+    if (key != World.prevKey && key == 'r'){
+      World.targetZoom = World.defaultZoom
+      key = ''
+    }
+
     //Smoothing zoom transition
     //World.zoom = lerp(World.zoom, World.targetZoom, deltaTime * World.zoomDamp / 1000)
     World.zoom = World.interpolator.step(
@@ -63,11 +68,6 @@ class World {
     World.xViewSpanW = World.zoom * World.zoom
     World.w2sk = World.width / World.xViewSpanW
     World.s2wk = World.w2sk == 0 ? 9999 : 1 / World.w2sk
-
-    if (key != World.prevKey && key == 'r'){
-      World.targetZoom = World.defaultZoom
-      key = ''
-    }
 
     World.targetZoomPrev = World.targetZoom
     World.prevKey = key
