@@ -1,3 +1,4 @@
+import { usePanelbear } from '@panelbear/panelbear-nextjs'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import '../styles/globals.css'
@@ -5,6 +6,8 @@ import '../styles/globals.css'
 const siteTitle = 'All roads lead to Rome, a colorful problem'
 
 function MyApp({ Component, pageProps }: AppProps) {
+  usePanelbear('syXnCOBTsy')
+
   return (
     <>
       <Head>
