@@ -8,7 +8,7 @@
   content: '\a💻 ';
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (min-width : 800px){
   .pctip {
     display: contents;
   }
