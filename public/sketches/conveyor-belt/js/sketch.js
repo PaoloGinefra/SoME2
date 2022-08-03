@@ -72,6 +72,7 @@ function preload() {
 
 function setup() {
   setupConveyor(INITIAL_SECTIONS)
+  window.loadingManager.loaded()
 }
 
 function draw() {
