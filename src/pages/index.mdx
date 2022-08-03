@@ -277,7 +277,7 @@ Maybe not all of them: for us this is just the beginning...
 
     ### When words are sharper than bits
 
-The "Road Colouring theorem", although amazing, doesn't tell us much about how to find the synchronising words. We’re a teeny-tiny step away from solving a never-ending variety of everyday problems
+The "Road Colouring theorem", although amazing, doesn't tell us much about how to find the synchronising words. We’re a teeny-tiny step away from solving a never-ending variety of everyday problems.
 
 Let's start by noticing that when a graph allows a synchronising word to exist, it automatically implies that there are infinitely many of them.
 That's because if we combine a synch word with any other possible combination of symbols we still get a synchronising word.
@@ -291,8 +291,8 @@ Then we need to find the word.
 A basic approach would be to methodically test increasingly longer words against random initial states to see if they are synchronising.
 The core idea is not bad, in fact, it's the one behind many synchronising word-finding algorithms. But it needs quite a bit of polish.
 
-What if, instead of applying a transition singularly to each initial state, we applied it to the whole set of them, to then record where each of them landed? We would now be able to explore all the different possibilities starting from a set of all the possible states,gradually applying all the possible transitions.
-Finally applying all the transitions to the resulting sets of the previous step iteratively, until we were to find a set with just one state.
+What if, instead of applying a transition singularly to each initial state, we applied it to the whole set of them, to then record where each of them landed? We would now be able to explore all the different possibilities starting from a set of all the possible states, gradually applying all the possible transitions.
+Finally, we would apply all the transitions to the resulting sets of the previous step iteratively, until we were to find a set with just one state, finally syncronised.
 
     <SketchIframe
       src="/sketches/ManyBots/index.html"
@@ -336,9 +336,10 @@ If you think about it, we are building a new automaton/directed graph where each
 
     Now that we have found a way to find them, let's talk about sizes. Even if a synch word exists and we can find it, it’s not very useful if it’s overwhelmingly long.
 
-Naturally, something like the length of the synch word is heavily dependent on the topology of the automaton so that it would be really difficult to figure the length without knowing the actual word.
+Naturally, something like the length of the synch word is heavily dependent on the topology of the automaton. It would be really difficult to figure the length without looking for the actual word.
 
 We are nevertheless in the realm of mathematics: so, when we don’t know something, we estimate. In particular, we can focus on the search for an upper bound so as to have a grasp on the usability of the word.
+
 The spirit of Giacomo Leopardi possesses us for a moment allowing us to see only the worst possible scenario. What’s the absolute longest shortest word we could potentially find?
 
 Well, as we have discussed in the previous paragraphs, whenever a transition brings a set to a previously encountered one we get an unnecessary sequence of symbols. That’s not good: for the longest shortest word we can’t waste any precious symbols.
