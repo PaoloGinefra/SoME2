@@ -76,6 +76,8 @@ function setup() {
 
   findButtons()
   //ComputeWord()
+
+  window.loadingManager.loaded()
 }
 
 function ComputeWord() {
