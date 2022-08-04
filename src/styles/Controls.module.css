@@ -1,0 +1,32 @@
+.container {
+  width: 100%;
+
+  margin: 1em 0;
+}
+
+.table {
+  margin: 0 auto;
+}
+
+.table,
+.table th,
+.table th {
+  border-collapse: collapse;
+  border: none;
+}
+
+.table tr:first-child {
+  color: #ccc;
+  font-style: italic;
+  font-size: 1.2em;
+}
+
+.table th,
+.table td {
+  padding: 0 1em;
+  padding-bottom: 0.5em;
+}
+
+.table th {
+  font-weight: bold;
+}
