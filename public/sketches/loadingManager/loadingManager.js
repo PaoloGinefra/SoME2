@@ -1,6 +1,7 @@
 function htmlString(strs) {
   const html = strs[0].trim()
 
+  // HACK: i did not find a better way to template HTML without creting all the tags by hand and without importing other libs
   const div = document.createElement('div')
   div.innerHTML = html
   return div.firstChild
@@ -14,10 +15,26 @@ const LOADING_SCREEN = htmlString`
 </div>
 `
 
+const P5_FILE_NAME =
+  'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js'
+
 class LoadingManager {
   constructor() {
     window.addEventListener('DOMContentLoaded', () => {
       this.mountDOM()
+    })
+
+    // HACK: firefox has a bug (https://bugzilla.mozilla.org/show_bug.cgi?id=941146), reload the page if the bug occurs.
+    // also, this doesn't always catch the error
+    window.addEventListener('error', (event) => {
+      if (
+        event.error &&
+        event.error.name === 'NS_ERROR_FAILURE' &&
+        event.error.filename === P5_FILE_NAME
+      ) {
+        console.error('[FIREFOX BUG] triggering reload')
+        this.reloadPage()
+      }
     })
   }
 
@@ -27,7 +44,7 @@ class LoadingManager {
     const reloadButton = document.getElementById('reload-button')
     if (reloadButton) {
       reloadButton.addEventListener('click', () => {
-        window.location.reload()
+        this.reloadPage()
       })
     }
 
@@ -56,6 +73,10 @@ class LoadingManager {
 
   stopAnimation() {
     window.clearInterval(this.animationIntervalId)
+  }
+
+  reloadPage() {
+    window.location.reload()
   }
 
   loaded() {
