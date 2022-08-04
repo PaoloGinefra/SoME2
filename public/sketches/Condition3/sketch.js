@@ -11,6 +11,8 @@ function setup() {
   graphVisualizer = new GraphVisualizer(Automaton)
   graphVisualizer.colors = ['red', 'green', 'blue']
   graphVisualizer.setup()
+
+  window.loadingManager.loaded()
 }
 
 function draw() {

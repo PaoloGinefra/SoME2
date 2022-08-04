@@ -14,6 +14,8 @@ function setup() {
   graphVisualizer.setup()
   graphVisualizer.scale = 1
   graphVisualizer.sprites = null
+
+  window.loadingManager.loaded()
 }
 
 function draw() {
