@@ -17,16 +17,32 @@ const LOADING_SCREEN = htmlString`
 class LoadingManager {
   constructor() {
     window.addEventListener('DOMContentLoaded', () => {
-      this.setup()
+      this.mountDOM()
     })
   }
 
-  setup() {
+  mountDOM() {
     document.body.prepend(LOADING_SCREEN)
 
+    const reloadButton = document.getElementById('reload-button')
+    if (reloadButton) {
+      reloadButton.addEventListener('click', () => {
+        window.location.reload()
+      })
+    }
+
+    this.startAnimation()
+  }
+
+  unmountDOM() {
+    this.stopAnimation()
+    LOADING_SCREEN.remove()
+  }
+
+  startAnimation() {
     // TODO: maybe make a decent animation
     let i = 0
-    this.intervalId = window.setInterval(() => {
+    this.animationIntervalId = window.setInterval(() => {
       const loadingText = document.getElementById('loading-text')
       if (!loadingText) return
 
@@ -36,18 +52,14 @@ class LoadingManager {
 
       i++
     }, 750)
+  }
 
-    const reloadButton = document.getElementById('reload-button')
-    if (reloadButton) {
-      reloadButton.addEventListener('click', () => {
-        window.location.reload()
-      })
-    }
+  stopAnimation() {
+    window.clearInterval(this.animationIntervalId)
   }
 
   loaded() {
-    window.clearInterval(this.intervalId)
-    LOADING_SCREEN.remove()
+    this.unmountDOM()
   }
 }
 
