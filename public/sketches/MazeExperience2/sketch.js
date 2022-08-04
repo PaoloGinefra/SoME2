@@ -51,6 +51,8 @@ function setup() {
   gvAutomabot.computeAnimation(startState, '', true, 1)
 
   ComputeWord()
+
+  window.loadingManager.loaded()
 }
 
 function draw() {
