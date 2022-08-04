@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import classes from '../styles/SketchIframe.module.css'
 
 interface SketchIframeProps {
