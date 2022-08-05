@@ -314,17 +314,24 @@ If you think about it, we are building a new automaton/directed graph where each
       aspectRatio={21/9}
       padded
     />
-    <Caption>
-      <span className="emoji">🚧</span> Now that we know how to compute the synchronising word of an automaton we can have some fun modifying the mine.
 
-      <span className="emoji">⚙️</span> The shortest synchronising word will appear on top of the mine's map
+    <TextContainer>
+      <Caption>
+        Now that we know how to compute the synchronising word of an automaton we can have some fun modifying the mine.<br />
+        The shortest synchronising word will appear on top of the mine's map.<br />
+        Remember you can not create unaccessible areas!<br />
+      </Caption>
+      <Controls
+        actions={[
+          'avraham-move-crossroads',
+          'maze-place-wall',
+          'maze-remove-wall',
+          'zoom',
+          'zoom-reset',
+        ]}
+      />
+    </TextContainer>
 
-      <span className="emoji">❗</span> Remember you can not create unaccessible areas!
-
-      <span className="emoji">🧭</span> You can move Avrahm just like before
-      <PcTip>Scroll into the frame to zoom in and out. Press <kbd>R</kbd> to reset the applet's zoom</PcTip>
-
-    </Caption>
     <TextContainer>
     ### Reasoning about the unknown
 

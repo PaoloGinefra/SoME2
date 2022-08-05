@@ -7,12 +7,14 @@ export interface Action {
 }
 
 export type ActionName =
-  // maze experience 1
+  // MazeExperience1 and MazeExperience2
   | 'avraham-move-step'
   | 'avraham-move-crossroads'
   | 'avraham-show-map'
+  | 'maze-place-wall'
+  | 'maze-remove-wall'
 
-  // common to multiple sketches
+  // all sketches that use the World class
   | 'zoom'
   | 'zoom-reset'
 
@@ -67,6 +69,29 @@ const actionsMap: { [k in ActionName]: Action } = {
     emoji: '🗺️',
     action: 'Show map',
     control: 'Click (on Avraham)',
+  },
+
+  'maze-place-wall': {
+    emoji: '🧱',
+    action: 'Add wall',
+    control: (
+      <>
+        Enter add mode by clicking the brick button,
+        <br />
+        then click on the maze
+      </>
+    ),
+  },
+
+  'maze-remove-wall': {
+    emoji: '⛏️',
+    action: 'Remove wall',
+    control: (
+      <>
+        Enter remove mode by clicking the brick button,
+        <br /> then click on the maze
+      </>
+    ),
   },
 
   zoom: {
