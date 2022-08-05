@@ -10,7 +10,7 @@
 
 .table,
 .table th,
-.table th {
+.table td {
   border-collapse: collapse;
   border: none;
 }
