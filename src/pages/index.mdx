@@ -186,12 +186,18 @@ Our setups are officially represented as a directed graph:
       initialHeigth={500}
     />
     <Caption>
-      <span className="emoji">⌨️</span> Enter a word made of Gs and Rs for the Conveyor Belt or made of Us, Rs, Ls and Ds for the Mine.
-
-       <span className="emoji">👉</span> Select a starting state and compute the result and follow it on the graph.
-       <PcTip>Scroll into the frame to zoom in and out. Press <kbd>R</kbd> to reset the applet's zoom</PcTip>
-
+      Enter a word made of Gs and Rs for the Conveyor Belt or made of Us, Rs, Ls and Ds for the Mine.
+      Then you can select a starting state and animate the path taken by following the word that you entered.
     </Caption>
+    <Controls
+      actions={[
+        'set-word',
+        'set-start',
+        'walk-word',
+        'zoom',
+        'zoom-reset',
+      ]}
+    />
 
     So let's recap, we have constructed a not-so-black box that can take in a set of instructions, a word, and spit out a result.
     Doesn't it sound even a little familiar? Careful because this time the answer is literally before your eyes: <Spoiler>a Computer!</Spoiler>

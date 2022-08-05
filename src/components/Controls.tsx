@@ -25,6 +25,11 @@ export type ActionName =
   // ConveyorBeltGraphVis
   | 'switch-scenarios'
 
+  // AutomabotDemo1
+  | 'set-word'
+  | 'set-start'
+  | 'walk-word'
+
 const WASD_KEYS = (
   <>
     <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd>
@@ -118,6 +123,24 @@ const actionsMap: { [k in ActionName]: Action } = {
     emoji: '🔄',
     action: 'Switch scenario',
     control: 'Click on the button',
+  },
+
+  'set-word': {
+    emoji: '⌨️',
+    action: 'Set word',
+    control: 'Type in the text input',
+  },
+
+  'set-start': {
+    emoji: '📍',
+    action: 'Set starting state',
+    control: 'Select from drop down menu',
+  },
+
+  'walk-word': {
+    emoji: '🏁',
+    action: 'Walk the graph',
+    control: 'Click the Compute button',
   },
 }
 
