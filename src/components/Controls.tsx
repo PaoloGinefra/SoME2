@@ -90,21 +90,13 @@ const actionsMap: { [k in ActionName]: Action } = {
   'add-barrier': {
     emoji: '➕',
     action: 'Add barrier',
-    control: (
-      <>
-        Click the <kbd>+</kbd> button
-      </>
-    ),
+    control: 'Click the + button',
   },
 
   'remove-barrier': {
     emoji: '➖',
     action: 'Remove barrier',
-    control: (
-      <>
-        Click the <kbd>-</kbd> button
-      </>
-    ),
+    control: 'Click the - button',
   },
 
   'horizontal-scrollbar': {
