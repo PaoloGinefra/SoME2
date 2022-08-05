@@ -58,7 +58,9 @@ A quick glance at the map was enough to realise that he, unfortunately, could no
   src="/sketches/MazeExperience1/index.html?auto=false"
   initialHeigth={500}
 />
-<Controls />
+<Controls
+  actions={['avraham-move-step', 'avraham-show-map', 'zoom', 'zoom-reset']}
+/>
 
 He took some deep breaths and tried to recollect himself, beginning to figure out a way to escape the labyrinth.
 Exploring a little, he found that he only needed to choose what to do at the crossroads: he could just go down straight tunnels and go back on his steps to the last crossroad if he were to find a dead end.
@@ -70,23 +72,19 @@ A bunch of questions naturally started popping into Avraham's mind:
 - Is there a way to find it quickly?
 - How many instructions would the smallest one contain at best? and at worst? <span id="AvrahamMazeExperience"> </span>
 
-<SketchIframe 
+<SketchIframe
   src="/sketches/MazeExperience1/index.html?auto=true"
   initialHeigth={500}
 />
-<Caption>
-  Use <kbd>W</kbd>
-  <kbd>A</kbd>
-  <kbd>S</kbd>
-  <kbd>D</kbd> or <kbd>&larr;</kbd>
-  <kbd>&uarr;</kbd>
-  <kbd>&rarr;</kbd>
-  <kbd>&darr;</kbd>
-  to guide Avraham at crossroads.
-
-<span className="emoji">🗺️</span> Click on Avraham to show the mine's map.
-<PcTip>Scroll into the frame to zoom in and out. Press <kbd>R</kbd> to reset the applet's zoom</PcTip>
-</Caption>
+<Caption>Now Avraham will only stop at crossroads</Caption>
+<Controls
+  actions={[
+    'avraham-move-crossroads',
+    'avraham-show-map',
+    'zoom',
+    'zoom-reset',
+  ]}
+/>
 
 Avraham sat down and began to ponder, scribbling on the mine's dusty walls.
 After a while — maybe hours, maybe days — he shouted in pure elation:
