@@ -25,7 +25,7 @@ export type ActionName =
   // ConveyorBeltGraphVis
   | 'switch-scenarios'
 
-  // AutomabotDemo1
+  // AutomabotDemo1 and ManyBots
   | 'set-word'
   | 'set-start'
   | 'walk-word'
