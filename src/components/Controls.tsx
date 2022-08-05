@@ -7,11 +7,18 @@ export interface Action {
 }
 
 export type ActionName =
+  // maze experience 1
   | 'avraham-move-step'
   | 'avraham-move-crossroads'
   | 'avraham-show-map'
   | 'zoom'
   | 'zoom-reset'
+
+  // conveyor belt
+  | 'switch-barriers'
+  | 'add-barrier'
+  | 'remove-barrier'
+  | 'horizontal-scrollbar'
 
 const WASD_KEYS = (
   <>
@@ -62,6 +69,44 @@ const actionsMap: { [k in ActionName]: Action } = {
     emoji: null,
     action: 'Reset zoom',
     control: <kbd>R</kbd>,
+  },
+
+  'switch-barriers': {
+    emoji: '🧱',
+    action: 'Switch position of a Lego barrier',
+    control: 'Click (on the barrier)',
+  },
+
+  'add-barrier': {
+    emoji: '➕',
+    action: 'Add barrier',
+    control: (
+      <>
+        Click the <kbd>+</kbd> button
+      </>
+    ),
+  },
+
+  'remove-barrier': {
+    emoji: '➖',
+    action: 'Remove barrier',
+    control: (
+      <>
+        Click the <kbd>-</kbd> button
+      </>
+    ),
+  },
+
+  'horizontal-scrollbar': {
+    emoji: '↔️',
+    action: 'move viewport horizontally',
+    control: (
+      <>
+        Use the bottom scrollbar
+        <br />
+        (appears only when viewport size exceeds screen size)
+      </>
+    ),
   },
 }
 
