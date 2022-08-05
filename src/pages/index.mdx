@@ -122,10 +122,10 @@ Studying the shape of the roof you arrive at the conclusion that placing a serie
 />
 <Controls
   actions={[
-    'switch-barriers',
-    'add-barrier',
-    'remove-barrier',
-    'horizontal-scrollbar',
+    'barrier-switch-position',
+    'barrier-add',
+    'barrier-remove',
+    'viewport-scroll-horizotal',
   ]}
 />
 
@@ -173,7 +173,7 @@ Our setups are officially represented as a directed graph:
     />
     <Controls
       actions={[
-        'switch-scenarios',
+        'scenario-switch',
         'zoom',
         'zoom-reset',
       ]}
@@ -191,9 +191,9 @@ Our setups are officially represented as a directed graph:
     </Caption>
     <Controls
       actions={[
-        'set-word',
-        'set-start',
-        'walk-word',
+        'word-set',
+        'start_node-set',
+        'word-walk',
         'zoom',
         'zoom-reset',
       ]}
@@ -294,8 +294,8 @@ Finally, we would apply all the transitions to the resulting sets of the previou
     </Caption>
     <Controls
       actions={[
-        'set-word',
-        'walk-word',
+        'word-set',
+        'word-walk',
         'zoom',
         'zoom-reset',
       ]}

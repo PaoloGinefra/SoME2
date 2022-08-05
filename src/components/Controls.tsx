@@ -19,18 +19,18 @@ export type ActionName =
   | 'zoom-reset'
 
   // conveyor belt
-  | 'switch-barriers'
-  | 'add-barrier'
-  | 'remove-barrier'
-  | 'horizontal-scrollbar'
+  | 'barrier-switch-position'
+  | 'barrier-add'
+  | 'barrier-remove'
+  | 'viewport-scroll-horizotal'
 
   // ConveyorBeltGraphVis
-  | 'switch-scenarios'
+  | 'scenario-switch'
 
   // AutomabotDemo1 and ManyBots
-  | 'set-word'
-  | 'set-start'
-  | 'walk-word'
+  | 'word-set'
+  | 'start_node-set'
+  | 'word-walk'
 
 const WASD_KEYS = (
   <>
@@ -106,25 +106,25 @@ const actionsMap: { [k in ActionName]: Action } = {
     control: <kbd>R</kbd>,
   },
 
-  'switch-barriers': {
+  'barrier-switch-position': {
     emoji: '🧱',
     action: 'Switch position of a Lego barrier',
     control: 'Click (on the barrier)',
   },
 
-  'add-barrier': {
+  'barrier-add': {
     emoji: '➕',
     action: 'Add barrier',
     control: 'Click the + button',
   },
 
-  'remove-barrier': {
+  'barrier-remove': {
     emoji: '➖',
     action: 'Remove barrier',
     control: 'Click the - button',
   },
 
-  'horizontal-scrollbar': {
+  'viewport-scroll-horizotal': {
     emoji: '↔️',
     action: 'move viewport horizontally',
     control: (
@@ -136,25 +136,25 @@ const actionsMap: { [k in ActionName]: Action } = {
     ),
   },
 
-  'switch-scenarios': {
+  'scenario-switch': {
     emoji: '🔄',
     action: 'Switch scenario',
     control: 'Click on the button',
   },
 
-  'set-word': {
+  'word-set': {
     emoji: '⌨️',
     action: 'Set word',
     control: 'Type in the text input',
   },
 
-  'set-start': {
+  'start_node-set': {
     emoji: '📍',
     action: 'Set starting state',
     control: 'Select from drop down menu',
   },
 
-  'walk-word': {
+  'word-walk': {
     emoji: '🏁',
     action: 'Walk the graph',
     control: 'Click the Compute button',
