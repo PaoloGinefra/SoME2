@@ -57,27 +57,31 @@ export default function Controls() {
   return (
     <div className={classes.container}>
       <table className={classes.table}>
-        <tr>
-          <td></td>
-          <th scope="col">Action</th>
-          <th scope="col">Key</th>
-        </tr>
-
-        {actions.map((item) => (
-          <tr key={item.action}>
-            {/* emoji */}
-            {item.emoji ? (
-              <td>
-                <span className="emoji">{item.emoji}</span>{' '}
-              </td>
-            ) : (
-              <td></td>
-            )}
-
-            <th scope="row">{item.action}</th>
-            <td>{item.control}</td>
+        <thead>
+          <tr>
+            <td></td>
+            <th scope="col">Action</th>
+            <th scope="col">Key</th>
           </tr>
-        ))}
+        </thead>
+
+        <tbody>
+          {actions.map((item) => (
+            <tr key={item.action}>
+              {/* emoji */}
+              {item.emoji ? (
+                <td>
+                  <span className="emoji">{item.emoji}</span>{' '}
+                </td>
+              ) : (
+                <td></td>
+              )}
+
+              <th scope="row">{item.action}</th>
+              <td>{item.control}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   )

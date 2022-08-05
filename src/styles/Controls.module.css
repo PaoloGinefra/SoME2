@@ -15,7 +15,7 @@
   border: none;
 }
 
-.table tr:first-child {
+.table thead {
   color: #ccc;
   font-style: italic;
   font-size: 1.2em;
