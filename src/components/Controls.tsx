@@ -11,6 +11,8 @@ export type ActionName =
   | 'avraham-move-step'
   | 'avraham-move-crossroads'
   | 'avraham-show-map'
+
+  // common to multiple sketches
   | 'zoom'
   | 'zoom-reset'
 
@@ -19,6 +21,9 @@ export type ActionName =
   | 'add-barrier'
   | 'remove-barrier'
   | 'horizontal-scrollbar'
+
+  // ConveyorBeltGraphVis
+  | 'switch-scenarios'
 
 const WASD_KEYS = (
   <>
@@ -107,6 +112,12 @@ const actionsMap: { [k in ActionName]: Action } = {
         (appears only when viewport size exceeds screen size)
       </>
     ),
+  },
+
+  'switch-scenarios': {
+    emoji: '🔄',
+    action: 'Switch scenario',
+    control: 'Click on the button',
   },
 }
 

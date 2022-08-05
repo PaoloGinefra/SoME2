@@ -128,16 +128,8 @@ Studying the shape of the roof you arrive at the conclusion that placing a serie
     'horizontal-scrollbar',
   ]}
 />
-<Caption>
-<span className="emoji">🖱️</span> Click on the Lego barriers to switch their position to rotate the car roofs in the right orientation.
 
-<span className="emoji">➕</span> You can remove or add barriers clicking on the
-<kbd>-</kbd> and <kbd>+</kbd> buttons.
-
-<span className="emoji">↔️</span> Once some barriers are added you can scroll horizontally to view them all
-</Caption>
 <TextContainer>
-
 The problem is just finding out the right series which positions the roof as needed. You get down and try to find the sequence manually but the task gets very frustrating really quickly: soon enough you end up giving up any hope.
 With a quick browser search – using your mind, obviously – you find an old paper that seems to give you all the answers.
 The name of the author strucks you as being quite unusual. You really can't think about anybody else named Avraham.
@@ -179,12 +171,13 @@ Our setups are officially represented as a directed graph:
       src="/sketches/ConveyorBeltGraphVis/index.html"
       initialHeigth={400}
     />
-
-    <Caption>
-      <span className="emoji">🔘</span> Tap on the button to switch between the two scenarios.
-      <PcTip>Scroll into the frame to zoom in and out. Press <kbd>R</kbd> to reset the applet's zoom</PcTip>
-
-    </Caption>
+    <Controls
+      actions={[
+        'switch-scenarios',
+        'zoom',
+        'zoom-reset',
+      ]}
+    />
 
     Now, given a starting state and a _word_ we can easily compute the landing state. It's just a matter of following the correct arrows.
 
