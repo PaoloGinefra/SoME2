@@ -11,6 +11,7 @@ const automaton = [
 
 function preload() {
   NonPerfectMazeGenerator.preload()
+  GraphVisualizer.preload()
 }
 
 let brickColors

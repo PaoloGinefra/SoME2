@@ -7,6 +7,10 @@ let Automaton = [
 
 let graphVisualizer
 
+function preload() {
+  GraphVisualizer.preload()
+}
+
 function setup() {
   World.setup(windowWidth, windowHeight)
   graphVisualizer = new GraphVisualizer(Automaton)

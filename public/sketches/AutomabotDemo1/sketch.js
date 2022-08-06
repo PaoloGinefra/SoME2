@@ -19,6 +19,7 @@ let mineColors
 
 function preload() {
   NonPerfectMazeGenerator.preload()
+  GraphVisualizer.preload()
   Automabot.preload()
 }
 

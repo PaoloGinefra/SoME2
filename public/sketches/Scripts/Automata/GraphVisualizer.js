@@ -1,4 +1,12 @@
 class GraphVisualizer {
+  static preload() {
+    GraphVisualizer.preloadedSprites = []
+    for (let i = 0; i < 4; i++)
+      GraphVisualizer.preloadedSprites.push(
+        loadImage('../Art/BrickOrientations/' + i.toString() + '.png')
+      )
+  }
+
   /** This Graph visualizer uses an Eades Spring Embedder to beautifully
     visualize a given graph. All you need to do is feeding the graph to
     the obj, tweek the parameters and call the setup function.
@@ -53,16 +61,8 @@ class GraphVisualizer {
     this.t = 0
   }
 
-  clearSprites() {
-    this.sprites = []
-  }
-
   loadConveyerSprites() {
-    this.clearSprites()
-    for (let i = 0; i < 4; i++)
-      this.sprites.push(
-        loadImage('../Art/BrickOrientations/' + i.toString() + '.png')
-      )
+    this.sprites = GraphVisualizer.preloadedSprites
   }
 
   //This is a setup function for the initial disposition of the nodes
