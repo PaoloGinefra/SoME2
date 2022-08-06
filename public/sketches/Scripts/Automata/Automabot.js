@@ -32,6 +32,10 @@ class Automabot {
     return 1 - pow(2 * (1 - t), 1 / a) / 2
   }
 
+  static preload() {
+    Automabot.sprite = loadImage('../Art/MinerTest.png')
+  }
+
   constructor(
     Automaton,
     Nodes,
@@ -49,7 +53,6 @@ class Automabot {
     this.t = 0 // time
     this.finished = true
 
-    this.sprite = loadImage('../Art/MinerTest.png')
     this.posQueue = []
     this.lastState = null
   }
@@ -159,7 +162,7 @@ class Automabot {
   Sprite(wPos, size) {
     noSmooth()
     imageMode(CORNER)
-    image(this.sprite, wPos.x - size / 2, wPos.y - size / 2, size, size)
+    image(Automabot.sprite, wPos.x - size / 2, wPos.y - size / 2, size, size)
     smooth()
   }
 

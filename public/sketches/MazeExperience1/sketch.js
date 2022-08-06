@@ -12,6 +12,8 @@ function preload() {
 
   let params = getURLParams()
   autoMovment = params.auto == 'true'
+
+  Automabot.preload()
 }
 
 function setup() {

@@ -9,6 +9,8 @@ let Colors = ['red', 'blue', 'green', 'orange']
 let font
 function preload() {
   font = loadFont('../Art/Fonts/PressStart2P.ttf')
+
+  Automabot.preload()
 }
 
 function setup() {

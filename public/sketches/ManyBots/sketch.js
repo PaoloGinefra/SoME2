@@ -17,6 +17,10 @@ let ShowMine = false
 let brickColors
 let mineColors
 
+function preload() {
+  Automabot.preload()
+}
+
 function setup() {
   brickColors = [color('red'), color('green')]
   mineColors = [color('red'), color('blue'), color('green'), color('orange')]
