@@ -27,6 +27,28 @@ function spawnItem(force = false) {
   items.push(newItem)
 }
 
+function setSectionsNumber(sectionsNumber) {
+  // remove sections if there are too many
+  while (sections.length > sectionsNumber) {
+    sections.pop()
+  }
+
+  // add sections if there are too few
+  while (sections.length < sectionsNumber) {
+    const i = sections.length
+
+    const action = i % 2 == 0 ? 0 : 1
+    const newSection = new Section(
+      i,
+      action,
+      SECTION_WIDTH,
+      greenPinImage,
+      redPinImage
+    )
+    sections.push(newSection)
+  }
+}
+
 function setupConveyor(sectionsNumber) {
   // if we already have the desired number of sections, do nothing
   if (sectionsNumber == sections.length) {
@@ -44,22 +66,10 @@ function setupConveyor(sectionsNumber) {
   }
   canvas.parent('canvas-container')
 
-  // reset state
-  sections = []
+  // remove all items to avoid funky behaviours
   items = []
 
-  // put stuff in canvas
-  for (let i = 0; i < sectionsNumber; i++) {
-    const action = i % 2 == 0 ? 0 : 1
-    const newSection = new Section(
-      i,
-      action,
-      SECTION_WIDTH,
-      greenPinImage,
-      redPinImage
-    )
-    sections.push(newSection)
-  }
+  setSectionsNumber(sectionsNumber)
 
   spawnItem(true)
 }
