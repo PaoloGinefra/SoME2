@@ -7,6 +7,15 @@ class NonPerfectMazeGenerator {
     [0, -1],
   ]
 
+  static preload() {
+    NonPerfectMazeGenerator.shovelSprite = loadImage('../Art/ShovelIcon.png')
+    NonPerfectMazeGenerator.brickSprite = loadImage('../Art/BrickIcon.png')
+
+    NonPerfectMazeGenerator.bgSprite = loadImage('../Art/GroundBgTile.png')
+    NonPerfectMazeGenerator.ladderSprite = loadImage('../Art/LadderTile.png')
+    NonPerfectMazeGenerator.exitSprite = loadImage('../Art/ExitTile.png')
+  }
+
   /**
    * This Class generates a non perfect maze given the parameters.
    * To generate the maze call this.generateMaze()
@@ -28,12 +37,6 @@ class NonPerfectMazeGenerator {
     this.size = size
     this.cellSize = size / m
 
-    this.shovelSprite = loadImage('../Art/ShovelIcon.png')
-    this.brickSprite = loadImage('../Art/BrickIcon.png')
-
-    this.bgSprite = loadImage('../Art/GroundBgTile.png')
-    this.ladderSprite = loadImage('../Art/LadderTile.png')
-    this.exitSprite = loadImage('../Art/ExitTile.png')
     /**
      * The graph is the graph rappresentation of the maze, containing whether
      * there is a wall facing NESW for every cell
@@ -403,7 +406,7 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
         if (matrix[i][j] != 0) {
           noSmooth()
           imageMode(CENTER)
-          image(this.bgSprite, pos.x, pos.y, wGS, wGS)
+          image(NonPerfectMazeGenerator.bgSprite, pos.x, pos.y, wGS, wGS)
           smooth()
         } else square(pos.x, pos.y, wGS)
 
@@ -415,7 +418,7 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
             (i < matrix.length - 1 && matrix[i + 1][j] != 0))
         ) {
           noSmooth()
-          image(this.ladderSprite, pos.x, pos.y, wGS, wGS)
+          image(NonPerfectMazeGenerator.ladderSprite, pos.x, pos.y, wGS, wGS)
           smooth()
         }
 
@@ -438,7 +441,7 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
             noSmooth()
             imageMode(CENTER)
             blendMode(SOFT_LIGHT)
-            image(this.exitSprite, pos.x, pos.y, wGS, wGS)
+            image(NonPerfectMazeGenerator.exitSprite, pos.x, pos.y, wGS, wGS)
             blendMode(BLEND)
             smooth()
           }
@@ -780,13 +783,13 @@ z     * @param {*} Colors The colors list [fullCell, emptyCell, state, mapState]
     imageMode(CENTER)
     if (!tool) {
       fill(0, 120)
-      sprite = this.brickSprite
+      sprite = NonPerfectMazeGenerator.brickSprite
       square(pos.x, pos.y, size)
     } else {
       tint(255, 0, 0, 200)
-      sprite = this.shovelSprite
+      sprite = NonPerfectMazeGenerator.shovelSprite
       noSmooth()
-      image(this.bgSprite, pos.x, pos.y, size, size)
+      image(NonPerfectMazeGenerator.bgSprite, pos.x, pos.y, size, size)
       smooth()
       tint(255)
     }

@@ -18,6 +18,7 @@ let brickColors
 let mineColors
 
 function preload() {
+  NonPerfectMazeGenerator.preload()
   Automabot.preload()
 }
 

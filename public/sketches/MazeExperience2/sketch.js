@@ -10,6 +10,7 @@ let font
 function preload() {
   font = loadFont('../Art/Fonts/PressStart2P.ttf')
 
+  NonPerfectMazeGenerator.preload()
   Automabot.preload()
 }
 

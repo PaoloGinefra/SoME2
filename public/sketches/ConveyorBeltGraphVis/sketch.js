@@ -9,6 +9,10 @@ const automaton = [
   [3, 0],
 ]
 
+function preload() {
+  NonPerfectMazeGenerator.preload()
+}
+
 let brickColors
 let mineColors
 function setup() {

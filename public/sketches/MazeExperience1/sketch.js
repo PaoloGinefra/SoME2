@@ -13,6 +13,7 @@ function preload() {
   let params = getURLParams()
   autoMovment = params.auto == 'true'
 
+  NonPerfectMazeGenerator.preload()
   Automabot.preload()
 }
 
