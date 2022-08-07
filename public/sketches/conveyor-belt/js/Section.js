@@ -25,8 +25,13 @@ class Section {
     const y = 0
 
     noStroke()
-    image(this.redPinImage, this.pinPosition - this.pinWidth / 2, y, this.pinWidth, h)
-    //rect(this.pinPosition - this.pinWidth / 2, y, this.pinWidth, h)
+    image(
+      this.redPinImage,
+      this.pinPosition - this.pinWidth / 2,
+      y,
+      this.pinWidth,
+      h
+    )
   }
 
   drawGreen() {
@@ -34,7 +39,13 @@ class Section {
     const y = height - h
 
     noStroke()
-    image(this.greenPinImage, this.pinPosition - this.pinWidth / 2, y, this.pinWidth, h)
+    image(
+      this.greenPinImage,
+      this.pinPosition - this.pinWidth / 2,
+      y,
+      this.pinWidth,
+      h
+    )
   }
 
   draw() {
