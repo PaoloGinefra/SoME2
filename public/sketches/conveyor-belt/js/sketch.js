@@ -51,7 +51,6 @@ function updateSections(sectionsNumber) {
   finalSection = new FinalSection(
     sectionsNumber * SECTION_WIDTH,
     FINAL_SECTION_WIDTH,
-    FINAL_SECTION_PADDING,
     carImage1,
     carImage2
   )
