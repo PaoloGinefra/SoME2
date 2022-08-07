@@ -1,13 +1,13 @@
+// DOM elements
 const sectionsNumberSpan = document.getElementById('section-number')
-
 let canvas
 
+// state
 let sections = []
+let finalSection = null
 let items = []
 
 let lastSpawnTimestamp = 0
-
-let legoImage, greenPinImage, redPinImage
 
 function spawnItem(force = false) {
   const now = millis()
@@ -27,7 +27,7 @@ function spawnItem(force = false) {
   items.push(newItem)
 }
 
-function setSectionsNumber(sectionsNumber) {
+function updateSections(sectionsNumber) {
   // remove sections if there are too many
   while (sections.length > sectionsNumber) {
     sections.pop()
@@ -47,6 +47,14 @@ function setSectionsNumber(sectionsNumber) {
     )
     sections.push(newSection)
   }
+
+  finalSection = new FinalSection(
+    sectionsNumber * SECTION_WIDTH,
+    FINAL_SECTION_WIDTH,
+    FINAL_SECTION_PADDING,
+    carImage1,
+    carImage2
+  )
 }
 
 function setupConveyor(sectionsNumber) {
@@ -58,7 +66,7 @@ function setupConveyor(sectionsNumber) {
   sectionsNumberSpan.innerText = sectionsNumber
 
   // setup canvas
-  const width = sectionsNumber * SECTION_WIDTH
+  const width = sectionsNumber * SECTION_WIDTH + FINAL_SECTION_WIDTH
   if (!canvas) {
     canvas = createCanvas(width, 400)
   } else {
@@ -69,15 +77,24 @@ function setupConveyor(sectionsNumber) {
   // remove all items to avoid funky behaviours
   items = []
 
-  setSectionsNumber(sectionsNumber)
+  updateSections(sectionsNumber)
 
   spawnItem(true)
 }
+
+let legoImage
+let greenPinImage
+let redPinImage
+let carImage1
+let carImage2
 
 function preload() {
   legoImage = loadImage('../Art/lego.png')
   greenPinImage = loadImage('../Art/Pins/greenPin.png')
   redPinImage = loadImage('../Art/Pins/redPin.png')
+
+  carImage1 = loadImage('../Art/legoCar1.png')
+  carImage2 = loadImage('../Art/legoCar2.png')
 }
 
 function setup() {
@@ -94,6 +111,7 @@ function draw() {
   // draw
   background('#333')
   sections.forEach((section) => section.draw())
+  finalSection.draw()
   items.forEach((item) => item.draw())
 
   if (DEBUG) {
