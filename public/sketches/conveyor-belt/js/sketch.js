@@ -103,7 +103,7 @@ function setup() {
 
 function draw() {
   // update
-  items = items.filter((item) => item.x < width) // remove out of screen items
+  finalSection.update(items) // handle items that are in the last section
   items.forEach((item) => item.update())
   spawnItem()
 
