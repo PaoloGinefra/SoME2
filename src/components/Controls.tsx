@@ -88,7 +88,7 @@ const actionsMap: { [k in ActionName]: Action } = {
     action: 'Remove wall',
     control: (
       <>
-        Enter remove mode by clicking the brick button,
+        Enter remove mode by clicking the shovel button,
         <br /> then click on the maze
       </>
     ),
