@@ -19,6 +19,10 @@ function setup() {
 }
 
 function draw() {
+  if (window.loadingManager.shouldPause) {
+    return
+  }
+
   background(0)
   let n = nSlider.value()
   let maxH = max(f1(n), f2(n), f3(n))

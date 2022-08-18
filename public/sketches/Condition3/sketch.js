@@ -1,8 +1,4 @@
-let Automaton = [
-  [1],
-  [2],
-  [0],
-]
+let Automaton = [[1], [2], [0]]
 
 let graphVisualizer
 
@@ -20,6 +16,10 @@ function setup() {
 }
 
 function draw() {
+  if (window.loadingManager.shouldPause) {
+    return
+  }
+
   background(255)
   World.draw()
   graphVisualizer.drawGraph()

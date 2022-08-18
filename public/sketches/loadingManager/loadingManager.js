@@ -25,6 +25,8 @@ class LoadingManager {
       this.setupAutopause()
     })
 
+    this.rand = Math.floor(Math.random() * 100)
+
     // HACK: firefox has a bug (https://bugzilla.mozilla.org/show_bug.cgi?id=941146), reload the page if the bug occurs.
     // also, this doesn't always catch the error
     window.addEventListener('error', (event) => {

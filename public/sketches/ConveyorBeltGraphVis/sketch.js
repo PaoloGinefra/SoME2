@@ -38,6 +38,10 @@ function setup() {
 }
 
 function draw() {
+  if (window.loadingManager.shouldPause) {
+    return
+  }
+
   background(255)
   World.draw()
 
