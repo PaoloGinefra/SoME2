@@ -43,7 +43,6 @@ class FinalSection {
 
     this.isShowingFeedback = true
     window.setTimeout(() => {
-      console.log('hello')
       this.isShowingFeedback = false
     }, this.feedbackTimeout)
   }
