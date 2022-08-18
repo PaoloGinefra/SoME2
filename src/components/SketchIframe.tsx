@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useOnScreen } from '../hooks/useOnScreen'
 import classes from '../styles/SketchIframe.module.css'
 
 interface SketchIframeProps {
@@ -19,11 +20,8 @@ const SketchIframe = ({
   padded = false,
 }: SketchIframeProps) => {
   const ref = useRef<HTMLIFrameElement>()
+  const onScreen = useOnScreen(ref)
   const [height, setHeigth] = useState(initialHeigth)
-
-  const className = [classes.frame, padded && classes.padded]
-    .filter((x) => !!x)
-    .join(' ')
 
   useEffect(() => {
     if (!aspectRatio) return
@@ -40,13 +38,20 @@ const SketchIframe = ({
   })
 
   return (
-    <iframe
+    <div
       ref={ref}
-      src={src}
       style={{ height }}
-      className={className}
-      frameBorder={0}
-    ></iframe>
+      className={padded ? classes.padded : undefined}
+    >
+      {onScreen && (
+        <iframe
+          src={src}
+          style={{ height }}
+          className={classes.frame}
+          frameBorder={0}
+        ></iframe>
+      )}
+    </div>
   )
 }
 
