@@ -22,7 +22,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           property="og:image"
           content="https://github.com/PaoloGinefra/SoME2/blob/main/public/img/copertina.png?raw=true"
         />
+        <meta property="og:image:width" content="1000" />
+        <meta property="og:image:height" content="1000" />
         <meta name="og:title" content={siteTitle} />
+        <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary_large_image" />
         <title>{siteTitle}</title>
       </Head>
