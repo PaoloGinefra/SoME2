@@ -88,8 +88,6 @@ class LoadingManager {
     this.shouldPause = false
     this.observer = new IntersectionObserver(([entry]) => {
       this.shouldPause = !entry.isIntersecting
-
-      console.log('shouldPause', this.shouldPause)
     })
     this.observer.observe(document.body)
   }
