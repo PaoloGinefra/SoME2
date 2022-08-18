@@ -102,6 +102,10 @@ function setup() {
 }
 
 function draw() {
+  if (window.loadingManager.shouldPause) {
+    return
+  }
+
   // update
   finalSection.update(items) // handle items that are in the last section
   items.forEach((item) => item.update())

@@ -22,6 +22,7 @@ class LoadingManager {
   constructor() {
     window.addEventListener('DOMContentLoaded', () => {
       this.mountDOM()
+      this.setupAutopause()
     })
 
     // HACK: firefox has a bug (https://bugzilla.mozilla.org/show_bug.cgi?id=941146), reload the page if the bug occurs.
@@ -81,6 +82,16 @@ class LoadingManager {
 
   loaded() {
     this.unmountDOM()
+  }
+
+  setupAutopause() {
+    this.shouldPause = false
+    this.observer = new IntersectionObserver(([entry]) => {
+      this.shouldPause = !entry.isIntersecting
+
+      console.log('shouldPause', this.shouldPause)
+    })
+    this.observer.observe(document.body)
   }
 }
 
