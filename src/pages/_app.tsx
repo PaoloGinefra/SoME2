@@ -18,7 +18,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             'A SoME2 submission about the so-called "Road coloring problem"'
           }
         />
-        <meta property="og:image" content={`./public/img/copertina.png`} />
+        <meta
+          property="og:image"
+          content="https://github.com/PaoloGinefra/SoME2/blob/main/public/img/copertina.png?raw=true"
+        />
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
         <title>{siteTitle}</title>
