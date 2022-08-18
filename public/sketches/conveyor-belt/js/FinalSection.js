@@ -19,9 +19,11 @@ class FinalSection {
 
     this.isShowingFeedback = false
     this.success = false
+
+    this.calculateImagePositioningData()
   }
 
-  get imagePositioningData() {
+  calculateImagePositioningData() {
     // we are assuming that the images of the two cars have identical dimensions
     const img = this.carImage1
 
@@ -32,7 +34,7 @@ class FinalSection {
     const y = this.carVertOffs
     const x = this.x + this.width / 2 - w / 2
 
-    return { x, y, w, h }
+    this.imagePositioningData = { x, y, w, h }
   }
 
   showFeedback(item) {
@@ -41,6 +43,7 @@ class FinalSection {
 
     this.isShowingFeedback = true
     window.setTimeout(() => {
+      console.log('hello')
       this.isShowingFeedback = false
     }, this.feedbackTimeout)
   }
