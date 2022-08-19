@@ -179,7 +179,7 @@ class GraphVisualizer {
       if (thereSprite) {
         imageMode(CENTER)
         // translating the sprites  
-        let dr = 5
+        let dr = (diam*0.08)
         let dy = (i%2) ? 0 : dr
         let dx = (i%2) ? dr: 0
         dy = (i==0) ? -dy : dy
