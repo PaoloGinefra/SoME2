@@ -178,8 +178,20 @@ class GraphVisualizer {
       blendMode(BLEND)
       if (thereSprite) {
         imageMode(CENTER)
+        // translating the sprites  
+        let dr = 5
+        let dy = (i%2) ? 0 : dr
+        let dx = (i%2) ? dr: 0
+        dy = (i==0) ? -dy : dy
+        dx = (i==3) ? -dx : dx
+        translate(dx, dy)
+        
+        //drawing the sprites
         image(this.sprites[i], p.x, p.y, diam * 0.7, diam * 0.7)
-
+        
+        //translating back
+        translate(-dx,-dy)
+        
         blendMode(SOFT_LIGHT)
         // fill(255, 120)
         // strokeWeight(World.w2s(0.005))
