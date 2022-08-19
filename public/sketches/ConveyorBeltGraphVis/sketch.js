@@ -37,11 +37,15 @@ function setup() {
   window.loadingManager.loaded()
 }
 
-function draw() {
-  if (window.loadingManager.shouldPause) {
-    return
-  }
+function pauseSketch() {
+  noLoop()
+}
 
+function unpauseSketch() {
+  loop()
+}
+
+function draw() {
   background(255)
   World.draw()
 

@@ -102,10 +102,6 @@ function setup() {
 }
 
 function draw() {
-  if (window.loadingManager.shouldPause) {
-    return
-  }
-
   // update
   finalSection.update(items) // handle items that are in the last section
   items.forEach((item) => item.update())
@@ -137,3 +133,12 @@ document.getElementById('btn-remove').addEventListener('click', () => {
   let n = Math.max(MIN_SECTIONS, sections.length - 1)
   setupConveyor(n)
 })
+
+// functions called by LoadingManager
+function pauseSketch() {
+  noLoop()
+}
+
+function unpauseSketch() {
+  loop()
+}

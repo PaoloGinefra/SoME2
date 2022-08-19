@@ -91,11 +91,15 @@ function ComputeWord() {
   ])
 }
 
-function draw() {
-  if (window.loadingManager.shouldPause) {
-    return
-  }
+function pauseSketch() {
+  noLoop()
+}
 
+function unpauseSketch() {
+  loop()
+}
+
+function draw() {
   //console.log(syncWord)
   background(0)
   World.cameraPos = automabot.position

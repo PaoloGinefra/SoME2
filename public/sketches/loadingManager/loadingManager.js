@@ -20,12 +20,15 @@ const P5_FILE_NAME =
 
 class LoadingManager {
   constructor() {
+    this.shouldPause = false
+
     window.addEventListener('DOMContentLoaded', () => {
       this.mountDOM()
-      this.setupAutopause()
     })
 
-    this.rand = Math.floor(Math.random() * 100)
+    window.addEventListener('load', () => {
+      this.setupAutopause()
+    })
 
     // HACK: firefox has a bug (https://bugzilla.mozilla.org/show_bug.cgi?id=941146), reload the page if the bug occurs.
     // also, this doesn't always catch the error
@@ -87,11 +90,29 @@ class LoadingManager {
   }
 
   setupAutopause() {
-    this.shouldPause = false
     this.observer = new IntersectionObserver(([entry]) => {
-      this.shouldPause = !entry.isIntersecting
+      if (!entry.isIntersecting) {
+        this.pause()
+      } else {
+        this.unpause()
+      }
     })
+
     this.observer.observe(document.body)
+  }
+
+  pause() {
+    this.shouldPause = true
+    if (typeof window.pauseSketch === 'function') {
+      window.pauseSketch()
+    }
+  }
+
+  unpause() {
+    this.shouldPause = false
+    if (typeof window.unpauseSketch === 'function') {
+      window.unpauseSketch()
+    }
   }
 }
 

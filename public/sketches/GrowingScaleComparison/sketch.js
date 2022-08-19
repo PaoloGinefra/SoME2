@@ -18,11 +18,15 @@ function setup() {
   nSlider.position(0, windowHeight - nSlider.height)
 }
 
-function draw() {
-  if (window.loadingManager.shouldPause) {
-    return
-  }
+function pauseSketch() {
+  noLoop()
+}
 
+function unpauseSketch() {
+  loop()
+}
+
+function draw() {
   background(0)
   let n = nSlider.value()
   let maxH = max(f1(n), f2(n), f3(n))
