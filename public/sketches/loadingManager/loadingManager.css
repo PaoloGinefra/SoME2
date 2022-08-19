@@ -16,6 +16,31 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  text-align: center;
   background-color: #eee;
+
+  font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont,
+  Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+  Helvetica Neue, sans-serif;
+
+}
+
+#loading p {
+  padding: 20px;
+}
+
+#reload-button{
+  font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont,
+  Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+  Helvetica Neue, sans-serif;
+  padding: 1.2em;
+  border-radius: 1.7vh;
+  border: solid black 2px;
+  transition: 200ms;
+  font-weight: bold;
+}
+
+#reload-button:hover{
+  color: white;
+  background-color: black;
 }

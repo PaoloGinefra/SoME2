@@ -9,7 +9,7 @@ function htmlString(strs) {
 
 const LOADING_SCREEN = htmlString`
 <div id="loading">
-  <h1 id="loading-text">loading</h1>
+  <h1 id="loading-text">Loading</h1>
   <p>If this interactive experience does not load, click below</p>
   <button id="reload-button">Reload</button>
 </div>
