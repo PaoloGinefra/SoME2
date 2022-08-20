@@ -26,7 +26,7 @@ export default function MobileModal() {
         edges. (They still work, just not very well)
       </p>
       <p>
-        But dont&apos;t worry! You can still read the text and try out the
+        But don&apos;t worry! You can still read the text and try out the
         interactive parts later on a PC.
       </p>
     </Modal>
