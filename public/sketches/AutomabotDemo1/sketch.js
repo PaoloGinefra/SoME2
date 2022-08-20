@@ -70,6 +70,14 @@ function setup() {
   window.loadingManager.loaded()
 }
 
+function pauseSketch() {
+  noLoop()
+}
+
+function unpauseSketch() {
+  loop()
+}
+
 function draw() {
   background(255)
   World.draw()

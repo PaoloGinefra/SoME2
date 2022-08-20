@@ -133,3 +133,12 @@ document.getElementById('btn-remove').addEventListener('click', () => {
   let n = Math.max(MIN_SECTIONS, sections.length - 1)
   setupConveyor(n)
 })
+
+// functions called by LoadingManager
+function pauseSketch() {
+  noLoop()
+}
+
+function unpauseSketch() {
+  loop()
+}

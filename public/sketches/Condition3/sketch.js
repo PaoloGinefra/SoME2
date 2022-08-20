@@ -1,8 +1,4 @@
-let Automaton = [
-  [1],
-  [2],
-  [0],
-]
+let Automaton = [[1], [2], [0]]
 
 let graphVisualizer
 
@@ -23,4 +19,12 @@ function draw() {
   background(255)
   World.draw()
   graphVisualizer.drawGraph()
+}
+
+function pauseSketch() {
+  noLoop()
+}
+
+function unpauseSketch() {
+  loop()
 }

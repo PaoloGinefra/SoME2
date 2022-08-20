@@ -18,6 +18,14 @@ function setup() {
   nSlider.position(0, windowHeight - nSlider.height)
 }
 
+function pauseSketch() {
+  noLoop()
+}
+
+function unpauseSketch() {
+  loop()
+}
+
 function draw() {
   background(0)
   let n = nSlider.value()

@@ -9,7 +9,7 @@ function htmlString(strs) {
 
 const LOADING_SCREEN = htmlString`
 <div id="loading">
-  <h1 id="loading-text">loading</h1>
+  <h1 id="loading-text">Loading</h1>
   <p>If this interactive experience does not load, click below</p>
   <button id="reload-button">Reload</button>
 </div>
@@ -20,8 +20,14 @@ const P5_FILE_NAME =
 
 class LoadingManager {
   constructor() {
+    this.shouldPause = false
+
     window.addEventListener('DOMContentLoaded', () => {
       this.mountDOM()
+    })
+
+    window.addEventListener('load', () => {
+      this.setupAutopause()
     })
 
     // HACK: firefox has a bug (https://bugzilla.mozilla.org/show_bug.cgi?id=941146), reload the page if the bug occurs.
@@ -81,6 +87,32 @@ class LoadingManager {
 
   loaded() {
     this.unmountDOM()
+  }
+
+  setupAutopause() {
+    this.observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) {
+        this.pause()
+      } else {
+        this.unpause()
+      }
+    })
+
+    this.observer.observe(document.body)
+  }
+
+  pause() {
+    this.shouldPause = true
+    if (typeof window.pauseSketch === 'function') {
+      window.pauseSketch()
+    }
+  }
+
+  unpause() {
+    this.shouldPause = false
+    if (typeof window.unpauseSketch === 'function') {
+      window.unpauseSketch()
+    }
   }
 }
 

@@ -47,6 +47,14 @@ function setup() {
   window.loadingManager.loaded()
 }
 
+function pauseSketch() {
+  noLoop()
+}
+
+function unpauseSketch() {
+  loop()
+}
+
 function draw() {
   background(255)
   World.draw()
@@ -72,8 +80,8 @@ function buildBots() {
     automabot.size = 0.26
     automabot.Interpolation = Automabot.DoubleSigmoid
     automabot.Sprite = (pos, size) => {
-      fill(0,0,0,0)
-      stroke(0,0,0)
+      fill(0, 0, 0, 0)
+      stroke(0, 0, 0)
       strokeWeight(World.w2s(0.025))
       ellipse(pos.x, pos.y, size)
     }
@@ -91,8 +99,8 @@ function buildBots() {
     automabot.size = 0.3
     automabot.Interpolation = Automabot.DoubleSigmoid
     automabot.Sprite = (pos, size) => {
-      fill(0,0,0,0)
-      stroke(0,0,0)
+      fill(0, 0, 0, 0)
+      stroke(0, 0, 0)
       strokeWeight(World.w2s(0.025))
       ellipse(pos.x, pos.y, size)
     }
@@ -107,7 +115,7 @@ function parceWord(word) {
   let output = ''
 
   for (let c of word) {
-    if (!ShowMine) output += c == 'r' || c == '0' ? '0' : '1' 
+    if (!ShowMine) output += c == 'r' || c == '0' ? '0' : '1'
     else {
       switch (c) {
         case 'u':

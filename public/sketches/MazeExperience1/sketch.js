@@ -91,6 +91,14 @@ function ComputeWord() {
   ])
 }
 
+function pauseSketch() {
+  noLoop()
+}
+
+function unpauseSketch() {
+  loop()
+}
+
 function draw() {
   //console.log(syncWord)
   background(0)

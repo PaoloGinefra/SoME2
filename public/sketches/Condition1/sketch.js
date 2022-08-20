@@ -24,3 +24,11 @@ function draw() {
   World.draw()
   graphVisualizer.drawGraph()
 }
+
+function pauseSketch() {
+  noLoop()
+}
+
+function unpauseSketch() {
+  loop()
+}

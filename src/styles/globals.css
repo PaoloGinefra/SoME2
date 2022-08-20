@@ -31,6 +31,10 @@ kbd {
   font-style: normal;
 }
 
+td kbd {
+  line-height: 2.5em;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 4px;
