@@ -1,12 +1,15 @@
 .modal {
   max-width: 45em;
-  min-width: 30em;
-  min-height: 10em;
-
-  margin: 1em;
+  margin: 1em auto;
 
   border: solid 3px rgba(0, 0, 0, 0.05);
   border-radius: 1em;
+}
+
+@media only screen and (max-width: 800px) {
+  .modal {
+    margin: 1em 1.5em;
+  }
 }
 
 .container {
