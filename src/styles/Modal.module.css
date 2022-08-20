@@ -6,6 +6,13 @@
   border-radius: 1em;
 }
 
+.modal button{
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 1.7vh;
+  padding: 0.7em 2em;
+}
+
 @media only screen and (max-width: 800px) {
   .modal {
     margin: 1em 1.5em;
